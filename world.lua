@@ -45,7 +45,7 @@ local function GetNewWorld(startLayout)
 	end
 
 	function externalFuncs.Update(dt)
-		UpdateWorld(dt)
+		UpdateWorld(dt*10)
 	end
 
 	function externalFuncs.DrawWorld(offsetX, offsetY)

@@ -1,6 +1,6 @@
 
-local function DoSleep(monk, room)
-
+local function DoSleep(room, monk, workData, dt)
+	return monk.ModifyFatigue(0.06*dt)
 end
 
 local data = {
@@ -13,7 +13,7 @@ local data = {
 		{
 			pos = {0, 0},
 			typeName = "sleep",
-			PerformAction = DoSleep(),
+			PerformAction = DoSleep,
 			doors = {
 				{
 					pathLength = math.sqrt(2),
@@ -32,7 +32,7 @@ local data = {
 		{
 			pos = {0, 1},
 			typeName = "sleep",
-			PerformAction = DoSleep(),
+			PerformAction = DoSleep,
 			doors = {
 				{
 					pathLength = math.sqrt(5),
@@ -51,7 +51,7 @@ local data = {
 		{
 			pos = {2, 1},
 			typeName = "sleep",
-			PerformAction = DoSleep(),
+			PerformAction = DoSleep,
 			doors = {
 				{
 					pathLength = math.sqrt(5),

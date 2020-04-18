@@ -1,10 +1,20 @@
 
-local function FieldAction(monk, room)
+local function FieldAction(room, monk, workData, dt)
+	room.AddResource("grain", dt*0.4)
+	monk.ModifyFatigue(-0.15*dt)
+end
+
+local function CollectAction(room, monk, workData, dt)
 
 end
 
-local function CollectAction(monk, room)
-
+local function DrawField(self, drawX, drawY)
+	font.SetSize(1)
+	--local text = love.graphics.newText(font.GetFont(), text)
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.print(math.floor(self.GetResourceCount("grain")*10)/10, drawX + 0.2*GLOBAL.TILE_SIZE, drawY + 2.2*GLOBAL.TILE_SIZE)
+	
+	love.graphics.setColor(1, 1, 1)
 end
 
 local data = {
@@ -13,6 +23,7 @@ local data = {
 	width = 3,
 	height = 3,
 	resources = {},
+	DrawFunc = DrawField,
 	stations = {
 		{
 			pos = {1, 0.5},

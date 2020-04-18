@@ -6,7 +6,20 @@ local function Unskew(start,skewed,cdir,ddir)
     return {start[1] + skewed[1] * cdir[1] + skewed[2] * ddir[1], start[2] + skewed[1] * cdir[2] + skewed[2] * ddir[2]}
 end
 
-local function MoveLegal(position,direction)
+local function isCollision(position, roomList)
+    return false
+end
+
+local function MoveLegal(position,direction,roomList)
+    if direction[1] ~= 0 then
+        if isCollision({position[1]+direction[1],position[2]},roomList) then return false end
+        if direction[2] ~= 0 then
+            if isCollision({position[1]+direction[1],position[2]+direction[2]},roomList) then return false end
+        end
+    end
+    if direction[2] ~= 0 then
+        if isCollision({position[1],position[2]+direction[2]},roomList) then return false end
+    end
     return true
 end
 
@@ -33,11 +46,12 @@ local function FindPath(start, goal, roomList)
         local cwindow = {0,cdist}
         local dwindow = {0,ddist}
         
-        print(xdist)
-        print(ydist)
-        print(cdist)
-        print(ddist)
-        
+        -- skewmatrix reorients and skews the space so that cmove is in the positive x-direction and dmove is in the positive y-direction
+        -- so legal moves are in the directions 
+        --  {0,-1}  {1,-1}  {2,-1}        
+        --  {-1,0}  origin  {1,0}
+        --  {-2,1}  {-1,1}  {0,1}
+        -- with {1,0} and {0,1} tending to be in the direction of the goal.
         local skewmatrix = {}
         skewmatrix[0] = {}
         skewmatrix[0][0] = {dist=0,movetohere=nil}
@@ -55,7 +69,7 @@ local function FindPath(start, goal, roomList)
             if currc < cdist then
                 if not skewmatrix[currc+1] then skewmatrix[currc+1] = {} end
                 if not skewmatrix[currc+1][currd] then
-                    if MoveLegal(Unskew(start,stack[currI],cmove,dmove),cmove) then
+                    if MoveLegal(Unskew(start,stack[currI],cmove,dmove),cmove,roomList) then
                         cardLegal = true
                         skewmatrix[currc+1][currd] = {dist=skewmatrix[currc][currd].dist+1,movetohere={1,0}}
                         if currc+1 == cdist and currd == ddist then goalfound = true end
@@ -67,7 +81,7 @@ local function FindPath(start, goal, roomList)
             
             local diagLegal = false
             if currd < ddist then
-                if MoveLegal(Unskew(start,stack[currI],cmove,dmove),dmove) then
+                if MoveLegal(Unskew(start,stack[currI],cmove,dmove),dmove,roomList) then
                     diagLegal = true
                     skewmatrix[currc][currd+1] = {dist=skewmatrix[currc][currd].dist+math.sqrt(2),movetohere={0,1}}
                     if currc == cdist and currd+1 == ddist then goalfound = true end

@@ -1,6 +1,21 @@
 local FindPath = require("include/pathfinder")
 
-local function FindStationPath(pos, roomList, potentialStations)
+local function GetPathMaybeFromRoom(pos, goalPos, roomList, atStation, atStationDoor)
+	if not atStation then
+		local path = FindPath(pos, goalPos, roomList)
+		return path
+	end
+	
+	if not atStationDoor then
+		atStationDoor = atStation.GetClosestDoor(goalPos[1], goalPos[2])
+	end
+	pos = atStation.GetDoorPosition(atStationDoor)
+	
+	local path = FindPath(pos, goalPos, roomList)
+	return path, atStationDoor
+end
+
+local function FindStationPath(pos, roomList, potentialStations, atStation, atStationDoor)
 	local closeStation
 	local costDist
 	
@@ -18,11 +33,11 @@ local function FindStationPath(pos, roomList, potentialStations)
 		return false
 	end
 	local closeDoor = closeStation.GetClosestDoor(pos[1], pos[2])
-	local stationPath = FindPath(pos, closeStation.GetDoorPosition(closeDoor), roomList)
 	
-	closeStation.SetReserved(true)
+	local stationPath, leaveByDoor = GetPathMaybeFromRoom(pos, closeStation.GetDoorPosition(closeDoor), roomList, atStation, atStationDoor)
+	closeStation.AddReservation()
 	
-	return closeStation, closeDoor, stationPath
+	return closeStation, closeDoor, stationPath, leaveByDoor
 end
 
 

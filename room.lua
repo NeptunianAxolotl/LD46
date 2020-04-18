@@ -28,8 +28,8 @@ local function New(init, stationsByUse)
 		return pos
 	end
 	
-	function externalFuncs.GetPosAndWidth()
-		return pos, def.width
+	function externalFuncs.GetPosAndSize()
+		return pos, def.width, def.height
 	end
 	
 	function externalFuncs.Draw(offsetX, offsetY)
@@ -37,8 +37,12 @@ local function New(init, stationsByUse)
 		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		
 		if def.DrawFunc then
-			def.DrawFunc(x, y, resources)
+			def.DrawFunc(externalFuncs, x, y)
 		end
+	end
+	
+	function externalFuncs.AddResource(resType, change)
+		resources[resType] = (resources[resType] or 0) + change
 	end
 	
 	function externalFuncs.GetResourceCount(resType)

@@ -30,8 +30,16 @@ local function New(def, parent, stationsByUse)
 		return math.abs(x - pos[1]) +  math.abs(y - pos[2])
 	end
 	
+	function externalFuncs.GetTaskType()
+		return def.typeName
+	end
+	
 	function externalFuncs.GetDoorPosition(stationDoor)
 		return doorPosition[stationDoor]
+	end
+	
+	function externalFuncs.GetRandomDoor()
+		return math.floor(math.random() * #def.doors) + 1
 	end
 	
 	function externalFuncs.GetClosestDoor(x, y)
@@ -57,8 +65,8 @@ local function New(def, parent, stationsByUse)
 		return def.doors[stationDoor].pathLength
 	end
 	
-	function externalFuncs.PerformAction(monk)
-		def.PerformAction(monk, parent)
+	function externalFuncs.PerformAction(monk, workData, dt)
+		return def.PerformAction(parent, monk, workData, dt)
 	end
 	
 	function externalFuncs.IsAvailible()
@@ -78,14 +86,26 @@ local function New(def, parent, stationsByUse)
 		return true
 	end
 	
-	function externalFuncs.SetReserved(newReserved)
+	function externalFuncs.AddReservation()
 		if not def.allowParallelUse then
-			reserved = newReserved
+			reserved = true
 		end
 		if def.requireResources then
 			for i = 1, #def.requireResources do
 				local data = def.requireResources[i]
 				parent.ReserveResource(data.resType, data.resCount)
+			end
+		end
+	end
+	
+	function externalFuncs.RemoveReservation()
+		if not def.allowParallelUse then
+			reserved = false
+		end
+		if def.requireResources then
+			for i = 1, #def.requireResources do
+				local data = def.requireResources[i]
+				parent.ReserveResource(data.resType, -data.resCount)
 			end
 		end
 	end
