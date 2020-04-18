@@ -1,6 +1,6 @@
 
 local function DoSleep(room, monk, workData, dt)
-	monk.AddFatigue(-0.06*dt)
+	return monk.ModifyFatigue(0.06*dt)
 end
 
 local data = {

@@ -92,8 +92,16 @@ local function New(init)
 	--------------------------------------------------
 	local externalFuncs = {}
 
-	function externalFuncs.AddFatigue(change)
-		sleep = sleep - change
+	function externalFuncs.ModifyFatigue(change)
+		sleep = sleep + change
+		if change < 0 and sleep < 0 then
+			sleep = 0
+			return true
+		end
+		if change > 0 and sleep > 1 then
+			sleep = 1
+			return true
+		end
 	end
 
 	--------------------------------------------------

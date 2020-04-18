@@ -1,7 +1,7 @@
 
 local function FieldAction(room, monk, workData, dt)
 	room.AddResource("grain", dt*0.4)
-	monk.AddFatigue(dt*0.15)
+	monk.ModifyFatigue(-0.15*dt)
 end
 
 local function CollectAction(room, monk, workData, dt)
