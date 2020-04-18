@@ -66,7 +66,8 @@ local function New(def, parent, stationsByUse)
 	end
 	
 	function externalFuncs.PerformAction(monk, workData, dt)
-		return def.PerformAction(parent, monk, workData, dt)
+		local toRemove = def.PerformAction(externalFuncs, parent, monk, workData, dt)
+		return toRemove
 	end
 	
 	function externalFuncs.IsAvailible()

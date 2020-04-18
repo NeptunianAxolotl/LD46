@@ -1,18 +1,22 @@
 
-local function FieldAction(room, monk, workData, dt)
-	room.AddResource("grain", dt*0.02)
+local function FieldAction(station, room, monk, workData, dt)
+	room.AddResource("grain", dt*0.24)
 	monk.ModifyFatigue(-0.15*dt)
 end
 
-local function CollectAction(room, monk, workData, dt)
-
+local function CollectAction(station, room, monk, workData, dt)
+	if room.GetResourceCount("grain") > 1 then
+		room.AddResource("grain", -1)
+		monk.SetResource("grain", 1)
+		return true
+	end
 end
 
 local function DrawField(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
 	love.graphics.setColor(0, 0, 0)
-	love.graphics.print(math.floor(self.GetResourceCount("grain")*10)/10, drawX + 0.2*GLOBAL.TILE_SIZE, drawY + 2.2*GLOBAL.TILE_SIZE)
+	love.graphics.print(math.floor(self.GetResourceCount("grain")*10)/10, drawX + 0.25*GLOBAL.TILE_SIZE, drawY + 2.2*GLOBAL.TILE_SIZE)
 	
 	love.graphics.setColor(1, 1, 1)
 end
@@ -22,7 +26,6 @@ local data = {
 	image = "field.png",
 	width = 3,
 	height = 3,
-	resources = {},
 	DrawFunc = DrawField,
 	stations = {
 		{
@@ -57,14 +60,16 @@ local data = {
 			PerformAction = CollectAction,
 			allowParallelUse = true,
 			requireResources = {
-				resType = "grain",
-				resCount = 1,
+				{
+					resType = "grain",
+					resCount = 1,
+				}
 			},
 			doors = {
 				{
 					pathLength = 1,
 					pathFunc = function (progress)
-						return -1 + progress, 2, math.rad(0)
+						return 0, 3 - progress, math.rad(0)
 					end
 				},
 			},

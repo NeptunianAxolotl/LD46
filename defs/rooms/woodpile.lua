@@ -8,7 +8,6 @@ local data = {
 	image = "woodPile.png",
 	width = 2,
 	height = 1,
-	resources = {},
 	stations = {
 	}
 }

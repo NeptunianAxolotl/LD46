@@ -40,13 +40,19 @@ local function New(init)
 	-- Goal Handling
 	--------------------------------------------------
 	
-	local function AddGoal(newTaskType)
+	local function AddGoal(newTaskType, stationsByUse)
 		if #goals > 0 then
 			goals[#goals].wantRepath = true
 		end
 		goals[#goals + 1] = {
 			taskType = newTaskType
 		}
+		
+		if stationsByUse then
+			local potentialStations = stationsByUse[newTaskType]
+			goals[#goals].station = stationUtilities.ReserveClosestStation(pos, potentialStations)
+			goals[#goals].wantRepath = true
+		end
 	end
 	
 	local function RemoveCurrentGoal()
@@ -133,13 +139,9 @@ local function New(init)
 		-- Find a goal?
 		if (#goals == 0) then
 			if stationUtilities.CheckFreeStation(stationsByUse["field"]) then
-				goals[1] = {
-					taskType = "field",
-				}
+				AddGoal("field", stationsByUse)
 			elseif stationUtilities.CheckFreeStation(stationsByUse["cook"]) then
-				goals[1] = {
-					taskType = "cook",
-				}
+				AddGoal("cook", stationsByUse)
 			end
 			currentGoal = goals[#goals]
 		end
@@ -161,7 +163,7 @@ local function New(init)
 		-- Add any required subgoals.
 		local subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		while subGoal do
-			AddGoal(subGoal)
+			AddGoal(subGoal, stationsByUse)
 			currentGoal = goals[#goals]
 			subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		end
@@ -169,6 +171,7 @@ local function New(init)
 		-- Find a station to be at.
 		if currentGoal and (currentGoal.wantRepath or (not currentGoal.station)) then
 			local potentialStations = stationsByUse[currentGoal.taskType]
+			--print("find path", currentGoal.taskType, (currentGoal.station or {index = 0}).index, (currentGoal.station and currentGoal.station.GetTaskType()) or "none", potentialStations.GetIndexMax())
 			currentGoal.station, currentGoal.stationDoor, currentGoal.currentPath, doorToLeaveBy = stationUtilities.FindStationPath(
 			                            pos, roomList, potentialStations, currentGoal.station, atStation, (movingProgress < 1) and atStationDoor)
 			currentGoal.wantRepath = false
@@ -190,7 +193,8 @@ local function New(init)
 				end
 				
 				if movingProgress >= 1 then
-					local done = atStation.PerformAction(externalFuncs, goalData, dt)
+					currentGoal.workData = currentGoal.workData or {}
+					local done = atStation.PerformAction(externalFuncs, currentGoal.workData, dt)
 					if done then
 						RemoveCurrentGoal()
 					end
@@ -220,7 +224,7 @@ local function New(init)
 		end
 		
 		-- Entering a station
-		if currentGoal and currentGoal.station and not movingToPos then
+		if currentGoal and currentGoal.station and currentGoal.stationDoor and not movingToPos then
 			atStation = currentGoal.station
 			atStationDoor = currentGoal.stationDoor
 			UpdateStationPosition(movingProgress)

@@ -1,5 +1,5 @@
 
-local function DoSleep(room, monk, workData, dt)
+local function DoSleep(station, room, monk, workData, dt)
 	return monk.ModifyFatigue(0.08*dt)
 end
 
@@ -8,7 +8,6 @@ local data = {
 	image = "dorm.png",
 	width = 3,
 	height = 2,
-	resources = {},
 	stations = {
 		{
 			pos = {0, 0},

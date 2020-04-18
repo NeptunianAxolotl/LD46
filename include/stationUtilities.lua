@@ -44,6 +44,30 @@ local function FindStationPath(pos, roomList, potentialStations, alreadySetGoalS
 	return closeStation, closeDoor, stationPath, leaveByDoor
 end
 
+local function ReserveClosestStation(pos, potentialStations)
+	local closeStation
+	local costDist
+	for _, station in potentialStations.Iterator() do
+		if station.IsAvailible() then
+			local dist = station.Distance(pos[1], pos[2])
+			if (not costDist) or (dist < costDist) then
+				closeStation = station
+				costDist = dist
+			end
+		end
+	end
+	
+	if not closeStation then
+		return false
+	end
+	
+	if not alreadySetGoalStation then
+		closeStation.AddReservation()
+	end
+	
+	return closeStation
+end
+
 local function CheckFreeStation(potentialStations)
 	for _, station in potentialStations.Iterator() do
 		if station.IsAvailible() then
@@ -55,5 +79,6 @@ end
 
 return {
 	FindStationPath = FindStationPath,
+	ReserveClosestStation = ReserveClosestStation,
 	CheckFreeStation = CheckFreeStation,
 }
