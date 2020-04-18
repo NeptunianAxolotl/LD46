@@ -28,6 +28,8 @@ local function New(init)
 	local originX = GLOBAL.TILE_SIZE/2
 	local originY = GLOBAL.TILE_SIZE/2
 
+	local externalFuncs = {}
+	
 	--------------------------------------------------
 	-- Initialization
 	--------------------------------------------------
@@ -50,7 +52,7 @@ local function New(init)
 		
 		if stationsByUse then
 			local potentialStations = stationsByUse[newTaskType]
-			goals[#goals].station = stationUtilities.ReserveClosestStation(pos, potentialStations)
+			goals[#goals].station = stationUtilities.ReserveClosestStation(externalFuncs, pos, potentialStations)
 			goals[#goals].wantRepath = true
 		end
 	end
@@ -86,11 +88,14 @@ local function New(init)
 	--------------------------------------------------
 
 	local function CheckWants(currentGoal)
-		if currentGoal and currentGoal.taskType == "sleep" then
+		if currentGoal and (currentGoal.taskType == "sleep" or currentGoal.taskType == "eat") then
 			return false -- We are already pursuing a want.
 		end
 		if sleep < wantThreashold then
 			return "sleep"
+		end
+		if food < wantThreashold then
+			return "eat"
 		end
 		return false
 	end
@@ -98,7 +103,6 @@ local function New(init)
 	--------------------------------------------------
 	-- Interface
 	--------------------------------------------------
-	local externalFuncs = {}
 
 	function externalFuncs.ModifyFatigue(change)
 		sleep = sleep + change
@@ -108,6 +112,18 @@ local function New(init)
 		end
 		if change > 0 and sleep > 1 then
 			sleep = 1
+			return true
+		end
+	end
+	
+	function externalFuncs.ModifyFood(change)
+		food = food + change
+		if change < 0 and food < 0 then
+			sleep = 0
+			return true
+		end
+		if change > 0 and food > 1 then
+			food = 1
 			return true
 		end
 	end
@@ -128,6 +144,9 @@ local function New(init)
 	function externalFuncs.UpdateMonk(dt, roomList, stationsByUse)
 		local currentGoal = goals[#goals]
 		
+		externalFuncs.ModifyFatigue(-0.008*dt)
+		externalFuncs.ModifyFood(-0.008*dt)
+		
 		-- Check whether the goal needs changing to satisfy a want
 		local wantGoal = CheckWants(currentGoal)
 		if wantGoal then
@@ -138,9 +157,9 @@ local function New(init)
 		
 		-- Find a goal?
 		if (#goals == 0) then
-			if stationUtilities.CheckFreeStation(stationsByUse["field"]) then
+			if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
 				AddGoal("field", stationsByUse)
-			elseif stationUtilities.CheckFreeStation(stationsByUse["cook"]) then
+			elseif stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["cook"]) then
 				AddGoal("cook", stationsByUse)
 			end
 			currentGoal = goals[#goals]
@@ -148,6 +167,8 @@ local function New(init)
 		
 		-- Moving towards an adjacent square. Update position.
 		if movingToPos then
+			externalFuncs.ModifyFatigue(-0.02*dt)
+			externalFuncs.ModifyFood(-0.02*dt)
 			if movingDiagonal then
 				movingProgress = movingProgress + moveSpeed*dt*GLOBAL.INV_DIAG
 			else
@@ -173,7 +194,7 @@ local function New(init)
 			local potentialStations = stationsByUse[currentGoal.taskType]
 			--print("find path", currentGoal.taskType, (currentGoal.station or {index = 0}).index, (currentGoal.station and currentGoal.station.GetTaskType()) or "none", potentialStations.GetIndexMax())
 			currentGoal.station, currentGoal.stationDoor, currentGoal.currentPath, doorToLeaveBy = stationUtilities.FindStationPath(
-			                            pos, roomList, potentialStations, currentGoal.station, atStation, (movingProgress < 1) and atStationDoor)
+			                            externalFuncs, pos, roomList, potentialStations, currentGoal.station, atStation, (movingProgress < 1) and atStationDoor)
 			currentGoal.wantRepath = false
 			if doorToLeaveBy then
 				--print("doorToLeaveBy", doorToLeaveBy, (currentGoal.station or {index = 0}).index)
@@ -189,6 +210,8 @@ local function New(init)
 					if movingProgress > 1 then
 						movingProgress = 1
 					end
+					externalFuncs.ModifyFatigue(-0.02*dt)
+					externalFuncs.ModifyFood(-0.02*dt)
 					UpdateStationPosition(movingProgress)
 				end
 				
@@ -210,6 +233,8 @@ local function New(init)
 				movingProgress = movingProgress - moveSpeed*dt / atStation.GetPathLength(atStationDoor)
 			end
 			if movingProgress > 0 then
+				externalFuncs.ModifyFatigue(-0.02*dt)
+				externalFuncs.ModifyFood(-0.02*dt)
 				UpdateStationPosition(movingProgress)
 				return
 			end
@@ -255,9 +280,14 @@ local function New(init)
 		local x, y = GetDrawPos(offsetX, offsetY)
 		
 		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.45*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.15*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.5*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
-		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.45*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*sleep, 0.15*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.5*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*sleep, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		
+		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
+		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.36*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.36*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*food, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		
 		local currentGoal = goals[#goals]
 		if currentGoal and currentGoal.taskType then

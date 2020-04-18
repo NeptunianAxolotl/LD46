@@ -70,8 +70,12 @@ local function New(def, parent, stationsByUse)
 		return toRemove
 	end
 	
-	function externalFuncs.IsAvailible()
+	function externalFuncs.IsAvailible(monk)
 		if reserved then
+			return false
+		end
+		
+		if def.AvailibleFunc and (not def.AvailibleFunc(externalFuncs, parent, monk)) then
 			return false
 		end
 		
@@ -83,6 +87,7 @@ local function New(def, parent, stationsByUse)
 				end
 			end
 		end
+		
 		
 		return true
 	end

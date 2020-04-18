@@ -15,13 +15,13 @@ local function GetPathMaybeFromRoom(pos, goalPos, roomList, atStation, atStation
 	return path, atStationDoor
 end
 
-local function FindStationPath(pos, roomList, potentialStations, alreadySetGoalStation, atStation, atStationDoor)
+local function FindStationPath(monk, pos, roomList, potentialStations, alreadySetGoalStation, atStation, atStationDoor)
 	local closeStation = alreadySetGoalStation
 	
 	if not closeStation then
 		local costDist
 		for _, station in potentialStations.Iterator() do
-			if station.IsAvailible() then
+			if station.IsAvailible(monk) then
 				local dist = station.Distance(pos[1], pos[2])
 				if (not costDist) or (dist < costDist) then
 					closeStation = station
@@ -44,11 +44,11 @@ local function FindStationPath(pos, roomList, potentialStations, alreadySetGoalS
 	return closeStation, closeDoor, stationPath, leaveByDoor
 end
 
-local function ReserveClosestStation(pos, potentialStations)
+local function ReserveClosestStation(monk, pos, potentialStations)
 	local closeStation
 	local costDist
 	for _, station in potentialStations.Iterator() do
-		if station.IsAvailible() then
+		if station.IsAvailible(monk) then
 			local dist = station.Distance(pos[1], pos[2])
 			if (not costDist) or (dist < costDist) then
 				closeStation = station
@@ -68,9 +68,9 @@ local function ReserveClosestStation(pos, potentialStations)
 	return closeStation
 end
 
-local function CheckFreeStation(potentialStations)
+local function CheckFreeStation(monk, potentialStations)
 	for _, station in potentialStations.Iterator() do
-		if station.IsAvailible() then
+		if station.IsAvailible(monk) then
 			return true
 		end
 	end

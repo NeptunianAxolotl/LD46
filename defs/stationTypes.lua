@@ -4,6 +4,7 @@ local data = {
 	"field",
 	"getGrain",
 	"cook",
+	"eat",
 }
 
 return data

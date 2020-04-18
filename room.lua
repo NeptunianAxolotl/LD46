@@ -41,8 +41,18 @@ local function New(init, stationsByUse)
 		end
 	end
 	
-	function externalFuncs.AddResource(resType, change)
+	function externalFuncs.AddResource(resType, change, bound)
 		resources[resType] = (resources[resType] or 0) + change
+		if bound then
+			if change > 0 and resources[resType] > bound then
+				resources[resType] = bound
+				return true
+			end
+			if change < 0 and resources[resType] < bound then
+				resources[resType] = bound
+				return true
+			end
+		end
 	end
 	
 	function externalFuncs.GetResourceCount(resType)

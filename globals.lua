@@ -3,13 +3,17 @@ local globals = {
 	DIAG = math.sqrt(2),
 	INV_DIAG = 1/math.sqrt(2),
 	
-	BAR_RED = 0.6,
-	BAR_GREEN = 0.6,
-	BAR_BLUE = 0.6,
+	BAR_RED = 0.4,
+	BAR_GREEN = 0.3,
+	BAR_BLUE = 0.3,
 	
 	BAR_SLEEP_RED = 0,
-	BAR_SLEEP_GREEN = 1,
-	BAR_SLEEP_BLUE = 1,
+	BAR_SLEEP_GREEN = 0.5,
+	BAR_SLEEP_BLUE = 0.9,
+	
+	BAR_FOOD_RED = 0,
+	BAR_FOOD_GREEN = 0.8,
+	BAR_FOOD_BLUE = 0,
 }
 
 return globals
