@@ -1,6 +1,7 @@
 
-defs = require("defsHandler")
+DEFS = require("defsHandler")
 GLOBAL = require("globals")
+UTIL = require("include/util")
 
 local GetNewWorld = require("world")
 
@@ -50,6 +51,7 @@ end
 --------------------------------------------------
 
 function love.load()
-	defs.Load()
+	math.randomseed(os.clock())
+	DEFS.Load()
 	world = GetNewWorld(require("startLayout"))
 end

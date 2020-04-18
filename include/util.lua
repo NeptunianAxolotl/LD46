@@ -54,10 +54,15 @@ local function ToCart(dir, rad)
 	return rad*math.cos(dir), rad*math.sin(dir)
 end
 
+local function Add(v1, v2)
+	return {v1[1] + v2[1], v1[2] + v2[2]}
+end
+
 --------------------------------------------------
 --------------------------------------------------
 
 return {
+	Add = Add,
 	AbsVal = AbsVal,
 	Dist = Dist,
 	RotateVector = RotateVector,

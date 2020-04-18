@@ -1,15 +1,10 @@
 
-local GetNewStation = require("station")
-
-local function New(init, stationsByUse)
+local function New(def, parent, stationsByUse)
 	--------------------------------------------------
 	-- Initialization
 	--------------------------------------------------
-	local defName = init.defName
-	local pos     = init.pos
-	local def     = DEFS.roomDefNames[defName]
+	local pos     = UTIL.Add(def.pos, parent.GetPos())
 
-	local stations = {}
 
 	init = nil
 	--------------------------------------------------
@@ -22,20 +17,14 @@ local function New(init, stationsByUse)
 	--------------------------------------------------
 	local externalFuncs = {}
 
-	function externalFuncs.GetPos()
-		return pos
-	end
-	
-	function externalFuncs.Draw(offsetX, offsetY)
-		love.graphics.draw(def.image, pos[1]*GLOBAL.TILE_SIZE - offsetX, pos[2]*GLOBAL.TILE_SIZE - offsetY, 0, 1, 1, 0, 0, 0, 0)
+	function externalFuncs.Distance(x, y)
+		return math.abs(x - pos[1]) +  math.abs(y - pos[2])
 	end
 	
 	--------------------------------------------------
 	-- Finish Initialization
 	--------------------------------------------------
-	for i = 1, #def.stations do
-		stations[i] = GetNewStation(def.stations[i], externalFuncs, stationsByUse)
-	end
+	stationsByUse[def.typeName].Add(externalFuncs)
 	
 	return externalFuncs
 end

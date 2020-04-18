@@ -1,6 +1,16 @@
 
 local startConfig = {
-	monks = {},
+	monks = {
+		{
+			pos = {4, 9},
+		},
+		{
+			pos = {6, 9},
+		},
+		{
+			pos = {7, 9},
+		},
+	},
 	rooms = {
 		{
 			defName = "dorm",

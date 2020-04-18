@@ -13,8 +13,11 @@ local roomDefFiles = {
 -- Local Def Data
 --------------------------------------------------
 
-roomDefs = {}
-roomDefNames = {}
+local defs = {
+	roomDefs = {},
+	roomDefNames = {},
+	stationTypes = {},
+}
 
 --------------------------------------------------
 -- Loading Functions
@@ -26,21 +29,28 @@ local function LoadRoom(filename)
 	return roomDef
 end
 
+local function LoadMonk(filename)
+	local monkDef = require(filename)
+	monkDef.image = love.graphics.newImage(IMAGE_PATH .. monkDef.image)
+	return monkDef
+end
+
+local function LoadStationTypes(filename)
+	return require(filename)
+end
+
 --------------------------------------------------
 -- Load
 --------------------------------------------------
 
-local function Load()
-
+function defs.Load()
 	for i = 1, #roomDefFiles do
-		roomDefs[i] = LoadRoom(roomDefFiles[i])
-		roomDefNames[roomDefs[i].name] = roomDefs[i]
+		defs.roomDefs[i] = LoadRoom(roomDefFiles[i])
+		defs.roomDefNames[defs.roomDefs[i].name] = defs.roomDefs[i]
 	end
+	
+	defs.monkDef = LoadMonk("defs/monk")
+	defs.stationTypes = LoadStationTypes("defs/stationTypes")
 end
 
-
-return {
-	Load = Load,
-	roomDefs = roomDefs,
-	roomDefNames = roomDefNames,
-}
+return defs
