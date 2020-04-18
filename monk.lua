@@ -51,9 +51,9 @@ local function New(init)
 		-- Moving towards an adjacent square. Update position.
 		if movingToPos then
 			if movingDiagonal then
-				movingProgress = movingProgress + moveSpeed*dt
-			else
 				movingProgress = movingProgress + moveSpeed*dt*GLOBAL.INV_DIAG
+			else
+				movingProgress = movingProgress + moveSpeed*dt
 			end
 			if movingProgress < 1 then
 				return
