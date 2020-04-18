@@ -27,9 +27,8 @@ local function GetNewWorld(startLayout)
 	-- Locals
 	--------------------------------------------------
 
-	local function DoUpdate()
-		monkList.ApplySelf("UpdateMonk", stationsByUse)
-	
+	local function UpdateWorld(dt)
+		monkList.ApplySelf("UpdateMonk", dt, roomList, stationsByUse)
 	end
 
 	--------------------------------------------------
@@ -45,8 +44,8 @@ local function GetNewWorld(startLayout)
 		return monkList
 	end
 
-	function externalFuncs.Update()
-		DoUpdate()
+	function externalFuncs.Update(dt)
+		UpdateWorld(dt)
 	end
 
 	function externalFuncs.DrawWorld(offsetX, offsetY)

@@ -8,7 +8,16 @@ local startConfig = {
 			pos = {6, 9},
 		},
 		{
-			pos = {7, 9},
+			pos = {2, 7},
+		},
+		{
+			pos = {7, 2},
+		},
+		{
+			pos = {9, 9},
+		},
+		{
+			pos = {2, 2},
 		},
 	},
 	rooms = {
