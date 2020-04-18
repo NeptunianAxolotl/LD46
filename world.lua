@@ -49,8 +49,10 @@ local function GetNewWorld(startLayout)
 	end
 
 	function externalFuncs.DrawWorld(offsetX, offsetY)
+		love.graphics.setColor(1, 1, 1)
 		roomList.ApplySelf("Draw", offsetX, offsetY)
 		monkList.ApplySelf("Draw", offsetX, offsetY)
+		monkList.ApplySelf("DrawPost", offsetX, offsetY)
 	end
 	
 	return externalFuncs

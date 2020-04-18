@@ -29,6 +29,10 @@ local startConfig = {
 			defName = "dorm",
 			pos = {8, 6},
 		},
+		{
+			defName = "field",
+			pos = {8, 1},
+		},
 	}
 
 }

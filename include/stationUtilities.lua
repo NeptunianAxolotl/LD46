@@ -5,7 +5,7 @@ local function FindStationPath(pos, roomList, potentialStations)
 	local costDist
 	
 	for _, station in potentialStations.Iterator() do
-		if not station.IsReserved() then
+		if station.IsAvailible() then
 			local dist = station.Distance(pos[1], pos[2])
 			if (not costDist) or (dist < costDist) then
 				closeStation = station

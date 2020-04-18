@@ -1,4 +1,7 @@
 
+local function DoSleep(monk, room)
+
+end
 
 local data = {
 	name = "dorm",
@@ -8,55 +11,58 @@ local data = {
 	resources = {},
 	stations = {
 		{
-			pos = {0.5, 0.5},
+			pos = {0, 0},
 			typeName = "sleep",
+			PerformAction = DoSleep(),
 			doors = {
 				{
 					pathLength = math.sqrt(2),
 					pathFunc = function (progress)
-						return 1.5 - progress, -0.5 + progress, math.rad(225)
+						return 1 - progress, -1 + progress, math.rad(225)
 					end
 				},
 				{
 					pathLength = math.sqrt(5),
 					pathFunc = function (progress)
-						return 1.5 - progress, 2.5  -2*progress, math.rad(225)
+						return 1 - progress, 2  -2*progress, math.rad(225)
 					end
 				},
 			},
 		},
 		{
-			pos = {0.5, 1.5},
+			pos = {0, 1},
 			typeName = "sleep",
+			PerformAction = DoSleep(),
 			doors = {
 				{
 					pathLength = math.sqrt(5),
 					pathFunc = function (progress)
-						return 1.5 - progress, -0.5 + 2*progress, math.rad(225)
+						return 1 - progress, -1 + 2*progress, math.rad(225)
 					end
 				},
 				{
 					pathLength = math.sqrt(2),
 					pathFunc = function (progress)
-						return 1.5 - progress, 2.5 - progress, math.rad(225)
+						return 1 - progress, 2 - progress, math.rad(225)
 					end
 				},
 			},
 		},
 		{
-			pos = {2.5, 1.5},
+			pos = {2, 1},
 			typeName = "sleep",
+			PerformAction = DoSleep(),
 			doors = {
 				{
 					pathLength = math.sqrt(5),
 					pathFunc = function (progress)
-						return 1.5 + progress, -0.5 + 2*progress, math.rad(225)
+						return 1 + progress, -1 + 2*progress, math.rad(225)
 					end
 				},
 				{
 					pathLength = math.sqrt(2),
 					pathFunc = function (progress)
-						return 1.5 + progress, 2.5 - progress, math.rad(225)
+						return 1 + progress, 2 - progress, math.rad(225)
 					end
 				},
 			},

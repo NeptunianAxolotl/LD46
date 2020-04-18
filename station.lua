@@ -57,12 +57,37 @@ local function New(def, parent, stationsByUse)
 		return def.doors[stationDoor].pathLength
 	end
 	
-	function externalFuncs.IsReserved()
-		return reserved
+	function externalFuncs.PerformAction(monk)
+		def.PerformAction(monk, parent)
+	end
+	
+	function externalFuncs.IsAvailible()
+		if reserved then
+			return false
+		end
+		
+		if def.requireResources then
+			for i = 1, #def.requireResources do
+				local data = def.requireResources[i]
+				if parent.GetResourceMinusReserved(data.resType) < data.resCount then
+					return false
+				end
+			end
+		end
+		
+		return true
 	end
 	
 	function externalFuncs.SetReserved(newReserved)
-		reserved = newReserved
+		if not def.allowParallelUse then
+			reserved = newReserved
+		end
+		if def.requireResources then
+			for i = 1, #def.requireResources do
+				local data = def.requireResources[i]
+				parent.ReserveResource(data.resType, data.resCount)
+			end
+		end
 	end
 	
 	--------------------------------------------------

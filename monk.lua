@@ -1,12 +1,14 @@
 local stationUtilities = require("include/stationUtilities")
 
 local function New(init)
-	local hunger = 0
-	local fatigue = 0
+	local food = 1
+	local sleep = 1
+	local moral = 1
+	
+	local taskType = "field"
 	
 	local station = nil
 	local stationDoor = nil
-	local taskType = "sleep"
 	local currentPath = nil
 	
 	local atStation = false
@@ -39,6 +41,7 @@ local function New(init)
 	function externalFuncs.UpdateMonk(dt, roomList, stationsByUse)
 		-- Do station stuff
 		if atStation then
+			station.PerformAction(externalFuncs)
 			return
 		end
 		
@@ -84,18 +87,31 @@ local function New(init)
 		end
 		
 	end
+	
+	local function GetDrawPos(offsetX, offsetY)
+		if movingToPos then
+			local x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)*GLOBAL.TILE_SIZE - offsetX
+			local y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)*GLOBAL.TILE_SIZE - offsetY
+			return x + 0.5*GLOBAL.TILE_SIZE, y + 0.5*GLOBAL.TILE_SIZE
+		end
+		local x = pos[1]*GLOBAL.TILE_SIZE - offsetX
+		local y = pos[2]*GLOBAL.TILE_SIZE - offsetY
+		return x + 0.5*GLOBAL.TILE_SIZE, y + 0.5*GLOBAL.TILE_SIZE
+	end
 
 	function externalFuncs.Draw(offsetX, offsetY)
-		local x, y
-		if movingToPos then
-			x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)*GLOBAL.TILE_SIZE - offsetX
-			y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)*GLOBAL.TILE_SIZE - offsetY
-		else
-			x = pos[1]*GLOBAL.TILE_SIZE - offsetX
-			y = pos[2]*GLOBAL.TILE_SIZE - offsetY
-		end
-		
+		local x, y = GetDrawPos(offsetX, offsetY)
 		love.graphics.draw(def.image, x, y, direction, 1, 1, originX, originY, 0, 0)
+	end
+	
+	function externalFuncs.DrawPost(offsetX, offsetY)
+		local x, y = GetDrawPos(offsetX, offsetY)
+		
+		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
+		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.45*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.15*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
+		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.45*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*sleep, 0.15*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		
 	end
 	
 	return externalFuncs

@@ -15,6 +15,8 @@ local function New(init, stationsByUse)
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
+	local resources = {}
+	local reservedResources = {}
 
 
 	--------------------------------------------------
@@ -31,7 +33,24 @@ local function New(init, stationsByUse)
 	end
 	
 	function externalFuncs.Draw(offsetX, offsetY)
-		love.graphics.draw(def.image, pos[1]*GLOBAL.TILE_SIZE - offsetX, pos[2]*GLOBAL.TILE_SIZE - offsetY, 0, 1, 1, 0, 0, 0, 0)
+		local x, y = pos[1]*GLOBAL.TILE_SIZE - offsetX, pos[2]*GLOBAL.TILE_SIZE - offsetY
+		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
+		
+		if def.DrawFunc then
+			def.DrawFunc(x, y, resources)
+		end
+	end
+	
+	function externalFuncs.GetResourceCount(resType)
+		return resources[resType] or 0
+	end
+	
+	function externalFuncs.GetResourceMinusReserved(resType)
+		return (resources[resType] or 0) - (reservedResources[resType] or 0)
+	end
+	
+	function externalFuncs.ReserveResource(resType, change)
+		reservedResources[resType] = (reservedResources[resType] or 0) + change
 	end
 	
 	--------------------------------------------------
