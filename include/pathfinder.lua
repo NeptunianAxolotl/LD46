@@ -7,20 +7,40 @@ local function Unskew(start,skewed,cdir,ddir)
 end
 
 local function isCollision(position, roomList)
+    for _, room in roomList.Iterator() do
+        local rpos, w, h = room.GetPosAndSize()
+        if (position[1] >= rpos[1] and position[2] >= rpos[2] and position[1] < rpos[1] + w and position[2] < rpos[2] + h) then 
+            return true 
+        end
+    end
     return false
 end
 
+-- first return: legal from this direction
+-- second return: could possibly be legal ever
 local function MoveLegal(position,direction,roomList)
-    if direction[1] ~= 0 then
-        if isCollision({position[1]+direction[1],position[2]},roomList) then return false end
-        if direction[2] ~= 0 then
-            if isCollision({position[1]+direction[1],position[2]+direction[2]},roomList) then return false end
+    if direction[1] == 0 and direction[2] ~= 0 then
+        if isCollision({position[1],position[2]+direction[2]},roomList) then 
+            return false, false
         end
     end
-    if direction[2] ~= 0 then
-        if isCollision({position[1],position[2]+direction[2]},roomList) then return false end
+    if direction[2] == 0 and direction[1] ~= 0 then
+        if isCollision({position[1]+direction[1],position[2]},roomList) then 
+            return false, false
+        end
     end
-    return true
+    if direction[1] ~= 0 and direction[2] ~= 0 then
+        if isCollision({position[1]+direction[1],position[2]+direction[2]},roomList) then 
+            return false, false
+        end
+        if isCollision({position[1],position[2]+direction[2]},roomList) then 
+            return false, true
+        end
+        if isCollision({position[1]+direction[1],position[2]},roomList) then 
+            return false, true
+        end
+    end
+    return true, true
 end
 
 local function FindPath(start, goal, roomList)
@@ -61,18 +81,34 @@ local function FindPath(start, goal, roomList)
         local stack = {{0,0}}
         while #stack > 0 do
 
-            local currI = #stack;
             local currc = stack[#stack][1]
             local currd = stack[#stack][2]
+            stack[#stack] = nil
+            
+            if true then
+                local realpos = Unskew(start,{currc,currd},cmove,dmove)
+                local currskew = {currc,currd}
+                local mth = skewmatrix[currskew[1]][currskew[2]].movetohere
+                local tmpreverse = {}
+                while mth do
+                    tmpreverse[#tmpreverse+1] = {Unskew(start,currskew,cmove,dmove),(mth[1] == -2 or mth[1] == 0 or mth[1] == 2)}
+                    currskew[1] = currskew[1] - mth[1]
+                    currskew[2] = currskew[2] - mth[2]
+                    mth = skewmatrix[currskew[1]][currskew[2]].movetohere
+                end
+            end
             
             local cardLegal = false
             if currc < cdist then
                 if not skewmatrix[currc+1] then skewmatrix[currc+1] = {} end
                 if not skewmatrix[currc+1][currd] then
-                    if MoveLegal(Unskew(start,stack[currI],cmove,dmove),cmove,roomList) then
-                        cardLegal = true
-                        skewmatrix[currc+1][currd] = {dist=skewmatrix[currc][currd].dist+1,movetohere={1,0}}
-                        if currc+1 == cdist and currd == ddist then goalfound = true end
+                    local nowLegal, everLegal = MoveLegal(Unskew(start,{currc,currd},cmove,dmove),cmove,roomList)
+                    if everLegal then
+                        if nowLegal then
+                            cardLegal = true
+                            skewmatrix[currc+1][currd] = {dist=skewmatrix[currc][currd].dist+1,movetohere={1,0}}
+                            if currc+1 == cdist and currd == ddist then goalfound = true end
+                        end
                     else
                         skewmatrix[currc+1][currd] = {dist=1000000,movetohere=nil}
                     end
@@ -81,10 +117,13 @@ local function FindPath(start, goal, roomList)
             
             local diagLegal = false
             if currd < ddist then
-                if MoveLegal(Unskew(start,stack[currI],cmove,dmove),dmove,roomList) then
-                    diagLegal = true
-                    skewmatrix[currc][currd+1] = {dist=skewmatrix[currc][currd].dist+math.sqrt(2),movetohere={0,1}}
-                    if currc == cdist and currd+1 == ddist then goalfound = true end
+                local nowLegal, everLegal = MoveLegal(Unskew(start,{currc,currd},cmove,dmove),dmove,roomList)
+                if everLegal then
+                    if nowLegal then
+                        diagLegal = true
+                        skewmatrix[currc][currd+1] = {dist=skewmatrix[currc][currd].dist+math.sqrt(2),movetohere={0,1}}
+                        if currc == cdist and currd+1 == ddist then goalfound = true end
+                    end
                 else
                     skewmatrix[currc][currd+1] = {dist=1000000,movetohere=nil}
                 end
@@ -94,19 +133,19 @@ local function FindPath(start, goal, roomList)
                 stack = {}
             else
                 -- try to stick the worse move on the stack first
-                if (cdist - stack[currI][1] > ddist - stack[currI][2]) then
-                    if diagLegal then stack[#stack+1] = UTIL.Add(stack[currI],{0,1}) end
-                    if cardLegal then stack[#stack+1] = UTIL.Add(stack[currI],{1,0}) end
+                if (cdist - currc > ddist - currd) then
+                    if diagLegal then stack[#stack+1] = UTIL.Add({currc,currd},{0,1}) end
+                    if cardLegal then stack[#stack+1] = UTIL.Add({currc,currd},{1,0}) end
                 else    
-                    if diagLegal then stack[#stack+1] = UTIL.Add(stack[currI],{0,1}) end
-                    if cardLegal then stack[#stack+1] = UTIL.Add(stack[currI],{1,0}) end
+                    if diagLegal then stack[#stack+1] = UTIL.Add({currc,currd},{0,1}) end
+                    if cardLegal then stack[#stack+1] = UTIL.Add({currc,currd},{1,0}) end
                 end
             end
         end
         
         if goalfound then
-            currskew = {cdist,ddist}
-            mth = skewmatrix[currskew[1]][currskew[2]].movetohere
+            local currskew = {cdist,ddist}
+            local mth = skewmatrix[currskew[1]][currskew[2]].movetohere
             while mth do
                 reversepath[#reversepath+1] = {Unskew(start,currskew,cmove,dmove),(mth[1] == -2 or mth[1] == 0 or mth[1] == 2)}
                 currskew[1] = currskew[1] - mth[1]
