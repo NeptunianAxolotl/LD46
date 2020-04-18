@@ -8,6 +8,8 @@ local ROOM_PATH = "defs/rooms/"
 local roomDefFiles = {
 	"dorm",
 	"field",
+	"dining",
+	"woodpile",
 }
 
 --------------------------------------------------
