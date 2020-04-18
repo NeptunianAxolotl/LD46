@@ -1,10 +1,14 @@
 
+defs = require("defsHandler")
+GLOBAL = require("globals")
+
+local GetNewWorld = require("world")
+
 --------------------------------------------------
--- Draw
+-- Input
 --------------------------------------------------
 
-function love.draw()
-end
+local world
 
 --------------------------------------------------
 -- Input
@@ -20,7 +24,7 @@ function love.keypressed(key, scancode, isRepeat)
 end
 
 local function MouseHitFunc(fixture)
-    return true
+	return true
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
@@ -34,13 +38,18 @@ function love.update(dt)
 end
 
 --------------------------------------------------
--- Resource Loading
+-- Draw
 --------------------------------------------------
 
+function love.draw()
+	world.DrawWorld(0, 0)
+end
 
 --------------------------------------------------
 -- Loading
 --------------------------------------------------
 
 function love.load()
+	defs.Load()
+	world = GetNewWorld(require("startLayout"))
 end
