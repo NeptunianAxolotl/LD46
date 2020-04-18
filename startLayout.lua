@@ -2,6 +2,9 @@
 local startConfig = {
 	monks = {
 		{
+			pos = {7, 2},
+		},
+		{
 			pos = {4, 9},
 		},
 		{
@@ -9,9 +12,6 @@ local startConfig = {
 		},
 		{
 			pos = {2, 7},
-		},
-		{
-			pos = {7, 2},
 		},
 		{
 			pos = {9, 9},

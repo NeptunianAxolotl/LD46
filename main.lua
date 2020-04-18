@@ -3,6 +3,8 @@ DEFS = require("defsHandler")
 GLOBAL = require("globals")
 UTIL = require("include/util")
 
+font = require("include/font")
+
 local GetNewWorld = require("world")
 
 --------------------------------------------------
@@ -36,6 +38,9 @@ end
 --------------------------------------------------
 
 function love.update(dt)
+	if dt > 0.05 then
+		dt = 0.05
+	end
 	world.Update(dt)
 end
 
