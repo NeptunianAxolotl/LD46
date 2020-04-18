@@ -41,6 +41,9 @@ local function New(init)
 	--------------------------------------------------
 	
 	local function AddGoal(newTaskType)
+		if #goals > 0 then
+			goals[#goals].wantRepath = true
+		end
 		goals[#goals + 1] = {
 			taskType = newTaskType
 		}
@@ -106,6 +109,11 @@ local function New(init)
 	function externalFuncs.GetResource()
 		return resourceCarried, resourceCount
 	end
+	
+	function externalFuncs.SetResource(newResource, newCount)
+		resourceCarried = newResource
+		resourceCount = newCount
+	end
 
 	--------------------------------------------------
 	-- Update
@@ -136,6 +144,20 @@ local function New(init)
 			currentGoal = goals[#goals]
 		end
 		
+		-- Moving towards an adjacent square. Update position.
+		if movingToPos then
+			if movingDiagonal then
+				movingProgress = movingProgress + moveSpeed*dt*GLOBAL.INV_DIAG
+			else
+				movingProgress = movingProgress + moveSpeed*dt
+			end
+			if movingProgress < 1 then
+				return
+			end
+			pos = movingToPos
+			movingProgress = movingProgress - 1
+		end
+		
 		-- Add any required subgoals.
 		local subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		while subGoal do
@@ -145,10 +167,11 @@ local function New(init)
 		end
 		
 		-- Find a station to be at.
-		if currentGoal and (not currentGoal.station) then
+		if currentGoal and (currentGoal.wantRepath or (not currentGoal.station)) then
 			local potentialStations = stationsByUse[currentGoal.taskType]
 			currentGoal.station, currentGoal.stationDoor, currentGoal.currentPath, doorToLeaveBy = stationUtilities.FindStationPath(
-			                            pos, roomList, potentialStations, atStation, (movingProgress < 1) and atStationDoor)
+			                            pos, roomList, potentialStations, currentGoal.station, atStation, (movingProgress < 1) and atStationDoor)
+			currentGoal.wantRepath = false
 			if doorToLeaveBy then
 				--print("doorToLeaveBy", doorToLeaveBy, (currentGoal.station or {index = 0}).index)
 				atStationDoor = doorToLeaveBy
@@ -189,20 +212,6 @@ local function New(init)
 			UpdateStationPosition(0)
 			atStation = false
 			atStationDoor = false
-		end
-		
-		-- Moving towards an adjacent square. Update position.
-		if movingToPos then
-			if movingDiagonal then
-				movingProgress = movingProgress + moveSpeed*dt*GLOBAL.INV_DIAG
-			else
-				movingProgress = movingProgress + moveSpeed*dt
-			end
-			if movingProgress < 1 then
-				return
-			end
-			pos = movingToPos
-			movingProgress = movingProgress - 1
 		end
 		
 		-- Moving towards a station entrance. Get next adjacent position
