@@ -1,6 +1,6 @@
 
 local function FieldAction(room, monk, workData, dt)
-	room.AddResource("grain", dt*0.4)
+	room.AddResource("grain", dt*0.02)
 	monk.ModifyFatigue(-0.15*dt)
 end
 
@@ -27,7 +27,7 @@ local data = {
 	stations = {
 		{
 			pos = {1, 0.5},
-			typeName = "field",
+			taskType = "field",
 			PerformAction = FieldAction,
 			doors = {
 				{
@@ -40,7 +40,7 @@ local data = {
 		},
 		{
 			pos = {1, 1.5},
-			typeName = "field",
+			taskType = "field",
 			PerformAction = FieldAction,
 			doors = {
 				{
@@ -53,7 +53,7 @@ local data = {
 		},
 		{
 			pos = {0, 2},
-			typeName = "getGrain",
+			taskType = "getGrain",
 			PerformAction = CollectAction,
 			allowParallelUse = true,
 			requireResources = {

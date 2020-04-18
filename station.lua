@@ -31,7 +31,7 @@ local function New(def, parent, stationsByUse)
 	end
 	
 	function externalFuncs.GetTaskType()
-		return def.typeName
+		return def.taskType
 	end
 	
 	function externalFuncs.GetDoorPosition(stationDoor)
@@ -113,7 +113,7 @@ local function New(def, parent, stationsByUse)
 	--------------------------------------------------
 	-- Finish Initialization
 	--------------------------------------------------
-	stationsByUse[def.typeName].Add(externalFuncs)
+	stationsByUse[def.taskType].Add(externalFuncs)
 	
 	return externalFuncs
 end

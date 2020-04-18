@@ -1,10 +1,10 @@
 local stationUtilities = require("include/stationUtilities")
+local goalUtilities = require("include/goalUtilities")
 
 local function New(init)
 	local food = 1
 	local sleep = 1
 	local moral = 1
-	
 	
 	local resourceCarried = false
 	local resourceCount = 0
@@ -40,21 +40,6 @@ local function New(init)
 	-- Goal Handling
 	--------------------------------------------------
 	
-	
-	--------------------------------------------------
-	-- Locals
-	--------------------------------------------------
-
-	local function CheckWants(currentGoal)
-		if currentGoal and currentGoal.taskType == "sleep" then
-			return false -- We are already pursuing a want.
-		end
-		if sleep < wantThreashold then
-			return "sleep"
-		end
-		return false
-	end
-
 	local function AddGoal(newTaskType)
 		goals[#goals + 1] = {
 			taskType = newTaskType
@@ -88,6 +73,20 @@ local function New(init)
 	end
 
 	--------------------------------------------------
+	-- Utilities
+	--------------------------------------------------
+
+	local function CheckWants(currentGoal)
+		if currentGoal and currentGoal.taskType == "sleep" then
+			return false -- We are already pursuing a want.
+		end
+		if sleep < wantThreashold then
+			return "sleep"
+		end
+		return false
+	end
+
+	--------------------------------------------------
 	-- Interface
 	--------------------------------------------------
 	local externalFuncs = {}
@@ -103,19 +102,16 @@ local function New(init)
 			return true
 		end
 	end
+	
+	function externalFuncs.GetResource()
+		return resourceCarried, resourceCount
+	end
 
 	--------------------------------------------------
 	-- Update
 	--------------------------------------------------
 	
 	function externalFuncs.UpdateMonk(dt, roomList, stationsByUse)
-		
-		-- Find a goal?
-		if (#goals == 0) then
-			goals[1] = {
-				taskType = "field",
-			}
-		end
 		local currentGoal = goals[#goals]
 		
 		-- Check whether the goal needs changing to satisfy a want
@@ -124,6 +120,28 @@ local function New(init)
 			SetNewGoal(wantGoal)
 			currentGoal = goals[#goals]
 			--print("wantGoal", wantGoal, #goals)
+		end
+		
+		-- Find a goal?
+		if (#goals == 0) then
+			if stationUtilities.CheckFreeStation(stationsByUse["field"]) then
+				goals[1] = {
+					taskType = "field",
+				}
+			elseif stationUtilities.CheckFreeStation(stationsByUse["cook"]) then
+				goals[1] = {
+					taskType = "cook",
+				}
+			end
+			currentGoal = goals[#goals]
+		end
+		
+		-- Add any required subgoals.
+		local subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
+		while subGoal do
+			AddGoal(subGoal)
+			currentGoal = goals[#goals]
+			subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		end
 		
 		-- Find a station to be at.

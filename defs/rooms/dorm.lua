@@ -1,6 +1,6 @@
 
 local function DoSleep(room, monk, workData, dt)
-	return monk.ModifyFatigue(0.06*dt)
+	return monk.ModifyFatigue(0.08*dt)
 end
 
 local data = {
@@ -12,7 +12,7 @@ local data = {
 	stations = {
 		{
 			pos = {0, 0},
-			typeName = "sleep",
+			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
 				{
@@ -31,7 +31,7 @@ local data = {
 		},
 		{
 			pos = {0, 1},
-			typeName = "sleep",
+			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
 				{
@@ -50,7 +50,7 @@ local data = {
 		},
 		{
 			pos = {2, 1},
-			typeName = "sleep",
+			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
 				{

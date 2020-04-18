@@ -40,7 +40,16 @@ local function FindStationPath(pos, roomList, potentialStations, atStation, atSt
 	return closeStation, closeDoor, stationPath, leaveByDoor
 end
 
+local function CheckFreeStation(potentialStations)
+	for _, station in potentialStations.Iterator() do
+		if station.IsAvailible() then
+			return true
+		end
+	end
+	return false
+end
 
 return {
 	FindStationPath = FindStationPath,
+	CheckFreeStation = CheckFreeStation,
 }
