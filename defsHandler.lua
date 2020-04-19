@@ -107,17 +107,15 @@ local function LoadMonk(filename)
 	local monkDef = require(filename)
     monkDef.defaultImage = love.graphics.newImage(IMAGE_PATH .. monkDef.defaultImage)
     for k, v in pairs(monkDef.images) do
-        local filename = v.file
-        local nframes = v.frames
-        local extension = v.ext
-        monkDef.images[k] = {}
-        if nframes == 0 then
-            monkDef.images[k][1] = love.graphics.newImage(IMAGE_PATH .. filename .. extension)
-        else
-            for i = 1, nframes do
-                monkDef.images[k][i] = love.graphics.newImage(IMAGE_PATH .. filename .. i .. extension)
-            end
-            error('Animation not yet supported')
+        v.spriteSheet = love.graphics.newImage(IMAGE_PATH .. v.file)
+        print(IMAGE_PATH .. v.file)
+        print(v.spriteSheet)
+        print(v.spriteSheet:getHeight())
+        print(v.spriteSheet:getDimensions())
+        v.quads = {}
+        for x = 0, v.spriteSheet:getWidth() - v.width, v.width do
+            print(x)
+            table.insert(v.quads, love.graphics.newQuad(x, 0, v.width, v.spriteSheet:getHeight(), v.spriteSheet:getDimensions()))
         end
     end
 	return monkDef

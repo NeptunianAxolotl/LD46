@@ -52,6 +52,9 @@ local function New(init)
 	local def       = DEFS.monkDef
 	local pos       = init.pos
 	local direction = math.random()
+    
+    local animCurrent = nil
+    local animTimer = 0
 
 	init = nil
 	--------------------------------------------------
@@ -462,13 +465,42 @@ local function New(init)
         local imageToDraw = def.defaultImage
         if def.images then
             local imageDirection = math.floor((direction + math.pi/8) / (math.pi/4)) % 8 + 1
-            local dirlookup = {def.images.move_NE,def.images.move_E,def.images.move_SE,def.images.move_S,def.images.move_SW,def.images.move_W,def.images.move_NW,def.images.move_N}
-            --print(direction)
-            --print(imageDirection)
-            imageToDraw = dirlookup[imageDirection][1] or def.defaultImage
+            local standlookup = {def.images.stand_NE,def.images.stand_E,def.images.stand_SE,def.images.stand_S,def.images.stand_SW,def.images.stand_W,def.images.stand_NW,def.images.stand_N}
+            local walklookup = {def.images.stand_NE,def.images.stand_E,def.images.walk_SE,def.images.stand_S,def.images.stand_SW,def.images.stand_W,def.images.stand_NW,def.images.stand_N}
+            local desiredAnimation = nil
+            
+            -- find the animation we should be doing
+            if movingToPos then
+                desiredAnimation = walklookup[imageDirection]
+            else -- idle
+                desiredAnimation = walklookup[imageDirection]
+            end
+            
+            if not animCurrent or animCurrent ~= desiredAnimation then
+                -- need to set a new animation and start from frame one
+                animCurrent = desiredAnimation
+                animTimer = 0
+            else
+                -- continue with current animation
+                animTimer = animTimer + dt
+            end
+            
+            local quads = animCurrent.quads
+            if animTimer > animCurrent.duration then
+                -- go back to first frame
+                animTimer = 0
+            end
+            
+            local imageToDraw = desiredAnimation.spriteSheet
+            local frameToDraw = math.floor(animTimer / animCurrent.duration * #quads) + 1
+            local quadToDraw = desiredAnimation.quads[frameToDraw]
+            local quadHeight = love.graphics.getHeight(imageToDraw)
+            local quadWidth = desiredAnimation.width
+           -- w,h = love.graphics.getDimensions(imageToDraw)
+            love.graphics.draw(imageToDraw, quadToDraw,  x, y, 0, 1.2*GLOBAL.TILE_SIZE / quadWidth, 1.2*GLOBAL.TILE_SIZE / quadHeight, 0, 0, 0, 0)
+            --imageToDraw = standlookup[imageDirection][1] or def.defaultImage
         end
-        w,h = love.graphics.getDimensions(imageToDraw)
-        love.graphics.draw(imageToDraw, x, y, 0, 2*GLOBAL.TILE_SIZE / w, 1.2*GLOBAL.TILE_SIZE / h, 0, 0, 0, 0)
+       
 	end
 	
 	function externalFuncs.DrawPost(interface, dt)
