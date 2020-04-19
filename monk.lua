@@ -14,8 +14,8 @@ local function New(init)
 	
 	local goals = {}
 	-- taskType
-	-- preferredRoom
 	-- requiredRoom
+	-- preferredRoom
 	-- station
 	-- stationDoor
 	-- currentPath
@@ -24,8 +24,8 @@ local function New(init)
 	
 	local priorities = {}
 	-- taskType
-	-- preferredRoom
 	-- requiredRoom
+	-- preferredRoom
 	-- tempoary
 	
 	local atStation = false
@@ -94,6 +94,16 @@ local function New(init)
 	local function UpdateStationPosition(progress, dirMod)
 		local x, y, dir = atStation.GetTransitionPosition(atStationDoor, progress)
 		pos[1], pos[2], direction = x, y, dir + dirMod
+	end
+
+	local function FindGoal(stationsByUse)
+		--priorities = r
+		
+		if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
+			AddGoal("field", stationsByUse, true)
+		elseif stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["cook"]) then
+			AddGoal("cook", stationsByUse, true)
+		end
 	end
 
 	--------------------------------------------------
@@ -228,11 +238,7 @@ local function New(init)
 		
 		-- Find a goal?
 		if (#goals == 0) then
-			if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
-				AddGoal("field", stationsByUse, true)
-			elseif stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["cook"]) then
-				AddGoal("cook", stationsByUse, true)
-			end
+			FindGoal(stationsByUse)
 			currentGoal = goals[#goals]
 		end
 		
@@ -319,24 +325,26 @@ local function New(init)
 	--------------------------------------------------
 	-- Drawing
 	--------------------------------------------------
-	local function GetDrawPos(offsetX, offsetY)
+	local function GetDrawPos()
 		if movingToPos then
-			local x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)*GLOBAL.TILE_SIZE - offsetX
-			local y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)*GLOBAL.TILE_SIZE - offsetY
-			return x + 0.5*GLOBAL.TILE_SIZE, y + 0.5*GLOBAL.TILE_SIZE
+			local x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)
+			local y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)
+			return x + 0.5, y + 0.5
 		end
-		local x = pos[1]*GLOBAL.TILE_SIZE - offsetX
-		local y = pos[2]*GLOBAL.TILE_SIZE - offsetY
-		return x + 0.5*GLOBAL.TILE_SIZE, y + 0.5*GLOBAL.TILE_SIZE
+		local x = pos[1]
+		local y = pos[2]
+		return x + 0.5, y + 0.5
 	end
 
-	function externalFuncs.Draw(offsetX, offsetY)
-		local x, y = GetDrawPos(offsetX, offsetY)
+	function externalFuncs.Draw(interface)
+		local x, y = GetDrawPos()
+		x, y = interface.WorldToScreen(x, y)
 		love.graphics.draw(def.image, x, y, direction, 1, 1, originX, originY, 0, 0)
 	end
 	
-	function externalFuncs.DrawPost(offsetX, offsetY)
-		local x, y = GetDrawPos(offsetX, offsetY)
+	function externalFuncs.DrawPost(interface)
+		local x, y = GetDrawPos()
+		x, y = interface.WorldToScreen(x, y)
 		
 		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.5*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )

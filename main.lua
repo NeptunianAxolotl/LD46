@@ -53,8 +53,7 @@ end
 --------------------------------------------------
 
 function love.draw()
-	local offX, offY = interface.GetCameraOffset()
-	world.DrawWorld(offX, offY)
+	world.DrawWorld(interface)
 	interface.DrawInterface()
 end
 

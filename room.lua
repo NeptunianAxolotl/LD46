@@ -98,8 +98,8 @@ local function New(init, stationsByUse)
 		end
 	end
 	
-	function externalFuncs.Draw(offsetX, offsetY)
-		local x, y = pos[1]*GLOBAL.TILE_SIZE - offsetX, pos[2]*GLOBAL.TILE_SIZE - offsetY
+	function externalFuncs.Draw(interface)
+		local x, y = interface.WorldToScreen(pos[1], pos[2])
 		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		
 		if def.DrawFunc then

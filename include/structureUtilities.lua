@@ -33,7 +33,6 @@ local function CheckStructurePlacement(roomList, monkList, def, placeX, placeY)
 		end
 	end
 	
-	
 	return true
 end
 

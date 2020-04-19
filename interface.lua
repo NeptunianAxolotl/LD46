@@ -63,7 +63,7 @@ local function GetNewInterface(world)
 		return math.floor(cameraX), math.floor(cameraY)
 	end
 	
-	function externalFuncs.WorldToInterface(x, y)
+	function externalFuncs.WorldToScreen(x, y)
 		return x*GLOBAL.TILE_SIZE - math.floor(cameraX), y*GLOBAL.TILE_SIZE - math.floor(cameraY)
 	end
 
@@ -83,7 +83,7 @@ local function GetNewInterface(world)
 			local x, y = structureUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
 			local canPlace = structureUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
 			
-			x, y = externalFuncs.WorldToInterface(x, y)
+			x, y = externalFuncs.WorldToScreen(x, y)
 			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
 			love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		end
