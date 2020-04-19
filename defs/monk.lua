@@ -23,7 +23,7 @@ local data = {
         walk_NE = {file="monk/monk_stand_ne.png",width=640,duration=100},
         walk_NW = {file="monk/monk_stand_nw.png",width=640,duration=100},
         walk_SE = {file="monk/monk_walk_se.png",width=640,duration=0.7},
-        walk_SW = {file="monk/monk_stand_sw.png",width=640,duration=100},
+        walk_SW = {file="monk/monk_walk_sw.png",width=640,duration=0.7},
         
         -- chopping animations
         chop_E = {file="monk/monk_chop_e.png",width=640,duration=0.7},
