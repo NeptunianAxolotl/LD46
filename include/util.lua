@@ -58,6 +58,14 @@ local function Add(v1, v2)
 	return {v1[1] + v2[1], v1[2] + v2[2]}
 end
 
+local function IntersectingRectangles(x1, y1, w1, h1, x2, y2, w2, h2)
+	return ((x1 + w1 >= x2 and x1 <= x2) or (x2 + w2 >= x1 and x2 <= x1)) and ((y1 + h1 >= y2 and y1 <= y2) or (y2 + h2 >= y1 and y2 <= y1))
+end
+
+local function PosInRectangle(x1, y1, w1, h1, x2, y2)
+	return (x1 + w1 > x2 and x1 <= x2) and (y1 + h1 > y2 and y1 <= y2)
+end
+
 --------------------------------------------------
 --------------------------------------------------
 
@@ -68,4 +76,6 @@ return {
 	RotateVector = RotateVector,
 	Angle = Angle,
 	ToCart = ToCart,
+	IntersectingRectangles = IntersectingRectangles,
+	PosInRectangle = PosInRectangle,
 }

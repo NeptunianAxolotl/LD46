@@ -2,11 +2,13 @@ local IterableMap = require("include/IterableMap")
 
 local GetNewMonk = require("monk")
 local GetNewRoom = require("room")
+local GetNewFeature = require("feature")
 
 local function GetNewWorld(startLayout)
 	
 	local monkList = IterableMap.New()
 	local roomList = IterableMap.New()
+	local featureList = IterableMap.New()
 	local stationsByUse = {}
 	
 	for i = 1, #DEFS.stationTypes do
@@ -21,6 +23,9 @@ local function GetNewWorld(startLayout)
 	end
 	for i = 1, #startLayout.rooms do
 		roomList.Add(GetNewRoom(startLayout.rooms[i], stationsByUse))
+	end
+	for i = 1, #startLayout.features do
+		featureList.Add(GetNewFeature(startLayout.features[i]))
 	end
 
 	--------------------------------------------------
@@ -60,11 +65,11 @@ local function GetNewWorld(startLayout)
 		UpdateWorld(dt)
 	end
 
-	function externalFuncs.DrawWorld(interface)
+	function externalFuncs.DrawWorld(interface, dt)
 		love.graphics.setColor(1, 1, 1)
-		roomList.ApplySelf("Draw", interface)
-		monkList.ApplySelf("Draw", interface)
-		monkList.ApplySelf("DrawPost", interface)
+		roomList.ApplySelf("Draw", interface, dt)
+		monkList.ApplySelf("Draw", interface, dt)
+		monkList.ApplySelf("DrawPost", interface, dt)
 	end
 	
 	return externalFuncs

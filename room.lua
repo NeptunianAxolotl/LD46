@@ -120,7 +120,7 @@ local function New(init, stationsByUse)
 		end
 	end
 	
-	function externalFuncs.Draw(interface)
+	function externalFuncs.Draw(interface, dt)
 		if hidden then
 			return
 		end

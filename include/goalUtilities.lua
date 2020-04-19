@@ -19,16 +19,21 @@ local function CheckMakeWoodGoal(monk)
 	end
 end
 
-local function CheckBuildGoal(monk, currentGoal)
+local function CheckBuildGoal(monk, currentGoal, stationsByUse)
 	if not currentGoal.station then
 		return
 	end
 	local room = currentGoal.station.GetParent()
 	
+	local taskTypes = {}
 	if room.GetResourceCount("reqWood") > 0 then
-		return "add_wood", nil, room
+		taskTypes[#taskTypes + 1] = "add_wood"
 	elseif room.GetResourceCount("reqStone") > 0 then
-		return "add_stone", nil, room
+		taskTypes[#taskTypes + 1] = "add_stone"
+	end
+	if #taskTypes > 0 then
+		local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, taskTypes)
+		return taskType, station, room
 	end
 end
 
@@ -47,11 +52,11 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 	elseif currentGoal.taskType == "make_wood" then
 		return CheckMakeWoodGoal(monk)
 	elseif currentGoal.taskType == "build" then
-		return CheckBuildGoal(monk, currentGoal)
+		return CheckBuildGoal(monk, currentGoal, stationsByUse)
 	elseif currentGoal.taskType == "get_wood" and not currentGoal.station then
 		local potentialStations = stationsByUse[currentGoal.taskType]
 		local pos = monk.GetPosition()
-		currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, pos, potentialStations)
+		currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, potentialStations)
 		currentGoal.wantRepath = true
 		if not currentGoal.station then
 			return "make_wood"

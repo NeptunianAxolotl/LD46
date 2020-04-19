@@ -4,27 +4,19 @@ local function SnapStructure(def, mouseX, mouseY)
 	return x, y
 end
 
-local function IntersectingRectangles(x1, y1, w1, h1, x2, y2, w2, h2)
-	return ((x1 + w1 >= x2 and x1 <= x2) or (x2 + w2 >= x1 and x2 <= x1)) and ((y1 + h1 >= y2 and y1 <= y2) or (y2 + h2 >= y1 and y2 <= y1))
-end
-
-local function PosInRectangle(x1, y1, w1, h1, x2, y2)
-	return (x1 + w1 > x2 and x1 <= x2) and (y1 + h1 > y2 and y1 <= y2)
-end
-
 local function CheckStructurePlacement(roomList, monkList, def, placeX, placeY)
 	local pWidth, pHeight = def.width, def.height
 	
 	for _, room in roomList.Iterator() do
 		local pos, width, height = room.GetPosAndSize()
-		if IntersectingRectangles(placeX, placeY, pWidth, pHeight, pos[1], pos[2], width, height) then
+		if UTIL.IntersectingRectangles(placeX, placeY, pWidth, pHeight, pos[1], pos[2], width, height) then
 			return false
 		end
 	end
 	
 	for _, monk in monkList.Iterator() do
 		local pos, movingToPos = monk.GetPosition()
-		if PosInRectangle(placeX, placeY, pWidth, pHeight, pos[1], pos[2]) or (movingToPos and PosInRectangle(placeX, placeY, pWidth, pHeight, movingToPos[1], movingToPos[2])) then
+		if UTIL.PosInRectangle(placeX, placeY, pWidth, pHeight, pos[1], pos[2]) or (movingToPos and UTIL.PosInRectangle(placeX, placeY, pWidth, pHeight, movingToPos[1], movingToPos[2])) then
 			return false
 		end
 	end
@@ -41,7 +33,7 @@ end
 local function ScreenToMonk(interface, monkList, mouseX, mouseY)
 	for _, monk in monkList.Iterator() do
 		local x, y, w, h = MonkToScreen(interface, monk)
-		if PosInRectangle(x, y, w, h, mouseX, mouseY) then
+		if UTIL.PosInRectangle(x, y, w, h, mouseX, mouseY) then
 			return monk
 		end
 	end
@@ -74,7 +66,7 @@ local function ScreenToRoom(interface, roomList, mouseX, mouseY)
 	for _, room in roomList.Iterator() do
 		if room.HitTest() then
 			local pos, w, h = room.GetPosAndSize()
-			if PosInRectangle(pos[1], pos[2], w, h, worldX, worldY) then
+			if UTIL.PosInRectangle(pos[1], pos[2], w, h, worldX, worldY) then
 				return room
 			end
 		end
@@ -131,7 +123,7 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, uiClick)
 	
 	for i = 1, #priorities do
 		love.graphics.print(" " .. i .. ". " .. priorities[i].taskType, 20, drawY)
-		if PosInRectangle(10, drawY, 180, 20, mouseX, mouseY) then
+		if UTIL.PosInRectangle(10, drawY, 180, 20, mouseX, mouseY) then
 			uiClick = {
 				monk = monk,
 				removePriority = i,

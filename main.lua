@@ -43,11 +43,12 @@ end
 --------------------------------------------------
 -- Update
 --------------------------------------------------
-
+local lastDt = 0
 function love.update(dt)
 	if dt > 0.05 then
 		dt = 0.05
 	end
+	lastDt = dt
 	world.Update(dt)
 	interface.UpdateInterface(dt)
 end
@@ -57,7 +58,7 @@ end
 --------------------------------------------------
 
 function love.draw()
-	world.DrawWorld(interface)
+	world.DrawWorld(interface, lastDt)
 	interface.DrawInterface()
 end
 

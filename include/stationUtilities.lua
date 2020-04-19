@@ -47,7 +47,8 @@ local function FindStationPath(monk, pos, roomList, potentialStations, requiredR
 	return closeStation, closeDoor, stationPath, leaveByDoor
 end
 
-local function ReserveClosestStation(monk, requiredRoom, preferredRoom, pos, potentialStations)
+local function ReserveClosestStation(monk, requiredRoom, preferredRoom, potentialStations)
+	local pos = monk.GetPosition()
 	local closeStation
 	local costDist
 	for _, station in potentialStations.Iterator() do

@@ -78,7 +78,7 @@ local function New(init)
 			goalData.wantRepath = true
 		elseif placeReservation then
 			local potentialStations = stationsByUse[newTaskType]
-			goalData.station = stationUtilities.ReserveClosestStation(externalFuncs, goalData.requiredRoom, goalData.preferredRoom, pos, potentialStations)
+			goalData.station = stationUtilities.ReserveClosestStation(externalFuncs, goalData.requiredRoom, goalData.preferredRoom, potentialStations)
 			goalData.wantRepath = true
 		end
 	end
@@ -112,7 +112,7 @@ local function New(init)
 	local function FindGoal(dt, stationsByUse)
 		for i = 1, #priorities do
 			local priData = priorities[i]
-			local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, priData.requiredRoom, priData.preferredRoom, pos, stationsByUse[priData.taskType])
+			local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, priData.requiredRoom, priData.preferredRoom, stationsByUse[priData.taskType])
 			if reservedStation then
 				AddGoal(priData.taskType, stationsByUse, true, priData.requiredRoom, priData.preferredRoom, reservedStation)
 				return
@@ -457,7 +457,7 @@ local function New(init)
 		return x, y
 	end
 
-	function externalFuncs.Draw(interface)
+	function externalFuncs.Draw(interface, dt)
 		local x, y = GetDrawPos(interface)
         local imageToDraw = def.defaultImage
         if def.images then
@@ -471,7 +471,7 @@ local function New(init)
         love.graphics.draw(imageToDraw, x, y, 0, 2*GLOBAL.TILE_SIZE / w, 1.2*GLOBAL.TILE_SIZE / h, 0, 0, 0, 0)
 	end
 	
-	function externalFuncs.DrawPost(interface)
+	function externalFuncs.DrawPost(interface, dt)
 		local x, y = GetDrawPos(interface)
 		
 		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
