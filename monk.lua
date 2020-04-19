@@ -24,7 +24,10 @@ local function New(init)
 	
 	local priorities = {
 		{
-			taskType = "field",
+			taskType = "build",
+		},
+		{
+			taskType = "make_grain",
 		},
 		{
 			taskType = "cook",
@@ -33,7 +36,6 @@ local function New(init)
 	-- taskType
 	-- requiredRoom
 	-- preferredRoom
-	-- tempoary
 	
 	local atStation = false
 	local atStationDoor = false
@@ -103,17 +105,14 @@ local function New(init)
 		pos[1], pos[2], direction = x, y, dir + dirMod
 	end
 
-	local function FindGoal(stationsByUse)
-		local index = 1
-		local priorityCount = #priorities
-		while index <= priorityCount do
-			local pri = priorities[index]
-			local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, pri.requiredRoom, pri.preferredRoom, pos, stationsByUse[pri.taskType])
+	local function FindGoal(dt, stationsByUse)
+		for i = 1, #priorities do
+			local priData = priorities[i]
+			local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, priData.requiredRoom, priData.preferredRoom, pos, stationsByUse[priData.taskType])
 			if reservedStation then
-				AddGoal(pri.taskType, stationsByUse, true, pri.requiredRoom, pri.preferredRoom, reservedStation)
+				AddGoal(priData.taskType, stationsByUse, true, priData.requiredRoom, priData.preferredRoom, reservedStation)
 				return
 			end
-			index = index + 1
 		end
 	end
 
@@ -153,7 +152,7 @@ local function New(init)
 	function externalFuncs.ModifyFood(change)
 		food = food + change
 		if change < 0 and food < 0 then
-			sleep = 0
+			food = 0
 			return true
 		end
 		if change > 0 and food > 1 then
@@ -204,12 +203,36 @@ local function New(init)
 				goals[goalRead] = nil
 				goalRead = goalRead + 1
 			else
+				if (goalData.preferredRoom and goalData.preferredRoom.index == room.index) then
+					goalData.preferredRoom = nil
+				end
 				if goalRead ~= goalWrite then
 					goals[goalRead] = nil
 					goals[goalWrite] = goalData
 				end
 				goalRead = goalRead + 1
 				goalWrite = goalWrite + 1
+			end
+		end
+		
+		local priCount = #priorities
+		local priRead, priWrite = 1, 1
+		while priRead <= priCount do
+			local priData = priorities[priRead]
+			
+			if (priData.requiredRoom and priData.requiredRoom.index == room.index) then
+				priorities[priRead] = nil
+				priRead = priRead + 1
+			else
+				if (priData.preferredRoom and priData.preferredRoom.index == room.index) then
+					priData.preferredRoom = nil
+				end
+				if priRead ~= priWrite then
+					priorities[priRead] = nil
+					priorities[goalWrite] = priData
+				end
+				priRead = priRead + 1
+				priWrite = priWrite + 1
 			end
 		end
 	end
@@ -249,14 +272,14 @@ local function New(init)
 		
 		-- Find a goal?
 		if (#goals == 0) then
-			FindGoal(stationsByUse)
+			FindGoal(dt, stationsByUse)
 			currentGoal = goals[#goals]
 		end
 		
 		-- Add any required subgoals.
 		local subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		while subGoal do
-			AddGoal(subGoal, stationsByUse, true, subGoal.requiredRoom)
+			AddGoal(subGoal, stationsByUse, true)
 			currentGoal = goals[#goals]
 			subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		end

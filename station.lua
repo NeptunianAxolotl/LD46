@@ -39,6 +39,10 @@ local function New(def, parent, stationsByUse)
 		return def.taskType
 	end
 	
+	function externalFuncs.GetDef()
+		return def
+	end
+	
 	--------------------------------------------------
 	-- Doors and Pathing
 	--------------------------------------------------

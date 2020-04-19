@@ -45,7 +45,7 @@ local data = {
 	stations = {
 		{
 			pos = {1, 0.5},
-			taskType = "field",
+			taskType = "make_grain",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
 			doors = {
@@ -56,7 +56,7 @@ local data = {
 		},
 		{
 			pos = {1, 1.5},
-			taskType = "field",
+			taskType = "make_grain",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
 			doors = {
@@ -67,7 +67,7 @@ local data = {
 		},
 		{
 			pos = {0, 2},
-			taskType = "getGrain",
+			taskType = "get_grain",
 			PerformAction = CollectAction,
 			allowParallelUse = true,
 			requireResources = {

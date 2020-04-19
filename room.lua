@@ -16,12 +16,20 @@ local function New(init, stationsByUse)
 	
 	local externalFuncs = {}
 	
+	local resources = {}
+	if def.spawnResources then
+		for i = 1, #def.spawnResources do
+			local res = def.spawnResources[i]
+			resources[res[1]] = res[2]
+		end
+	end
+	
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
-	local resources = {}
 	local reservedResources = {}
 	local wantDestruction = false
+	local hidden = false
 	local roomDisabled = false
 
 	local function CheckDestroy(monkList)
@@ -51,8 +59,11 @@ local function New(init, stationsByUse)
 		return pos, def.width, def.height
 	end
 	
-	function externalFuncs.Destroy(roomList, monkList)
+	function externalFuncs.Destroy(hideImmediately)
 		wantDestruction = true
+		if hideImmediately then
+			hidden = true
+		end
 	end
 	
 	function externalFuncs.IsRoomActive()
@@ -99,6 +110,10 @@ local function New(init, stationsByUse)
 	end
 	
 	function externalFuncs.Draw(interface)
+		if hidden then
+			return
+		end
+
 		local x, y = interface.WorldToScreen(pos[1] - def.drawOriginX, pos[2] - def.drawOriginY)
 		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		

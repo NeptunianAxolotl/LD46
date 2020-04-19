@@ -40,7 +40,7 @@ local function GetNewInterface(world)
 				local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, px, py)
 				
 				if canPlace then
-					world.CreateStructure(def.buildDef, px, py)
+					world.CreateRoom(def.buildDef, px, py)
 					placingStructure = false
 				end
 			end

@@ -37,7 +37,7 @@ local function GetNewWorld(startLayout)
 	--------------------------------------------------
 	local externalFuncs = {}
 
-	function externalFuncs.CreateStructure(def, px, py)
+	function externalFuncs.CreateRoom(def, px, py)
 		local initData = {
 			defName = def,
 			pos = {px, py},

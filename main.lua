@@ -15,6 +15,10 @@ local GetNewInterface = require("interface")
 local world
 local interface
 
+function GetWorld()
+	return world
+end
+
 --------------------------------------------------
 -- Input
 --------------------------------------------------

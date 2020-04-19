@@ -16,14 +16,11 @@ local startConfig = {
 		{
 			pos = {9, 9},
 		},
-		{
-			pos = {0, 0},
-		},
 	},
 	rooms = {
 		{
 			defName = "woodpile",
-			pos = {-2, -2},
+			pos = {2, 5},
 		},
 		{
 			defName = "dorm",
@@ -40,6 +37,22 @@ local startConfig = {
 		{
 			defName = "field",
 			pos = {8, 1},
+		},
+		{
+			defName = "tree",
+			pos = {0, 6},
+		},
+		{
+			defName = "tree",
+			pos = {-2, 5},
+		},
+		{
+			defName = "tree",
+			pos = {-2, 7},
+		},
+		{
+			defName = "tree",
+			pos = {-12, 7},
 		},
 	}
 
