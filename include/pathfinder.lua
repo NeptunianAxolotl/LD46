@@ -133,7 +133,8 @@ local function MoveLegal(position,direction,roomList)
 end
 
 local function FindPath(start, goal, roomList)
-    
+    start = {math.floor(start[1] + 0.5), math.floor(start[2] + 0.5)}
+    goal = {math.floor(goal[1] + 0.5), math.floor(goal[2] + 0.5)}
     --print('Start FindPath')
     --print('------------------------------------------------------')
     
