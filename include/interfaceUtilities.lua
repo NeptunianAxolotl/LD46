@@ -57,18 +57,18 @@ local function DrawMonkInterface(interface, monk)
 	local barWidth = 112
 	local barHeight = 20
 	
-	local drawY = 328
+	local drawY = 334
 	
 	font.SetSize(2)
 	love.graphics.setColor(0, 0, 0, 1)
 	
-	love.graphics.print("Name: " .. name, 20, drawY)
+	love.graphics.print(name, 20, drawY)
 	drawY = drawY + 25
 	
-	love.graphics.print("Task: " .. taskName, 20, drawY)
+	love.graphics.print(taskName, 20, drawY)
 	drawY = drawY + 25
 	
-	drawY = drawY + 8
+	drawY = drawY + 25
 	love.graphics.print("Rest", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
