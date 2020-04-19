@@ -26,7 +26,6 @@ local function FindStationPath(monk, pos, roomList, potentialStations, requiredR
 				if preferredRoom and preferredRoom.index == station.GetParent().index then
 					dist = dist - 1000000
 				end
-				local dist = station.Distance(pos[1], pos[2])
 				if (not costDist) or (dist < costDist) then
 					closeStation = station
 					costDist = dist

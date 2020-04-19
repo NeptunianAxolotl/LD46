@@ -144,15 +144,12 @@ local function New(init)
 	-- Interface
 	--------------------------------------------------
 	
-	function externalFuncs.SetNewPriority(room, newTaskType, requiredRoom)
+	function externalFuncs.SetNewPriority(room, newTaskType, taskRequires, taskPrefers)
 		-- Toggle priority if the task is already at the top of the list.
 		if priorities[1] and priorities[1].taskType == newTaskType then
-			if priorities[1].requiredRoom then
-				priorities[1].requiredRoom = room
-			else
-				priorities[1].requiredRoom = nil
-			end
-			SetNewGoal(newTaskType, priorities[1].requiredRoom)
+			priorities[1].requiredRoom = taskRequires and room
+			priorities[1].preferredRoom = taskPrefers and room
+			SetNewGoal(newTaskType, priorities[1].requiredRoom, priorities[1].preferredRoom)
 			return
 		end
 		
@@ -169,12 +166,10 @@ local function New(init)
 		
 		if priMatch then
 			priorities[1] = priMatch
-			if requiredRoom then
-				priMatch.requiredRoom = room
-			else
-				priMatch.requiredRoom = nil
-			end
-			SetNewGoal(newTaskType, priMatch.requiredRoom)
+			priMatch.requiredRoom = taskRequires and room
+			priMatch.preferredRoom = taskPrefers and room
+			
+			SetNewGoal(newTaskType, priMatch.requiredRoom, priMatch.preferredRoom)
 			return
 		end
 		
@@ -185,12 +180,12 @@ local function New(init)
 		
 		priorities[1] = {
 			taskType = newTaskType,
-			requiredRoom = requiredRoom and room,
+			requiredRoom = taskRequires and room,
+			preferredRoom = taskPrefers and room,
 		}
-		SetNewGoal(newTaskType, priorities[1].requiredRoom)
+		SetNewGoal(newTaskType, priorities[1].requiredRoom, priorities[1].preferredRoom)
 	end
 
-	
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
 		return sleep, food, resourceCarried, (currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
@@ -296,7 +291,7 @@ local function New(init)
 				end
 				if priRead ~= priWrite then
 					priorities[priRead] = nil
-					priorities[goalWrite] = priData
+					priorities[priWrite] = priData
 				end
 				priRead = priRead + 1
 				priWrite = priWrite + 1

@@ -42,8 +42,12 @@ local function GetNewInterface(world)
 				local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, px, py)
 				
 				if canPlace then
-					world.CreateRoom(def.buildDef, px, py)
+					local newRoom = world.CreateRoom(def.buildDef, px, py)
 					placingStructure = false
+					if selectedMonk then
+						local roomDef = newRoom.GetDef()
+						selectedMonk.SetNewPriority(newRoom, roomDef.clickTask, true)
+					end
 				end
 			end
 			return
@@ -61,7 +65,7 @@ local function GetNewInterface(world)
 				local roomDef = room.GetDef()
 				
 				if roomDef.clickTask then
-					selectedMonk.SetNewPriority(room, roomDef.clickTask, roomDef.clickTaskRequires)
+					selectedMonk.SetNewPriority(room, roomDef.clickTask, false, true)
 				end
 				return
 			end
@@ -143,7 +147,7 @@ local function GetNewInterface(world)
 			love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 			love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
 			
-			if not hoveredMonk then
+			if not (hoveredMonk or placingStructure) then
 				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 				if room then
 					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
