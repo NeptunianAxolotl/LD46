@@ -15,6 +15,7 @@ local function GetNewInterface(world)
 	local cameraX, cameraY = 0, -400
 	local camSpeedX, camSpeedY = 0, 0
 	local placingStructure = false
+	local selectedMonk = false
 
 	--------------------------------------------------
 	-- Utilities
@@ -46,6 +47,16 @@ local function GetNewInterface(world)
 				end
 			end
 			return
+		end
+		
+		local monk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
+		if monk then
+			selectedMonk = monk
+			return
+		end
+		
+		if button == 1 then
+			selectedMonk = false
 		end
 	end
 
@@ -107,9 +118,17 @@ local function GetNewInterface(world)
 			local monk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
 			if monk then
 				local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, monk)
-				love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+				love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE, 0.5)
 				love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
 			end
+		end
+		
+		if selectedMonk then
+			local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, selectedMonk)
+			love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+			love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
+			
+			interfaceUtilities.DrawMonkInterface(interface, selectedMonk)
 		end
 	end
 	

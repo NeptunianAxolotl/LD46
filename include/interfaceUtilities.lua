@@ -47,9 +47,49 @@ local function ScreenToMonk(interface, monkList, mouseX, mouseY)
 	end
 end
 
+local function DrawMonkInterface(interface, monk)
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.draw(DEFS.images.monkInterface, 0, 0, 0, 1, 1, 0, 0, 0, 0)
+	
+	local sleep, food, taskName, name = monk.GetStatus()
+	
+	local barX = 68
+	local barWidth = 112
+	local barHeight = 20
+	
+	local drawY = 328
+	
+	font.SetSize(2)
+	love.graphics.setColor(0, 0, 0, 1)
+	
+	love.graphics.print("Name: " .. name, 20, drawY)
+	drawY = drawY + 25
+	
+	love.graphics.print("Task: " .. taskName, 20, drawY)
+	drawY = drawY + 25
+	
+	drawY = drawY + 8
+	love.graphics.print("Rest", 20, drawY - 2)
+	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
+	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, sleep*barWidth, barHeight, 2, 6, 4 )
+	
+	drawY = drawY + 32
+	
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.print("Saity", 20, drawY - 2)
+	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
+	love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, food*barWidth, barHeight, 2, 6, 4 )
+
+end
+
 return {
 	SnapStructure = SnapStructure,
 	CheckStructurePlacement = CheckStructurePlacement,
 	MonkToScreen = MonkToScreen,
 	ScreenToMonk = ScreenToMonk,
+	DrawMonkInterface = DrawMonkInterface,
 }

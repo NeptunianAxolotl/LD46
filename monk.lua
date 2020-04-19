@@ -135,6 +135,10 @@ local function New(init)
 		end
 		return false
 	end
+	
+	local function GetCurrentGoal()
+		return goals[#goals]
+	end
 
 	--------------------------------------------------
 	-- Interface
@@ -162,6 +166,11 @@ local function New(init)
 			food = 1
 			return true
 		end
+	end
+	
+	function externalFuncs.GetStatus()
+		local currentGoal = GetCurrentGoal()
+		return sleep, food, (currentGoal and currentGoal.taskType) or "Idle", "Roderick " .. externalFuncs.index
 	end
 	
 	function externalFuncs.GetResource()
@@ -268,26 +277,26 @@ local function New(init)
 			movingProgress = movingProgress - 1
 		end
 		
-		local currentGoal = goals[#goals]
+		local currentGoal = GetCurrentGoal()
 		-- Check whether the goal needs changing to satisfy a want
 		local wantGoal = CheckWants(currentGoal)
 		if wantGoal then
 			SetNewGoal(wantGoal)
-			currentGoal = goals[#goals]
+			currentGoal = GetCurrentGoal()
 			--print("wantGoal", wantGoal, #goals)
 		end
 		
 		-- Find a goal?
 		if (#goals == 0) then
 			FindGoal(dt, stationsByUse)
-			currentGoal = goals[#goals]
+			currentGoal = GetCurrentGoal()
 		end
 		
 		-- Add any required subgoals.
 		local subGoal, subGoalRequiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
 		while subGoal do
 			AddGoal(subGoal, stationsByUse, true, subGoalRequiredRoom)
-			currentGoal = goals[#goals]
+			currentGoal = GetCurrentGoal()
 			subGoal, subGoalRequiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
 		end
 		
@@ -404,7 +413,7 @@ local function New(init)
 		love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y + 0.14*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*food, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		
-		local currentGoal = goals[#goals]
+		local currentGoal = GetCurrentGoal()
 		if currentGoal and currentGoal.taskType then
 			font.SetSize(2)
 			--local text = love.graphics.newText(font.GetFont(), text)

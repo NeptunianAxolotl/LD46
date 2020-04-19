@@ -99,6 +99,15 @@ local function LoadStationTypes(filename)
 	return require(filename)
 end
 
+local function LoadGlobalImages(filename)
+	local images = require(filename)
+	local imageMap = {}
+	for i = 1, #images do
+		imageMap[images[i][1]] = love.graphics.newImage(IMAGE_PATH .. images[i][2])
+	end
+	return imageMap
+end
+
 --------------------------------------------------
 -- Load
 --------------------------------------------------
@@ -111,6 +120,7 @@ function defs.Load()
 	
 	defs.monkDef = LoadMonk("defs/monk")
 	defs.stationTypes = LoadStationTypes("defs/stationTypes")
+	defs.images = LoadGlobalImages("defs/globalImages")
 end
 
 return defs
