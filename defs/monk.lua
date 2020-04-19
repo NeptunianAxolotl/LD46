@@ -14,8 +14,8 @@ local data = {
         move_SE = {file="monk/Monk SE",frames=0,ext=".png"},
         move_SW = {file="monk/Monk SW",frames=0,ext=".png"},
     },
-	drawOriginX = -0.2,
-	drawOriginY = 1,
+	drawOriginX = 0.13,
+	drawOriginY = 1.25,
 }
 
 return data

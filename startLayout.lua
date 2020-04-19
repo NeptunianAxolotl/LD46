@@ -30,14 +30,14 @@ local startConfig = {
 			defName = "dorm",
 			pos = {0, 9},
 		},
-		--{
-		--	defName = "dining",
-		--	pos = {8, 6},
-		--},
-		--{
-		--	defName = "field",
-		--	pos = {8, 1},
-		--},
+		{
+			defName = "dining",
+			pos = {8, 6},
+		},
+		{
+			defName = "field",
+			pos = {8, 1},
+		},
 		{
 			defName = "tree",
 			pos = {0, 6},
