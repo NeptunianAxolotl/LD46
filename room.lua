@@ -51,7 +51,7 @@ local function New(init, stationsByUse)
 	-- Interface
 	--------------------------------------------------
 
-	function externalFuncs.GetPos()
+	function externalFuncs.GetPosition()
 		return pos
 	end
 	

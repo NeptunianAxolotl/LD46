@@ -4,6 +4,8 @@ local function ChopAction(station, room, monk, workData, dt)
 	monk.ModifyFatigue(-0.04*dt)
 	monk.ModifyFood(-0.06*dt)
 	if boundReached then
+		local pos = room.GetPosition()
+		GetWorld().CreateFeature("stump", pos[1], pos[2])
 		monk.SetResource("log", 1)
 		room.Destroy(true)
 		return true

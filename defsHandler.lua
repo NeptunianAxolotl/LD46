@@ -2,8 +2,9 @@
 -- Config
 --------------------------------------------------
 
-local IMAGE_PATH = "images/"
-local ROOM_PATH = "defs/rooms/"
+local IMAGE_PATH    = "images/"
+local ROOM_PATH     = "defs/rooms/"
+local FEATURE_PATH  = "defs/features/"
 
 local roomDefFiles = {
 	"dorm",
@@ -15,6 +16,10 @@ local roomDefFiles = {
 	"garden",
 }
 
+local featureDefFiles = {
+	"stump",
+}
+
 --------------------------------------------------
 -- Local Def Data
 --------------------------------------------------
@@ -22,6 +27,8 @@ local roomDefFiles = {
 local defs = {
 	roomDefs = {},
 	roomDefNames = {},
+	featureDefs = {},
+	featureDefNames = {},
 	stationTypes = {},
 }
 
@@ -90,6 +97,12 @@ local function LoadRoom(filename)
 	return roomDef
 end
 
+local function LoadFeature(filename)
+	local featureDef = require(FEATURE_PATH .. filename)
+	featureDef.image = love.graphics.newImage(IMAGE_PATH .. featureDef.image)
+	return featureDef
+end
+
 local function LoadMonk(filename)
 	local monkDef = require(filename)
     monkDef.defaultImage = love.graphics.newImage(IMAGE_PATH .. monkDef.defaultImage)
@@ -132,6 +145,12 @@ function defs.Load()
 		defs.roomDefs[i] = LoadRoom(roomDefFiles[i])
 		defs.roomDefNames[defs.roomDefs[i].name] = defs.roomDefs[i]
 	end
+	
+	for i = 1, #featureDefFiles do
+		defs.featureDefs[i] = LoadFeature(featureDefFiles[i])
+		defs.featureDefNames[defs.featureDefs[i].name] = defs.featureDefs[i]
+	end
+	
 	
 	defs.monkDef = LoadMonk("defs/monk")
 	defs.stationTypes = LoadStationTypes("defs/stationTypes")

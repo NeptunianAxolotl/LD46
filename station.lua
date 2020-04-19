@@ -3,8 +3,8 @@ local function New(def, parent, stationsByUse)
 	--------------------------------------------------
 	-- Initialization
 	--------------------------------------------------
-	local parentPos = parent.GetPos()
-	local pos       = UTIL.Add(def.pos, parent.GetPos())
+	local parentPos = parent.GetPosition()
+	local pos       = UTIL.Add(def.pos, parent.GetPosition())
 	local reserved  = false
 	
 	local doorPosition = {}

@@ -56,6 +56,10 @@ local startConfig = {
 		},
 	},
 	features = {
+		{
+			defName = "stump",
+			pos = {5, -6},
+		},
 	}
 }
 

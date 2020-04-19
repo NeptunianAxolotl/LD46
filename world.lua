@@ -34,6 +34,7 @@ local function GetNewWorld(startLayout)
 
 	local function UpdateWorld(dt)
 		roomList.ApplySelf("UpdateRoom", dt, monkList)
+		featureList.ApplySelf("UpdateFeature", dt)
 		monkList.ApplySelf("UpdateMonk", dt, roomList, stationsByUse)
 	end
 
@@ -53,6 +54,16 @@ local function GetNewWorld(startLayout)
 		return newRoom
 	end
 
+	function externalFuncs.CreateFeature(defName, px, py)
+		local initData = {
+			defName = defName,
+			pos = {px, py},
+		}
+		local newFeature = GetNewFeature(initData)
+		featureList.Add(newFeature)
+		return newFeature
+	end
+
 	function externalFuncs.GetRoomList()
 		return roomList
 	end
@@ -67,6 +78,7 @@ local function GetNewWorld(startLayout)
 
 	function externalFuncs.DrawWorld(interface, dt)
 		love.graphics.setColor(1, 1, 1)
+		featureList.ApplySelf("Draw", interface, dt)
 		roomList.ApplySelf("Draw", interface, dt)
 		monkList.ApplySelf("Draw", interface, dt)
 		monkList.ApplySelf("DrawPost", interface, dt)

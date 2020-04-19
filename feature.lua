@@ -23,11 +23,7 @@ local function New(init)
 	-- Interface
 	--------------------------------------------------
 
-	function externalFuncs.GetPos()
-		return pos
-	end
-
-	function externalFuncs.GetPos()
+	function externalFuncs.GetPosition()
 		return pos
 	end
 	
