@@ -205,19 +205,19 @@ local function New(init)
 	--------------------------------------------------
 	
 	function externalFuncs.UpdateMonk(dt, roomList, stationsByUse)
-		externalFuncs.ModifyFatigue(-0.008*dt)
-		externalFuncs.ModifyFood(-0.008*dt)
+		externalFuncs.ModifyFatigue(GLOBAL.CONSTANT_FATIGUE*dt)
+		externalFuncs.ModifyFood(GLOBAL.CONSTANT_HUNGER*dt)
 		
 		-- Moving towards an adjacent square. Update position.
 		if movingToPos then
-			externalFuncs.ModifyFatigue(-0.02*dt)
-			externalFuncs.ModifyFood(-0.02*dt)
 			if movingDiagonal then
 				movingProgress = movingProgress + moveSpeed*dt*GLOBAL.INV_DIAG
 			else
 				movingProgress = movingProgress + moveSpeed*dt
 			end
 			if movingProgress < 1 then
+				externalFuncs.ModifyFatigue(GLOBAL.MOTION_FATIGUE*dt)
+				externalFuncs.ModifyFood(GLOBAL.MOTION_HUNGER*dt)
 				return
 			end
 			pos = movingToPos
@@ -272,8 +272,8 @@ local function New(init)
 					if movingProgress > 1 then
 						movingProgress = 1
 					end
-					externalFuncs.ModifyFatigue(-0.02*dt)
-					externalFuncs.ModifyFood(-0.02*dt)
+					externalFuncs.ModifyFatigue(GLOBAL.MOTION_FATIGUE*dt)
+					externalFuncs.ModifyFood(GLOBAL.MOTION_HUNGER*dt)
 					UpdateStationPosition(movingProgress, 0)
 				end
 				
@@ -295,8 +295,8 @@ local function New(init)
 				movingProgress = movingProgress - moveSpeed*dt / atStation.GetPathLength(atStationDoor)
 			end
 			if movingProgress > 0 then
-				externalFuncs.ModifyFatigue(-0.02*dt)
-				externalFuncs.ModifyFood(-0.02*dt)
+				externalFuncs.ModifyFatigue(GLOBAL.MOTION_FATIGUE*dt)
+				externalFuncs.ModifyFood(GLOBAL.MOTION_HUNGER*dt)
 				UpdateStationPosition(movingProgress, GLOBAL.PI)
 				return
 			end

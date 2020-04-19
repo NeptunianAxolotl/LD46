@@ -19,6 +19,12 @@ local globals = {
 	
 	CAM_ACCEL = 7000,
 	CAM_SPEED = 1200,
+	
+	CONSTANT_HUNGER = -0.008,
+	CONSTANT_FATIGUE = -0.008,
+	
+	MOTION_HUNGER = -0.02,
+	MOTION_FATIGUE = -0.02,
 }
 
 return globals
