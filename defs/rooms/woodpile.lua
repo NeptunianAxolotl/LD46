@@ -39,8 +39,8 @@ end
 local data = {
 	name = "woodpile",
 	image = "woodPile.png",
-	drawOriginX = -3/2,
-	drawOriginY = 3/2,
+	drawOriginX = 0,
+	drawOriginY = 0.5,
 	width = 2,
 	height = 1,
 	DrawFunc = DrawSupply,

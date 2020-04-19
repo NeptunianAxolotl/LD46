@@ -71,7 +71,7 @@ local function GetNewInterface(world)
 		if originY then
 			offsetY = math.floor(originY * GLOBAL.TILE_SIZE)
 		end
-		return (x+y)*GLOBAL.TILE_SIZE/2 - math.floor(cameraX) + offsetX, (y-x)*GLOBAL.TILE_SIZE/2 - math.floor(cameraY) + offsetY
+		return (x+y)*GLOBAL.TILE_SIZE/2 - math.floor(cameraX) - offsetX, (y-x)*GLOBAL.TILE_SIZE/2 - math.floor(cameraY) - offsetY
 	end
 	
 	function externalFuncs.ScreenToWorld(x, y)

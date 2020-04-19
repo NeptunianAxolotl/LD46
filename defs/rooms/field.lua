@@ -40,7 +40,7 @@ local data = {
 	width = 3,
 	height = 3,
     drawOriginX = 0,
-	drawOriginY = -0.5,
+	drawOriginY = 1.5,
 	DrawFunc = DrawField,
 	stations = {
 		{

@@ -10,7 +10,7 @@ local data = {
 	width = 3,
 	height = 2,
     drawOriginX = 0,
-	drawOriginY = 0,
+	drawOriginY = 1.5,
 	stations = {
 		{
 			pos = {0, 0},

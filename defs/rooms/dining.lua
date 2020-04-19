@@ -39,8 +39,8 @@ local data = {
 	image = "dining.png",
 	width = 3,
 	height = 3,
-    drawOriginX = -3/2,
-	drawOriginY = 3/2,
+    drawOriginX = 0,
+	drawOriginY = 1.5,
 	DrawFunc = DrawDining,
 	stations = {
 		{
