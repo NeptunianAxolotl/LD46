@@ -37,10 +37,10 @@ end
 local data = {
 	name = "field",
 	image = "field.png",
-	drawOriginX = 0,
-	drawOriginY = 0,
 	width = 3,
 	height = 3,
+    drawOriginX = -3/2,
+	drawOriginY = 3/2,
 	DrawFunc = DrawField,
 	stations = {
 		{

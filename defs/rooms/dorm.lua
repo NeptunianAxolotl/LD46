@@ -10,10 +10,10 @@ local data = {
 	name = "dorm",
 	buildDef = "dorm_build",
 	image = "dorm.png",
-	drawOriginX = 0,
-	drawOriginY = 0,
 	width = 3,
 	height = 2,
+    drawOriginX = -3/2,
+	drawOriginY = 3/2,
 	stations = {
 		{
 			pos = {0, 0},

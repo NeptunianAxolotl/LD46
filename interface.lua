@@ -12,7 +12,7 @@ local function GetNewInterface(world)
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
-	local cameraX, cameraY = 0, 0
+	local cameraX, cameraY = 0, -400
 	local camSpeedX, camSpeedY = 0, 0
 	local placingStructure = false
 
@@ -64,7 +64,7 @@ local function GetNewInterface(world)
 	end
 	
 	function externalFuncs.WorldToScreen(x, y)
-		return x*GLOBAL.TILE_SIZE - math.floor(cameraX), y*GLOBAL.TILE_SIZE - math.floor(cameraY)
+		return (x+y)*GLOBAL.TILE_SIZE/2 - math.floor(cameraX), (y-x)*GLOBAL.TILE_SIZE/2 - math.floor(cameraY)
 	end
 
 	--------------------------------------------------
