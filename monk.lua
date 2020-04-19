@@ -94,7 +94,14 @@ local function New(init)
 	end
 
 	local function FindGoal(stationsByUse)
-		--priorities = r
+		local index = 1
+		local priorityCount = #priorities
+		while index < priorityCount do
+			local pri = priorities[index]
+			if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse[pri.taskType], pri.requiredRoom, pri.preferredRoom) then
+				AddGoal("field", stationsByUse, true, pri.requiredRoom, pri.preferredRoom)
+			end
+		end
 		
 		if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
 			AddGoal("field", stationsByUse, true)

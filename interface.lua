@@ -1,6 +1,6 @@
 local IterableMap = require("include/IterableMap")
 local cameraUtilities = require("include/cameraUtilities")
-local structureUtilities = require("include/structureUtilities")
+local interfaceUtilities = require("include/interfaceUtilities")
 
 local function GetNewInterface(world)
 
@@ -36,8 +36,8 @@ local function GetNewInterface(world)
 				placingStructure = false
 			else
 				local def = DEFS.roomDefNames[placingStructure]
-				local px, py = structureUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
-				local canPlace = structureUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, px, py)
+				local px, py = interfaceUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
+				local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, px, py)
 				
 				if canPlace then
 					world.CreateStructure(def.buildDef, px, py)
@@ -80,8 +80,8 @@ local function GetNewInterface(world)
 		
 		if placingStructure then
 			local def = DEFS.roomDefNames[placingStructure]
-			local x, y = structureUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
-			local canPlace = structureUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
+			local x, y = interfaceUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
+			local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
 			
 			x, y = externalFuncs.WorldToScreen(x, y)
 			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
