@@ -33,6 +33,11 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 	
 	if currentGoal.taskType == "cook" then
 		return CheckCookGoal(monk)
+	elseif currentGoal.taskType == "chop" then
+		local resource, count = monk.GetResource()
+		if resource == "log" and count > 0 then
+			return "make_wood"
+		end
 	elseif currentGoal.taskType == "make_wood" then
 		return CheckMakeWoodGoal(monk)
 	elseif currentGoal.taskType == "build" then

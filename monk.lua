@@ -95,9 +95,9 @@ local function New(init)
 		end
 	end
 	
-	local function SetNewGoal(newTaskType)
+	local function SetNewGoal(newTaskType, requiredRoom, preferredRoom)
 		ClearGoals()
-		AddGoal(newTaskType)
+		AddGoal(newTaskType, nil, false, requiredRoom, preferredRoom)
 	end
 	
 	local function UpdateStationPosition(progress, dirMod)
@@ -139,9 +139,65 @@ local function New(init)
 	local function GetCurrentGoal()
 		return goals[#goals]
 	end
-
+	
 	--------------------------------------------------
 	-- Interface
+	--------------------------------------------------
+	
+	function externalFuncs.SetNewPriority(room, newTaskType, requiredRoom)
+		-- Toggle priority if the task is already at the top of the list.
+		if priorities[1] and priorities[1].taskType == newTaskType then
+			if priorities[1].requiredRoom then
+				priorities[1].requiredRoom = room
+			else
+				priorities[1].requiredRoom = nil
+			end
+			SetNewGoal(newTaskType, priorities[1].requiredRoom)
+			return
+		end
+		
+		-- Move priority around if the task is already a priority
+		local priMatch = false
+		for i = #priorities, 2, -1 do
+			if priMatch then
+				priorities[i] = priorities[i - 1]
+			elseif priorities[i].taskType == newTaskType then
+				priMatch = priorities[i]
+				priorities[i] = priorities[i - 1]
+			end
+		end
+		
+		if priMatch then
+			priorities[1] = priMatch
+			if requiredRoom then
+				priMatch.requiredRoom = room
+			else
+				priMatch.requiredRoom = nil
+			end
+			SetNewGoal(newTaskType, priMatch.requiredRoom)
+			return
+		end
+		
+		-- The new priority is not in the list. Move everything and add one.
+		for i = math.min(#priorities + 1, GLOBAL.PRIORITY_COUNT), 2, -1 do
+			priorities[i] = priorities[i - 1]
+		end
+		
+		priorities[1] = {
+			taskType = newTaskType,
+			requiredRoom = requiredRoom and room,
+		}
+		SetNewGoal(newTaskType, priorities[1].requiredRoom)
+	end
+
+	
+	function externalFuncs.GetStatus()
+		local currentGoal = GetCurrentGoal()
+		return sleep, food, resourceCarried, (currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
+	end
+	
+	--------------------------------------------------
+	-- Pathing and Attributes
 	--------------------------------------------------
 
 	function externalFuncs.ModifyFatigue(change)
@@ -166,11 +222,6 @@ local function New(init)
 			food = 1
 			return true
 		end
-	end
-	
-	function externalFuncs.GetStatus()
-		local currentGoal = GetCurrentGoal()
-		return sleep, food, (currentGoal and currentGoal.taskType) or "Idle", "Roderick " .. externalFuncs.index
 	end
 	
 	function externalFuncs.GetResource()

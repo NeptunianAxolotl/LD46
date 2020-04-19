@@ -66,8 +66,16 @@ local function New(init, stationsByUse)
 		end
 	end
 	
+	function externalFuncs.HitTest()
+		return not wantDestruction
+	end
+	
 	function externalFuncs.IsRoomActive()
 		return not (wantDestruction or roomDisabled)
+	end
+	
+	function externalFuncs.GetDef()
+		return def
 	end
 	
 	--------------------------------------------------

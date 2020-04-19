@@ -47,11 +47,45 @@ local function ScreenToMonk(interface, monkList, mouseX, mouseY)
 	end
 end
 
+local function RoomToScreen(interface, room)
+	local pos, w, h = room.GetPosAndSize()
+	local verts = {}
+	
+	local x, y = interface.WorldToScreen(pos[1], pos[2])
+	verts[#verts + 1] = x
+	verts[#verts + 1] = y
+	
+	x, y = interface.WorldToScreen(pos[1] + w, pos[2])
+	verts[#verts + 1] = x
+	verts[#verts + 1] = y
+	
+	x, y = interface.WorldToScreen(pos[1] + w, pos[2] + h)
+	verts[#verts + 1] = x
+	verts[#verts + 1] = y
+	
+	x, y = interface.WorldToScreen(pos[1], pos[2] + h)
+	verts[#verts + 1] = x
+	verts[#verts + 1] = y
+	return verts
+end
+
+local function ScreenToRoom(interface, roomList, mouseX, mouseY)
+	local worldX, worldY = interface.ScreenToWorld(mouseX, mouseY)
+	for _, room in roomList.Iterator() do
+		if room.HitTest() then
+			local pos, w, h = room.GetPosAndSize()
+			if PosInRectangle(pos[1], pos[2], w, h, worldX, worldY) then
+				return room
+			end
+		end
+	end
+end
+
 local function DrawMonkInterface(interface, monk)
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(DEFS.images.monkInterface, 0, 0, 0, 1, 1, 0, 0, 0, 0)
 	
-	local sleep, food, taskName, name = monk.GetStatus()
+	local sleep, food, resourceCarried, currentTaskType, name, priorities = monk.GetStatus()
 	
 	local barX = 68
 	local barWidth = 112
@@ -62,13 +96,18 @@ local function DrawMonkInterface(interface, monk)
 	font.SetSize(2)
 	love.graphics.setColor(0, 0, 0, 1)
 	
-	love.graphics.print(name, 20, drawY)
-	drawY = drawY + 25
+	love.graphics.print("Name: " .. name, 20, drawY)
+	drawY = drawY + 23
 	
-	love.graphics.print(taskName, 20, drawY)
-	drawY = drawY + 25
+	love.graphics.print("Task: " .. (currentTaskType or "Idle"), 20, drawY)
+	drawY = drawY + 23
 	
-	drawY = drawY + 25
+	if resourceCarried then
+		love.graphics.print("Carrying: " .. resourceCarried, 20, drawY)
+	end
+	drawY = drawY + 23
+	
+	drawY = drawY + 14
 	love.graphics.print("Rest", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
@@ -76,14 +115,23 @@ local function DrawMonkInterface(interface, monk)
 	love.graphics.rectangle("fill", barX, drawY, sleep*barWidth, barHeight, 2, 6, 4 )
 	
 	drawY = drawY + 32
-	
 	love.graphics.setColor(0, 0, 0, 1)
 	love.graphics.print("Saity", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
 	love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, food*barWidth, barHeight, 2, 6, 4 )
-
+	
+	love.graphics.setColor(0, 0, 0, 1)
+	drawY = drawY + 38
+	love.graphics.print("Jobs", 20, drawY)
+	drawY = drawY + 23
+	
+	for i = 1, #priorities do
+		love.graphics.print(" " .. i .. ". " .. priorities[i].taskType, 20, drawY)
+		drawY = drawY + 23
+	end
+	
 end
 
 return {
@@ -91,5 +139,7 @@ return {
 	CheckStructurePlacement = CheckStructurePlacement,
 	MonkToScreen = MonkToScreen,
 	ScreenToMonk = ScreenToMonk,
+	RoomToScreen = RoomToScreen,
+	ScreenToRoom = ScreenToRoom,
 	DrawMonkInterface = DrawMonkInterface,
 }

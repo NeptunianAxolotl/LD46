@@ -27,6 +27,8 @@ local globals = {
 	MOTION_FATIGUE = -0.02,
 	
 	DRAIN_MULT = 0.4,
+	
+	PRIORITY_COUNT = 3,
 }
 
 return globals

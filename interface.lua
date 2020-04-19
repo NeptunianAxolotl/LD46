@@ -55,9 +55,19 @@ local function GetNewInterface(world)
 			return
 		end
 		
-		if button == 1 then
-			selectedMonk = false
+		if selectedMonk then
+			local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
+			if room then
+				local roomDef = room.GetDef()
+				
+				if roomDef.clickTask then
+					selectedMonk.SetNewPriority(room, roomDef.clickTask, roomDef.clickTaskRequires)
+				end
+				return
+			end
 		end
+		
+		selectedMonk = false
 	end
 
 	function externalFuncs.MouseReleased(mouseX, mouseY, button, istouch, presses)
@@ -65,7 +75,9 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
-		placingStructure = "dorm"
+		if key == "1" then
+			placingStructure = "dorm"
+		end
 	end
 
 	--------------------------------------------------
@@ -105,6 +117,9 @@ local function GetNewInterface(world)
 	function externalFuncs.DrawInterface()
 		local mouseX, mouseY = love.mouse.getPosition()
 		
+		love.graphics.setLineWidth(2)
+		
+		local hoveredMonk
 		if placingStructure then
 			local def = DEFS.roomDefNames[placingStructure]
 			local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
@@ -115,9 +130,9 @@ local function GetNewInterface(world)
 			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
 			love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		else
-			local monk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
-			if monk then
-				local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, monk)
+			hoveredMonk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
+			if hoveredMonk then
+				local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, hoveredMonk)
 				love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE, 0.5)
 				love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
 			end
@@ -127,6 +142,15 @@ local function GetNewInterface(world)
 			local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, selectedMonk)
 			love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 			love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
+			
+			if not hoveredMonk then
+				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
+				if room then
+					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+					local vertices = interfaceUtilities.RoomToScreen(externalFuncs, room)
+					love.graphics.polygon("line", vertices)
+				end
+			end
 			
 			interfaceUtilities.DrawMonkInterface(interface, selectedMonk)
 		end

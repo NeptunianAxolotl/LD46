@@ -13,6 +13,8 @@ end
 local data = {
 	name = "tree",
 	image = "tree.png",
+	clickTask = "chop",
+	clickTaskRequires = true,
 	drawOriginX = -0.1,
 	drawOriginY = 0.8,
 	width = 1,

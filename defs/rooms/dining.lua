@@ -37,6 +37,7 @@ end
 local data = {
 	name = "dining",
 	image = "dining.png",
+	clickTask = "cook",
 	width = 3,
 	height = 3,
     drawOriginX = 0,

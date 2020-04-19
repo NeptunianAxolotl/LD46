@@ -39,6 +39,7 @@ end
 local data = {
 	name = "woodpile",
 	image = "woodPile.png",
+	clickTask = "make_wood",
 	drawOriginX = 0,
 	drawOriginY = 1,
 	width = 2,
