@@ -3,6 +3,8 @@ local globals = {
 	DIAG = math.sqrt(2),
 	INV_DIAG = 1/math.sqrt(2),
 	
+	PI = math.pi,
+	
 	BAR_RED = 0.4,
 	BAR_GREEN = 0.3,
 	BAR_BLUE = 0.3,
@@ -14,6 +16,9 @@ local globals = {
 	BAR_FOOD_RED = 0,
 	BAR_FOOD_GREEN = 0.8,
 	BAR_FOOD_BLUE = 0,
+	
+	CAM_ACCEL = 7000,
+	CAM_SPEED = 1200,
 }
 
 return globals

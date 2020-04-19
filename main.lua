@@ -6,32 +6,35 @@ UTIL = require("include/util")
 font = require("include/font")
 
 local GetNewWorld = require("world")
+local GetNewInterface = require("interface")
 
 --------------------------------------------------
--- Input
+-- Handlers
 --------------------------------------------------
 
 local world
+local interface
 
 --------------------------------------------------
 -- Input
 --------------------------------------------------
 
-function love.mousemoved(x, y, dx, dy, istouch )
-end
-
-function love.mousereleased(x, y, button, istouch, presses)
-end
-
-function love.keypressed(key, scancode, isRepeat)
-end
-
-local function MouseHitFunc(fixture)
-	return true
+function love.mousemoved(x, y, dx, dy, istouch)
+	interface.MouseMoved(x, y, dx, dy, istouch)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
+	interface.MousePressed(x, y, button, istouch, presses)
 end
+
+function love.mousereleased(x, y, button, istouch, presses)
+	interface.MouseReleased(x, y, button, istouch, presses)
+end
+
+function love.keypressed(key, scancode, isRepeat)
+	interface.KeyPressed(key, scancode, isRepeat)
+end
+
 
 --------------------------------------------------
 -- Update
@@ -42,6 +45,7 @@ function love.update(dt)
 		dt = 0.05
 	end
 	world.Update(dt)
+	interface.UpdateInterface(dt)
 end
 
 --------------------------------------------------
@@ -49,7 +53,9 @@ end
 --------------------------------------------------
 
 function love.draw()
-	world.DrawWorld(0, 0)
+	local offX, offY = interface.GetCameraOffset()
+	world.DrawWorld(offX, offY)
+	interface.DrawInterface()
 end
 
 --------------------------------------------------
@@ -61,4 +67,5 @@ function love.load()
 	math.randomseed(os.clock())
 	DEFS.Load()
 	world = GetNewWorld(require("startLayout"))
+	interface = GetNewInterface(world)
 end

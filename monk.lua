@@ -78,9 +78,9 @@ local function New(init)
 		AddGoal(newTaskType)
 	end
 	
-	local function UpdateStationPosition(progress)
+	local function UpdateStationPosition(progress, dirMod)
 		local x, y, dir = atStation.GetTransitionPosition(atStationDoor, progress)
-		pos[1], pos[2], direction = x, y, dir
+		pos[1], pos[2], direction = x, y, dir + dirMod
 	end
 
 	--------------------------------------------------
@@ -244,7 +244,7 @@ local function New(init)
 					end
 					externalFuncs.ModifyFatigue(-0.02*dt)
 					externalFuncs.ModifyFood(-0.02*dt)
-					UpdateStationPosition(movingProgress)
+					UpdateStationPosition(movingProgress, 0)
 				end
 				
 				if movingProgress >= 1 then
@@ -267,10 +267,10 @@ local function New(init)
 			if movingProgress > 0 then
 				externalFuncs.ModifyFatigue(-0.02*dt)
 				externalFuncs.ModifyFood(-0.02*dt)
-				UpdateStationPosition(movingProgress)
+				UpdateStationPosition(movingProgress, GLOBAL.PI)
 				return
 			end
-			UpdateStationPosition(0)
+			UpdateStationPosition(0, GLOBAL.PI)
 			atStation = false
 			atStationDoor = false
 		end
@@ -284,7 +284,7 @@ local function New(init)
 		if currentGoal and currentGoal.station and currentGoal.stationDoor and not movingToPos then
 			atStation = currentGoal.station
 			atStationDoor = currentGoal.stationDoor
-			UpdateStationPosition(movingProgress)
+			UpdateStationPosition(movingProgress, 0)
 		end
 		
 	end
