@@ -94,10 +94,18 @@ local function Unskew(start,skewed,cdir,ddir)
     return {start[1] + skewed[1] * cdir[1] + skewed[2] * ddir[1], start[2] + skewed[1] * cdir[2] + skewed[2] * ddir[2]}
 end
 
+local function isRoomCollision(position, x, y, w, h)
+    if (position[1] >= x and position[2] >= y and position[1] < x + w and position[2] < y + h) then 
+        return true 
+    end
+    return false
+end
+
 local function isCollision(position, roomList)
     for _, room in roomList.Iterator() do
         local rpos, w, h = room.GetPosAndSize()
-        if (position[1] >= rpos[1] and position[2] >= rpos[2] and position[1] < rpos[1] + w and position[2] < rpos[2] + h) then 
+        --if (position[1] >= rpos[1] and position[2] >= rpos[2] and position[1] < rpos[1] + w and position[2] < rpos[2] + h) then 
+        if isRoomCollision(position, rpos[1], rpos[2], w, h) then
             return true 
         end
     end
@@ -325,7 +333,16 @@ local function FindPath(start, goal, roomList)
             local currskew = {cdist,ddist}
             local mth = skewmatrix[currskew[1]][currskew[2]].movetohere
             while mth do
-                reversepath[#reversepath+1] = {Unskew(start,currskew,cmove,dmove),(mth[1] == -2 or mth[1] == 0 or mth[1] == 2)}
+                reversepath[#reversepath+1] = {Unskew(start,currskew,cmove,dmove)}
+                if (mth[1] == -2 or mth[1] == 0 or mth[1] == 2) then -- diagonal move
+                    reversepath[#reversepath][2] = true
+                    local unskewedMTH = Unskew({0,0},mth,cmove,dmove)
+                    reversepath[#reversepath][3] = {{reversepath[#reversepath][1][1],reversepath[#reversepath][1][2]-unskewedMTH[2]},{reversepath[#reversepath][1][1]-unskewedMTH[1],reversepath[#reversepath][1][2]}} -- additional tiles that need to be free
+                else
+                    reversepath[#reversepath][2] = false
+                    reversepath[#reversepath][3] = {}
+                end
+                
                 currskew[1] = currskew[1] - mth[1]
                 currskew[2] = currskew[2] - mth[2]
                 mth = skewmatrix[currskew[1]][currskew[2]].movetohere
@@ -362,8 +379,27 @@ local function FindPath(start, goal, roomList)
 	end
     
 	function externalFuncs.NeedRepath(changeX, changeY, changeWidth, changeHeight)
-		-- Todo
-		return true
+        if not (changeX and changeY and changeWidth and changeHeight) then
+            --print('Bad repath check, assume we need one')
+            return true
+        end
+        for i = 1, popCount-1 do
+            if isRoomCollision(reversepath[i][1], changeX, changeY, changeWidth, changeHeight) then
+                --print('Repath needed')
+                return true
+            end
+            if reversepath[i][3] then
+                diagProblems = reversepath[i][3]
+                for j = 1, #diagProblems do
+                    if isRoomCollision(diagProblems[j], changeX, changeY, changeWidth, changeHeight) then
+                        --print('Repath needed')
+                        return true
+                    end 
+                end
+            end
+        end
+        --print('No need to repath')
+		return false
 	end
     
 	
