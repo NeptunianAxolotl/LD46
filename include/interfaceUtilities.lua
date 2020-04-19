@@ -81,7 +81,9 @@ local function ScreenToRoom(interface, roomList, mouseX, mouseY)
 	end
 end
 
-local function DrawMonkInterface(interface, monk)
+local function DrawMonkInterface(interface, monk, mouseX, mouseY, uiClick)
+	local uiClick
+	
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(DEFS.images.monkInterface, 0, 0, 0, 1, 1, 0, 0, 0, 0)
 	
@@ -116,7 +118,7 @@ local function DrawMonkInterface(interface, monk)
 	
 	drawY = drawY + 32
 	love.graphics.setColor(0, 0, 0, 1)
-	love.graphics.print("Saity", 20, drawY - 2)
+	love.graphics.print("Food", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
 	love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
@@ -129,9 +131,20 @@ local function DrawMonkInterface(interface, monk)
 	
 	for i = 1, #priorities do
 		love.graphics.print(" " .. i .. ". " .. priorities[i].taskType, 20, drawY)
+		if PosInRectangle(10, drawY, 180, 20, mouseX, mouseY) then
+			uiClick = {
+				monk = monk,
+				removePriority = i,
+			}
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.draw(DEFS.images.strikeout, 10, drawY, 0, 1, 1, 0, 0, 0, 0)
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		
 		drawY = drawY + 23
 	end
 	
+	return uiClick
 end
 
 return {

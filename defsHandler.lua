@@ -40,7 +40,7 @@ local function LoadRoom(filename)
             if not (door.pathFunc and door.pathLength) then
                 if door.entryPath then
                     local epath = door.entryPath
-                    if (#epath == 0) or (epath[#epath][1] ~= station.pos[1]) or (epath[#epath][1] ~= station.pos[2]) then
+                    if (#epath == 0) or (epath[#epath][1] ~= station.pos[1]) or (epath[#epath][2] ~= station.pos[2]) then
                         -- end at the station itself if we don't already
                         epath[#epath+1] = station.pos
                     end

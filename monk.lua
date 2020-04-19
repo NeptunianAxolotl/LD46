@@ -144,15 +144,12 @@ local function New(init)
 	-- Interface
 	--------------------------------------------------
 	
-	function externalFuncs.SetNewPriority(room, newTaskType, requiredRoom)
+	function externalFuncs.SetNewPriority(room, newTaskType, taskRequires, taskPrefers)
 		-- Toggle priority if the task is already at the top of the list.
 		if priorities[1] and priorities[1].taskType == newTaskType then
-			if priorities[1].requiredRoom then
-				priorities[1].requiredRoom = room
-			else
-				priorities[1].requiredRoom = nil
-			end
-			SetNewGoal(newTaskType, priorities[1].requiredRoom)
+			priorities[1].requiredRoom = taskRequires and room
+			priorities[1].preferredRoom = taskPrefers and room
+			SetNewGoal(newTaskType, priorities[1].requiredRoom, priorities[1].preferredRoom)
 			return
 		end
 		
@@ -169,12 +166,10 @@ local function New(init)
 		
 		if priMatch then
 			priorities[1] = priMatch
-			if requiredRoom then
-				priMatch.requiredRoom = room
-			else
-				priMatch.requiredRoom = nil
-			end
-			SetNewGoal(newTaskType, priMatch.requiredRoom)
+			priMatch.requiredRoom = taskRequires and room
+			priMatch.preferredRoom = taskPrefers and room
+			
+			SetNewGoal(newTaskType, priMatch.requiredRoom, priMatch.preferredRoom)
 			return
 		end
 		
@@ -185,12 +180,19 @@ local function New(init)
 		
 		priorities[1] = {
 			taskType = newTaskType,
-			requiredRoom = requiredRoom and room,
+			requiredRoom = taskRequires and room,
+			preferredRoom = taskPrefers and room,
 		}
-		SetNewGoal(newTaskType, priorities[1].requiredRoom)
+		SetNewGoal(newTaskType, priorities[1].requiredRoom, priorities[1].preferredRoom)
 	end
 
-	
+	function externalFuncs.RemovePriority(index)
+		for i = index, #priorities - 1 do
+			priorities[i] = priorities[i + 1]
+		end
+		priorities[#priorities] = nil
+	end
+
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
 		return sleep, food, resourceCarried, (currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
@@ -296,7 +298,7 @@ local function New(init)
 				end
 				if priRead ~= priWrite then
 					priorities[priRead] = nil
-					priorities[goalWrite] = priData
+					priorities[priWrite] = priData
 				end
 				priRead = priRead + 1
 				priWrite = priWrite + 1
@@ -417,6 +419,9 @@ local function New(init)
 		-- Moving towards a station entrance. Get next adjacent position
 		if currentGoal and currentGoal.currentPath then
 			movingToPos, movingDiagonal = currentGoal.currentPath.GetNextNode()
+			if movingToPos then
+				direction = UTIL.Angle(movingToPos[1] - pos[1], movingToPos[2] - pos[2])
+			end
 		end
 		
 		-- Entering a station
@@ -457,7 +462,7 @@ local function New(init)
             imageToDraw = dirlookup[imageDirection][1] or def.defaultImage
         end
         w,h = love.graphics.getDimensions(imageToDraw)
-        love.graphics.draw(imageToDraw, x, y, 0, GLOBAL.TILE_SIZE / w, GLOBAL.TILE_SIZE / h, 0, 0, 0, 0)
+        love.graphics.draw(imageToDraw, x, y, 0, 2*GLOBAL.TILE_SIZE / w, 1.2*GLOBAL.TILE_SIZE / h, 0, 0, 0, 0)
 	end
 	
 	function externalFuncs.DrawPost(interface)
@@ -473,16 +478,14 @@ local function New(init)
 		love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y + 0.14*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*food, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		
+		font.SetSize(2)
+		love.graphics.setColor(1, 1, 1)
 		local currentGoal = GetCurrentGoal()
 		if currentGoal and currentGoal.taskType then
-			font.SetSize(2)
 			--local text = love.graphics.newText(font.GetFont(), text)
-			love.graphics.setColor(1, 1, 1)
 			love.graphics.print(currentGoal.taskType, x + 0.1*GLOBAL.TILE_SIZE, y + 0.3*GLOBAL.TILE_SIZE)
-			if currentGoal.station then
-				love.graphics.print(currentGoal.station.index, x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
-			end
 		end
+		love.graphics.print(math.floor(direction*180/math.pi), x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
 	end
 	
 	return externalFuncs
