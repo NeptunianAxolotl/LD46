@@ -66,12 +66,39 @@ local function ReserveClosestStation(monk, requiredRoom, preferredRoom, pos, pot
 	if not closeStation then
 		return false
 	end
-	
-	if not alreadySetGoalStation then
-		closeStation.AddReservation()
-	end
+	closeStation.AddReservation()
 	
 	return closeStation
+end
+
+local function ReserveClosestStationMultiType(monk, requiredRoom, preferredRoom, stationsByUse, taskTypes)
+	local pos = monk.GetPosition()
+	local closeStation
+	local closeTaskType
+	local costDist
+	for i = 1, #taskTypes do
+		local potentialStations = stationsByUse[taskTypes[i]]
+		for _, station in potentialStations.Iterator() do
+			if ((not requiredRoom) or requiredRoom.index == station.GetParent().index) and station.IsAvailible(monk) then
+				local dist = station.Distance(pos[1], pos[2])
+				if preferredRoom and preferredRoom.index == station.GetParent().index then
+					dist = dist - 1000000
+				end
+				if (not costDist) or (dist < costDist) then
+					closeStation = station
+					costDist = dist
+					closeTaskType = taskTypes[i]
+				end
+			end
+		end
+	end
+	
+	if not closeStation then
+		return false
+	end
+	closeStation.AddReservation()
+	
+	return closeStation, closeTaskType
 end
 
 local function CheckFreeStation(monk, potentialStations, requiredRoom)
@@ -86,5 +113,6 @@ end
 return {
 	FindStationPath = FindStationPath,
 	ReserveClosestStation = ReserveClosestStation,
+	ReserveClosestStationMultiType = ReserveClosestStationMultiType,
 	CheckFreeStation = CheckFreeStation,
 }

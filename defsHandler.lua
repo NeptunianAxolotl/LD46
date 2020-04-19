@@ -12,6 +12,7 @@ local roomDefFiles = {
 	"dining",
 	"woodpile",
 	"tree",
+	"garden",
 }
 
 --------------------------------------------------

@@ -21,12 +21,12 @@ local data = {
 	height = 1,
 	stations = {
 		{
-			pos = {1, 0},
+			pos = {0.9, 0},
 			taskType = "chop",
 			PerformAction = ChopAction,
 			doors = {
                 {
-                    entryPath = {}
+                    entryPath = {{1, 0}}
                 },
 			},
 		},

@@ -35,6 +35,10 @@ local startConfig = {
 			pos = {8, 6},
 		},
 		{
+			defName = "garden",
+			pos = {12, 6},
+		},
+		{
 			defName = "field",
 			pos = {8, 1},
 		},

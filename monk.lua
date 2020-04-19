@@ -58,6 +58,10 @@ local function New(init)
 	-- Goal Handling
 	--------------------------------------------------
 	
+	local function GetCurrentGoal()
+		return goals[#goals]
+	end
+	
 	local function AddGoal(newTaskType, stationsByUse, placeReservation, requiredRoom, preferredRoom, alreadyFoundStation)
 		if #goals > 0 then
 			goals[#goals].wantRepath = true
@@ -116,6 +120,17 @@ local function New(init)
 		end
 	end
 
+	local function UpdateSubgoal(dt, stationsByUse)
+		local currentGoal = GetCurrentGoal()
+		local subGoal, foundStation, requiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
+		while subGoal do
+			AddGoal(subGoal, stationsByUse, true, requiredRoom, nil, foundStation)
+			currentGoal = GetCurrentGoal()
+			subGoal, foundStation, requiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
+		end
+		return currentGoal
+	end
+
 	--------------------------------------------------
 	-- Utilities
 	--------------------------------------------------
@@ -134,10 +149,6 @@ local function New(init)
 			return "eat"
 		end
 		return false
-	end
-	
-	local function GetCurrentGoal()
-		return goals[#goals]
 	end
 	
 	--------------------------------------------------
@@ -346,12 +357,7 @@ local function New(init)
 		end
 		
 		-- Add any required subgoals.
-		local subGoal, subGoalRequiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
-		while subGoal do
-			AddGoal(subGoal, stationsByUse, true, subGoalRequiredRoom)
-			currentGoal = GetCurrentGoal()
-			subGoal, subGoalRequiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
-		end
+		currentGoal = UpdateSubgoal(dt, stationsByUse)
 		
 		-- Find a station to be at.
 		if currentGoal and (currentGoal.wantRepath or (not currentGoal.station)) then

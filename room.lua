@@ -115,6 +115,9 @@ local function New(init, stationsByUse)
 		if wantDestruction and CheckDestroy(monkList) then
 			return true -- Remove from roomList
 		end
+		if def.UpdateFunc then
+			def.UpdateFunc(externalFuncs, dt)
+		end
 	end
 	
 	function externalFuncs.Draw(interface)
