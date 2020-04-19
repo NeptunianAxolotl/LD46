@@ -32,7 +32,24 @@ local function CheckStructurePlacement(roomList, monkList, def, placeX, placeY)
 	return true
 end
 
+local function MonkToScreen(interface, monk)
+	local mx, my = monk.GetNonIntegerPos()
+	local sx, sy = interface.WorldToScreen(mx, my, -0.2, 0.6)
+	return sx, sy, 0.6*GLOBAL.TILE_SIZE, 1*GLOBAL.TILE_SIZE
+end
+
+local function ScreenToMonk(interface, monkList, mouseX, mouseY)
+	for _, monk in monkList.Iterator() do
+		local x, y, w, h = MonkToScreen(interface, monk)
+		if PosInRectangle(x, y, w, h, mouseX, mouseY) then
+			return monk
+		end
+	end
+end
+
 return {
 	SnapStructure = SnapStructure,
 	CheckStructurePlacement = CheckStructurePlacement,
+	MonkToScreen = MonkToScreen,
+	ScreenToMonk = ScreenToMonk,
 }

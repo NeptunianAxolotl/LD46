@@ -49,9 +49,9 @@ local function New(def, parent, stationsByUse)
 	
 	function externalFuncs.Distance(x, y, stationDoor)
 		if stationDoor then
-			return math.abs(x - doorPosition[stationDoor][1]) +  math.abs(y - doorPosition[stationDoor][2])
+			return UTIL.Dist(x, y, doorPosition[stationDoor][1], doorPosition[stationDoor][2])
 		end
-		return math.abs(x - pos[1]) +  math.abs(y - pos[2])
+		return UTIL.Dist(x, y, pos[1], pos[2])
 	end
 	
 	function externalFuncs.GetDoorPosition(stationDoor)

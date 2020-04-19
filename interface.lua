@@ -45,6 +45,7 @@ local function GetNewInterface(world)
 					placingStructure = false
 				end
 			end
+			return
 		end
 	end
 
@@ -102,6 +103,13 @@ local function GetNewInterface(world)
 			x, y = externalFuncs.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
 			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
 			love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
+		else
+			local monk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
+			if monk then
+				local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, monk)
+				love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+				love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
+			end
 		end
 	end
 	

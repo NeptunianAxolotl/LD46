@@ -177,6 +177,10 @@ local function New(init)
 		return pos, movingToPos
 	end
 	
+	function externalFuncs.GetDirection()
+		return direction
+	end
+	
 	function externalFuncs.CheckRepath(x, y, w, h)
 		if #goals > 0 and goals[#goals].currentPath and goals[#goals].currentPath.NeedRepath(x, y, w, h) then
 			goals[#goals].wantRepath = true
@@ -367,14 +371,18 @@ local function New(init)
 	--------------------------------------------------
 	-- Drawing
 	--------------------------------------------------
-	local function GetDrawPos(interface)
+	function externalFuncs.GetNonIntegerPos()
 		if movingToPos then
 			local x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)
 			local y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)
-			x, y = interface.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
 			return x, y
 		end
-		local x, y = interface.WorldToScreen(pos[1], pos[2], def.drawOriginX, def.drawOriginY)
+		return pos[1], pos[2]
+	end
+	
+	local function GetDrawPos(interface)
+		local x, y = externalFuncs.GetNonIntegerPos()
+		x, y = interface.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
 		return x, y
 	end
 
