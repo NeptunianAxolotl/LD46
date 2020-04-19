@@ -91,7 +91,17 @@ end
 
 local function LoadMonk(filename)
 	local monkDef = require(filename)
-	monkDef.image = love.graphics.newImage(IMAGE_PATH .. monkDef.image)
+    monkDef.defaultImage = love.graphics.newImage(IMAGE_PATH .. monkDef.defaultImage)
+    for k, v in pairs(monkDef.images) do
+        local filename = v.file
+        local nframes = v.frames
+        local extension = v.ext
+        if nframes == 0 then
+            monkDef.images[k] = love.graphics.newImage(IMAGE_PATH .. filename .. extension)
+        else
+            error('Animation not yet supported')
+        end
+    end
 	return monkDef
 end
 
