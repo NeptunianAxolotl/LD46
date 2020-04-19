@@ -35,8 +35,53 @@ local function LoadRoom(filename)
 	for i = 1, #roomDef.stations do
 		local station = roomDef.stations[i]
 		for j = 1, #station.doors do
-			local x, y = station.doors[j].pathFunc(0)
-			station.doors[j].pos = {x, y}
+            local door = station.doors[j]
+            if not (door.pathFunc and door.pathLength) then
+                if door.entryPath then
+                    local epath = door.entryPath
+                    if (epath[#epath][1] ~= station.pos[1] or epath[#epath][1] ~= station.pos[2]) then
+                        -- end at the station itself if we don't already
+                        epath[#epath+1] = station.pos
+                    end
+                    local stepLenCumu = {}
+                    local stepAng = {}
+                    stepLenCumu[1] = 0
+                    for k = 1, #epath-1 do
+                        stepLenCumu[k+1] = stepLenCumu[k] + UTIL.Dist(epath[k][1],epath[k][2],epath[k+1][1],epath[k+1][2])
+                        stepAng[k] = UTIL.Angle(epath[k+1][1]-epath[k][1],epath[k+1][2]-epath[k][2])
+                    end
+                    door.pathLength = stepLenCumu[#epath]
+                    
+                    door.pathFunc = function (progress)
+                        local dTravelled = progress * door.pathLength
+                        for m = 1, #epath-1 do
+                            if dTravelled >= stepLenCumu[m] and dTravelled <= stepLenCumu[m+1] then
+                                -- found the right step, find distance along it
+                                local fracOfStep = (dTravelled - stepLenCumu[m]) / (stepLenCumu[m+1] - stepLenCumu[m])
+                                return (1-fracOfStep)*epath[m][1]+fracOfStep*epath[m+1][1], (1-fracOfStep)*epath[m][2]+fracOfStep*epath[m+1][2], stepAng[m]
+                            end
+                        end
+                        -- check for out of bounds
+                        if dTravelled < stepLenCumu[1] then
+                            return epath[1][1], epath[1][2], stepAng[1]
+                        end
+                        if dTravelled > stepLenCumu[#epath] then
+                            return epath[#epath][1], epath[#epath][2], stepAng[#epath-1]
+                        end
+                        print(progress)
+                        print(dTravelled)
+                        error('Error in calculated pathFunc')
+                    end
+                else
+                    error('Neither pathFunc+pathLength nor entryPath defined for room ' .. roomdef.name .. ' station ' .. i .. ' door ' .. j )
+                end
+            end
+            if (door.pathFunc and door.pathLength) then
+                local x, y = door.pathFunc(0)
+                door.pos = {x, y}
+            else
+               error('pathFunc+pathLength not correctly evaluated for room ' .. roomdef.name .. ' station ' .. i .. ' door ' .. j )
+            end
 		end
 	end
 	
