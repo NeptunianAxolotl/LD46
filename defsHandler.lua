@@ -108,13 +108,13 @@ local function LoadMonk(filename)
     monkDef.defaultImage = love.graphics.newImage(IMAGE_PATH .. monkDef.defaultImage)
     for k, v in pairs(monkDef.images) do
         v.spriteSheet = love.graphics.newImage(IMAGE_PATH .. v.file)
-        print(IMAGE_PATH .. v.file)
-        print(v.spriteSheet)
-        print(v.spriteSheet:getHeight())
-        print(v.spriteSheet:getDimensions())
+        -- print(IMAGE_PATH .. v.file)
+        -- print(v.spriteSheet)
+        -- print(v.spriteSheet:getHeight())
+        -- print(v.spriteSheet:getDimensions())
         v.quads = {}
         for x = 0, v.spriteSheet:getWidth() - v.width, v.width do
-            print(x)
+            --print(x)
             table.insert(v.quads, love.graphics.newQuad(x, 0, v.width, v.spriteSheet:getHeight(), v.spriteSheet:getDimensions()))
         end
     end
