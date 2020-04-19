@@ -63,8 +63,18 @@ local function GetNewInterface(world)
 		return math.floor(cameraX), math.floor(cameraY)
 	end
 	
-	function externalFuncs.WorldToScreen(x, y)
-		return (x+y)*GLOBAL.TILE_SIZE/2 - math.floor(cameraX), (y-x)*GLOBAL.TILE_SIZE/2 - math.floor(cameraY)
+	function externalFuncs.WorldToScreen(x, y, originX, originY)
+		local offsetX, offsetY = 0, 0
+		if originX then
+			offsetX = math.floor(originX * GLOBAL.TILE_SIZE)
+		end
+		if originY then
+			offsetY = math.floor(originY * GLOBAL.TILE_SIZE)
+		end
+		return (x+y)*GLOBAL.TILE_SIZE/2 - math.floor(cameraX) + offsetX, (y-x)*GLOBAL.TILE_SIZE/2 - math.floor(cameraY) + offsetY
+	end
+	
+	function externalFuncs.ScreenToWorld(x, y)
 	end
 
 	--------------------------------------------------

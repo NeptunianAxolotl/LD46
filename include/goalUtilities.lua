@@ -34,10 +34,12 @@ local function CheckSubGoal(monk, currentGoal)
 	end
 	if currentGoal.taskType == "cook" then
 		return CheckCookGoal(monk)
-	elseif currentGoal.taskType == "make-_ood" then
+	elseif currentGoal.taskType == "make_wood" then
 		return CheckMakeWoodGoal(monk)
 	elseif currentGoal.taskType == "build" then
 		return CheckBuildGoal(monk, currentGoal)
+	elseif currentGoal.taskType == "get_wood" and not currentGoal.station then
+		return "make_wood"
 	end
 	return false
 end

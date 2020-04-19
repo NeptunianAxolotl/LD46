@@ -9,8 +9,8 @@ local data = {
 	image = "dorm.png",
 	width = 3,
 	height = 2,
-    drawOriginX = -3/2,
-	drawOriginY = 3/2,
+    drawOriginX = 0,
+	drawOriginY = 0,
 	stations = {
 		{
 			pos = {0, 0},

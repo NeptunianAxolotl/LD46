@@ -124,6 +124,9 @@ local function New(init)
 		if currentGoal and (currentGoal.taskType == "sleep" or currentGoal.taskType == "eat") then
 			return false -- We are already pursuing a want.
 		end
+		if resourceCarried then
+			--return false
+		end
 		if sleep < wantThreashold then
 			return "sleep"
 		end
@@ -360,24 +363,24 @@ local function New(init)
 	--------------------------------------------------
 	-- Drawing
 	--------------------------------------------------
-	local function GetDrawPos()
+	local function GetDrawPos(interface)
 		if movingToPos then
 			local x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)
 			local y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)
-			return x - def.drawOriginX, y - def.drawOriginY
+			x, y = interface.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
+			return x, y
 		end
-		return pos[1] - def.drawOriginX, pos[2] - def.drawOriginY
+		local x, y = interface.WorldToScreen(pos[1], pos[2], def.drawOriginX, def.drawOriginY)
+		return x, y
 	end
 
 	function externalFuncs.Draw(interface)
-		local x, y = GetDrawPos()
-		x, y = interface.WorldToScreen(x, y)
+		local x, y = GetDrawPos(interface)
 		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 	end
 	
 	function externalFuncs.DrawPost(interface)
-		local x, y = GetDrawPos()
-		x, y = interface.WorldToScreen(x, y)
+		local x, y = GetDrawPos(interface)
 		
 		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )

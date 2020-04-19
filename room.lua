@@ -114,7 +114,7 @@ local function New(init, stationsByUse)
 			return
 		end
 
-		local x, y = interface.WorldToScreen(pos[1] - def.drawOriginX, pos[2] - def.drawOriginY)
+		local x, y = interface.WorldToScreen(pos[1], pos[2], def.drawOriginX, def.drawOriginY)
 		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		
 		if def.DrawFunc then

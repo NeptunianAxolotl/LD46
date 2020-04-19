@@ -39,12 +39,12 @@ local data = {
 	image = "field.png",
 	width = 3,
 	height = 3,
-    drawOriginX = -3/2,
-	drawOriginY = 3/2,
+    drawOriginX = 0,
+	drawOriginY = -0.5,
 	DrawFunc = DrawField,
 	stations = {
 		{
-			pos = {1, 0.5},
+			pos = {0, 0},
 			taskType = "make_grain",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
@@ -55,7 +55,7 @@ local data = {
 			},
 		},
 		{
-			pos = {1, 1.5},
+			pos = {2, 2},
 			taskType = "make_grain",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,

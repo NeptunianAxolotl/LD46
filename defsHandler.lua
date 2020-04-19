@@ -49,7 +49,7 @@ local function LoadRoom(filename)
                     stepLenCumu[1] = 0
                     for k = 1, #epath - 1 do
                         stepLenCumu[k + 1] = stepLenCumu[k] + UTIL.Dist(epath[k][1],epath[k][2],epath[k+1][1],epath[k+1][2])
-                        stepAng[k] = UTIL.Angle(epath[k+1][1]-epath[k][1],epath[k+1][2]-epath[k][2])
+                        stepAng[k] = UTIL.Angle(epath[k+1][1] - epath[k][1],epath[k+1][2] - epath[k][2])
                     end
                     door.pathLength = stepLenCumu[#epath]
                     
@@ -59,15 +59,15 @@ local function LoadRoom(filename)
                             if dTravelled >= stepLenCumu[m] and dTravelled <= stepLenCumu[m + 1] then
                                 -- found the right step, find distance along it
                                 local fracOfStep = (dTravelled - stepLenCumu[m]) / (stepLenCumu[m + 1] - stepLenCumu[m])
-                                return (1-fracOfStep)*epath[m][1]+fracOfStep*epath[m+1][1], (1-fracOfStep)*epath[m][2]+fracOfStep*epath[m+1][2], stepAng[m]
+                                return (1-fracOfStep)*epath[m][1]+fracOfStep*epath[m+1][1], (1-fracOfStep)*epath[m][2]+fracOfStep*epath[m+1][2], stepAng[m] or 0
                             end
                         end
                         -- check for out of bounds
                         if dTravelled <= stepLenCumu[1] then
-                            return epath[1][1], epath[1][2], stepAng[1]
+                            return epath[1][1], epath[1][2], stepAng[1] or 0
                         end
                         if dTravelled >= stepLenCumu[#epath] then
-                            return epath[#epath][1], epath[#epath][2], stepAng[#epath-1]
+                            return epath[#epath][1], epath[#epath][2], stepAng[#epath-1] or 0
                         end
                         print(progress)
                         print(dTravelled)
