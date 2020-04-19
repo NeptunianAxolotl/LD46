@@ -37,6 +37,8 @@ end
 local data = {
 	name = "dining",
 	image = "dining.png",
+	drawOriginX = 0,
+	drawOriginY = 0,
 	width = 3,
 	height = 3,
 	DrawFunc = DrawDining,

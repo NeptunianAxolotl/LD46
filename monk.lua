@@ -34,9 +34,6 @@ local function New(init)
 	local movingToPos = false
 	local movingDiagonal = false
 	local movingProgress = 0
-	
-	local originX = GLOBAL.TILE_SIZE/2
-	local originY = GLOBAL.TILE_SIZE/2
 
 	local externalFuncs = {}
 	
@@ -329,17 +326,15 @@ local function New(init)
 		if movingToPos then
 			local x = (pos[1]*(1 - movingProgress) + movingToPos[1]*movingProgress)
 			local y = (pos[2]*(1 - movingProgress) + movingToPos[2]*movingProgress)
-			return x + 0.5, y + 0.5
+			return x - def.drawOriginX, y - def.drawOriginY
 		end
-		local x = pos[1]
-		local y = pos[2]
-		return x + 0.5, y + 0.5
+		return pos[1] - def.drawOriginX, pos[2] - def.drawOriginY
 	end
 
 	function externalFuncs.Draw(interface)
 		local x, y = GetDrawPos()
 		x, y = interface.WorldToScreen(x, y)
-		love.graphics.draw(def.image, x, y, direction, 1, 1, originX, originY, 0, 0)
+		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 	end
 	
 	function externalFuncs.DrawPost(interface)
@@ -347,23 +342,23 @@ local function New(init)
 		x, y = interface.WorldToScreen(x, y)
 		
 		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.5*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
-		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.5*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*sleep, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y, 0.9*GLOBAL.TILE_SIZE*sleep, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		
 		love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.36*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y + 0.14*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
-		love.graphics.rectangle("fill", x - 0.45*GLOBAL.TILE_SIZE, y - 0.36*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*food, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+		love.graphics.rectangle("fill", x + 0.05*GLOBAL.TILE_SIZE, y + 0.14*GLOBAL.TILE_SIZE, 0.9*GLOBAL.TILE_SIZE*food, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 		
 		local currentGoal = goals[#goals]
 		if currentGoal and currentGoal.taskType then
 			font.SetSize(2)
 			--local text = love.graphics.newText(font.GetFont(), text)
 			love.graphics.setColor(1, 1, 1)
-			love.graphics.print(currentGoal.taskType, x - 0.4*GLOBAL.TILE_SIZE, y - 0.2*GLOBAL.TILE_SIZE)
+			love.graphics.print(currentGoal.taskType, x + 0.1*GLOBAL.TILE_SIZE, y + 0.3*GLOBAL.TILE_SIZE)
 			if currentGoal.station then
-				love.graphics.print(currentGoal.station.index, x - 0.4*GLOBAL.TILE_SIZE, y + 0.1*GLOBAL.TILE_SIZE)
+				love.graphics.print(currentGoal.station.index, x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
 			end
 		end
 	end

@@ -17,7 +17,7 @@ local startConfig = {
 			pos = {9, 9},
 		},
 		{
-			pos = {2, 3},
+			pos = {0, 0},
 		},
 	},
 	rooms = {
