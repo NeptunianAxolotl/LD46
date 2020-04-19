@@ -9,8 +9,10 @@ local data = {
 	"chop",
 	"make_wood",
 	"get_wood",
+	"add_wood",
 	"make_stone",
 	"get_stone",
+	"add_stone",
 }
 
 return data

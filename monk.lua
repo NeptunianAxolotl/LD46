@@ -1,5 +1,5 @@
-local stationUtilities = require("include/stationUtilities")
-local goalUtilities = require("include/goalUtilities")
+stationUtilities = require("include/stationUtilities")
+goalUtilities = require("include/goalUtilities")
 
 local function New(init)
 	local food = 1
@@ -141,7 +141,7 @@ local function New(init)
 	--------------------------------------------------
 
 	function externalFuncs.ModifyFatigue(change)
-		sleep = sleep + change
+		sleep = sleep + change*GLOBAL.DRAIN_MULT
 		if change < 0 and sleep < 0 then
 			sleep = 0
 			return true
@@ -153,7 +153,7 @@ local function New(init)
 	end
 	
 	function externalFuncs.ModifyFood(change)
-		food = food + change
+		food = food + change*GLOBAL.DRAIN_MULT
 		if change < 0 and food < 0 then
 			food = 0
 			return true
@@ -280,11 +280,11 @@ local function New(init)
 		end
 		
 		-- Add any required subgoals.
-		local subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
+		local subGoal, subGoalRequiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
 		while subGoal do
-			AddGoal(subGoal, stationsByUse, true)
+			AddGoal(subGoal, stationsByUse, true, subGoalRequiredRoom)
 			currentGoal = goals[#goals]
-			subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
+			subGoal, subGoalRequiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
 		end
 		
 		-- Find a station to be at.
@@ -321,12 +321,16 @@ local function New(init)
 					currentGoal.workData = currentGoal.workData or {}
 					local done = atStation.PerformAction(externalFuncs, currentGoal.workData, dt)
 					if done then
+						--print("RemoveCurrentGoal", #goals)
+						--for i = 1, #goals do
+						--	print(i, goals[i].taskType)
+						--end
 						RemoveCurrentGoal()
 					end
 				end
 				return
 			end
-			
+		
 			-- Leave the station
 			if not atStationDoor then
 				atStationDoor = atStation.GetRandomDoor()

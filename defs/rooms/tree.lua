@@ -1,6 +1,6 @@
 
 local function ChopAction(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("progress", dt*0.2, 1)
+	local boundReached = room.AddResource("progress", dt*0.6, 1)
 	monk.ModifyFatigue(-0.04*dt)
 	monk.ModifyFood(-0.06*dt)
 	if boundReached then

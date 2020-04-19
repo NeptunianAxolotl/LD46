@@ -36,7 +36,8 @@ local function GetNewInterface(world)
 				placingStructure = false
 			else
 				local def = DEFS.roomDefNames[placingStructure]
-				local px, py = interfaceUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
+				local px, py = externalFuncs.ScreenToWorld(mouseX, mouseY)
+				px, py = interfaceUtilities.SnapStructure(def, px, py)
 				local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, px, py)
 				
 				if canPlace then
@@ -74,7 +75,11 @@ local function GetNewInterface(world)
 		return (x+y)*GLOBAL.TILE_SIZE/2 - math.floor(cameraX) - offsetX, (y-x)*GLOBAL.TILE_SIZE/2 - math.floor(cameraY) - offsetY
 	end
 	
-	function externalFuncs.ScreenToWorld(x, y)
+	function externalFuncs.ScreenToWorld(sx, sy, integer)
+		if integer then
+			return math.floor((sx+math.floor(cameraX)-sy-math.floor(cameraY))/GLOBAL.TILE_SIZE), math.floor((sx+math.floor(cameraX)+sy+math.floor(cameraY))/GLOBAL.TILE_SIZE)
+		end
+		return (sx+math.floor(cameraX)-sy-math.floor(cameraY))/GLOBAL.TILE_SIZE, (sx+math.floor(cameraX)+sy+math.floor(cameraY))/GLOBAL.TILE_SIZE
 	end
 
 	--------------------------------------------------
@@ -90,10 +95,11 @@ local function GetNewInterface(world)
 		
 		if placingStructure then
 			local def = DEFS.roomDefNames[placingStructure]
-			local x, y = interfaceUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
+			local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
+			x, y = interfaceUtilities.SnapStructure(def, x, y)
 			local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
 			
-			x, y = externalFuncs.WorldToScreen(x, y)
+			x, y = externalFuncs.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
 			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
 			love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		end

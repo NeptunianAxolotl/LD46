@@ -11,7 +11,7 @@ local function FieldAction(station, room, monk, workData, dt)
 end
 
 local function CollectAction(station, room, monk, workData, dt)
-	if room.GetResourceCount("grain") > 1 then
+	if room.GetResourceCount("grain") >= 1 then
 		room.AddResource("grain", -1)
 		monk.SetResource("grain", 1)
 		return true

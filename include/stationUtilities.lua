@@ -21,9 +21,9 @@ local function FindStationPath(monk, pos, roomList, potentialStations, requiredR
 	if not closeStation then
 		local costDist
 		for _, station in potentialStations.Iterator() do
-			if ((not requiredRoom) or requiredRoom.index == station.getParent().index) and station.IsAvailible(monk) then
+			if ((not requiredRoom) or requiredRoom.index == station.GetParent().index) and station.IsAvailible(monk) then
 				local dist = station.Distance(pos[1], pos[2])
-				if preferredRoom and preferredRoom.index == station.getParent().index then
+				if preferredRoom and preferredRoom.index == station.GetParent().index then
 					dist = dist - 1000000
 				end
 				local dist = station.Distance(pos[1], pos[2])
@@ -52,9 +52,9 @@ local function ReserveClosestStation(monk, requiredRoom, preferredRoom, pos, pot
 	local closeStation
 	local costDist
 	for _, station in potentialStations.Iterator() do
-		if ((not requiredRoom) or requiredRoom.index == station.getParent().index) and station.IsAvailible(monk) then
+		if ((not requiredRoom) or requiredRoom.index == station.GetParent().index) and station.IsAvailible(monk) then
 			local dist = station.Distance(pos[1], pos[2])
-			if preferredRoom and preferredRoom.index == station.getParent().index then
+			if preferredRoom and preferredRoom.index == station.GetParent().index then
 				dist = dist - 1000000
 			end
 			if (not costDist) or (dist < costDist) then
@@ -77,7 +77,7 @@ end
 
 local function CheckFreeStation(monk, potentialStations, requiredRoom)
 	for _, station in potentialStations.Iterator() do
-		if ((not requiredRoom) or requiredRoom.index == station.getParent().index) and station.IsAvailible(monk) then
+		if ((not requiredRoom) or requiredRoom.index == station.GetParent().index) and station.IsAvailible(monk) then
 			return true
 		end
 	end

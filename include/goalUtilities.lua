@@ -8,7 +8,7 @@ end
 
 local function CheckMakeWoodGoal(monk)
 	local resource, count = monk.GetResource()
-	if resource ~= "makeWood" or count < 1 then
+	if resource ~= "log" or count < 1 then
 		return "chop"
 	end
 end
@@ -17,21 +17,20 @@ local function CheckBuildGoal(monk, currentGoal)
 	if not currentGoal.station then
 		return
 	end
-	local stationDef = currentGoal.station.GetDef()
+	local room = currentGoal.station.GetParent()
 	
-	if stationDef.taskSubType then
-		local resource, count = monk.GetResource()
-		if resource == stationDef.taskSubType and count >= 1 then
-			return
-		end
-		return "get_" .. stationDef.taskSubType
+	if room.GetResourceCount("reqWood") > 0 then
+		return "add_wood", room
+	elseif room.GetResourceCount("reqStone") > 0 then
+		return "add_stone", room
 	end
 end
 
-local function CheckSubGoal(monk, currentGoal)
+local function CheckSubGoal(monk, currentGoal, stationsByUse)
 	if not currentGoal then
 		return false
 	end
+	
 	if currentGoal.taskType == "cook" then
 		return CheckCookGoal(monk)
 	elseif currentGoal.taskType == "make_wood" then
@@ -39,7 +38,18 @@ local function CheckSubGoal(monk, currentGoal)
 	elseif currentGoal.taskType == "build" then
 		return CheckBuildGoal(monk, currentGoal)
 	elseif currentGoal.taskType == "get_wood" and not currentGoal.station then
-		return "make_wood"
+		local potentialStations = stationsByUse[currentGoal.taskType]
+		local pos = monk.GetPosition()
+		currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, pos, potentialStations)
+		currentGoal.wantRepath = true
+		if not currentGoal.station then
+			return "make_wood"
+		end
+	elseif currentGoal.taskType == "add_wood" then
+		local resource, count = monk.GetResource()
+		if resource ~= "wood" or count < 1 then
+			return "get_wood"
+		end
 	end
 	return false
 end

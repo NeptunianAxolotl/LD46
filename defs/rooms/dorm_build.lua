@@ -15,14 +15,11 @@ local function DoBuildWood(station, room, monk, workData, dt)
 	workData.timer = (workData.timer or 0) + 0.6*dt
 	monk.ModifyFatigue(-0.05*dt)
 	monk.ModifyFood(-0.05*dt)
-	if workData.timer > 1 and room.GetResourceCount("reqWood") > 1 then
+	if workData.timer > 1 and room.GetResourceCount("reqWood") >= 1 then
 		room.AddResource("reqWood", -1)
 		monk.SetResource(false, 0)
+		return true
 	end
-end
-
-local function CheckResources(station, room, monk)
-	return room.GetResourceCount("reqWood") == 0 and room.GetResourceCount("reqStone") == 0
 end
 
 local data = {
@@ -34,14 +31,14 @@ local data = {
 	width = 3,
 	height = 2,
 	spawnResources = {
-		{"reqWood", 3},
+		{"reqWood", 2},
 	},
 	stations = {
 		{
 			pos = {1, 0.5},
 			taskType = "build",
 			PerformAction = DoBuild,
-			AvailibleFunc = CheckResources,
+			subgoalInheritRoom = true,
 			doors = {
                 {
                     entryPath = {{1,-1}}
@@ -53,9 +50,9 @@ local data = {
 		},
 		{
 			pos = {1, 0.5},
-			taskType = "build",
-			taskSubType = "wood",
+			taskType = "add_wood",
 			PerformAction = DoBuildWood,
+			allowParallelUse = true,
 			requireResources = {
 				{
 					resType = "reqWood",

@@ -1,10 +1,6 @@
 
-local function MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
-	local x, y = cameraX + mouseX - 0.5*GLOBAL.TILE_SIZE*def.width, cameraY + mouseY - 0.5*GLOBAL.TILE_SIZE*def.height
-	
-	x = math.floor((x + 0.5*GLOBAL.TILE_SIZE)/GLOBAL.TILE_SIZE)
-	y = math.floor((y + 0.5*GLOBAL.TILE_SIZE)/GLOBAL.TILE_SIZE)
-	
+local function SnapStructure(def, mouseX, mouseY)
+	local x, y = math.floor(mouseX - 0.5*def.width + 0.5), math.floor(mouseY - 0.5*def.height + 0.5)
 	return x, y
 end
 
@@ -37,6 +33,6 @@ local function CheckStructurePlacement(roomList, monkList, def, placeX, placeY)
 end
 
 return {
-	MouseToStructurePos = MouseToStructurePos,
+	SnapStructure = SnapStructure,
 	CheckStructurePlacement = CheckStructurePlacement,
 }

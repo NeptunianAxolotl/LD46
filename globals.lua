@@ -25,6 +25,8 @@ local globals = {
 	
 	MOTION_HUNGER = -0.02,
 	MOTION_FATIGUE = -0.02,
+	
+	DRAIN_MULT = 0.2,
 }
 
 return globals

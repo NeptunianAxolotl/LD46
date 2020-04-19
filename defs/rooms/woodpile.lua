@@ -13,7 +13,7 @@ local function DoProcess(station, room, monk, workData, dt)
 end
 
 local function CollectAction(station, room, monk, workData, dt)
-	if room.GetResourceCount("wood") > 1 then
+	if room.GetResourceCount("wood") >= 1 then
 		room.AddResource("wood", -1)
 		monk.SetResource("wood", 1)
 		return true
@@ -40,7 +40,7 @@ local data = {
 	name = "woodpile",
 	image = "woodPile.png",
 	drawOriginX = 0,
-	drawOriginY = 0.5,
+	drawOriginY = 1,
 	width = 2,
 	height = 1,
 	DrawFunc = DrawSupply,

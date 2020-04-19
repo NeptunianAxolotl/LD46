@@ -50,10 +50,6 @@ local startConfig = {
 			defName = "tree",
 			pos = {-2, 7},
 		},
-		{
-			defName = "tree",
-			pos = {-12, 7},
-		},
 	}
 
 }
