@@ -36,7 +36,7 @@ end
 
 local data = {
 	name = "field",
-	image = "field.png",
+	image = "fields.png",
 	clickTask = "make_grain",
 	width = 3,
 	height = 3,
@@ -45,29 +45,35 @@ local data = {
 	DrawFunc = DrawField,
 	stations = {
 		{
-			pos = {0, 0},
+			pos = {1.4, 0.5},
 			taskType = "make_grain",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
 			doors = {
                 {
-                    entryPath = {{-1,1},{0,1}}
+                    entryPath = {{1,3}, {1.4, 2.6}}
+                },
+                {
+                    entryPath = {{1,-1}, {1.4, 0.6}}
                 },
 			},
 		},
 		{
-			pos = {2, 2},
+			pos = {1.4, 1.5},
 			taskType = "make_grain",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
 			doors = {
                 {
-                    entryPath = {{-1,1},{0,1}}
+                    entryPath = {{1,3}, {1.4, 2.6}}
+                },
+                {
+                    entryPath = {{1,-1}, {1.4, 0.6}}
                 },
 			},
 		},
 		{
-			pos = {0, 2},
+			pos = {-0.4, 0.7},
 			taskType = "get_grain",
 			PerformAction = CollectAction,
 			allowParallelUse = true,
@@ -79,7 +85,7 @@ local data = {
 			},
 			doors = {
                 {
-                    entryPath = {{0,3}}
+                    entryPath = {{-1,1}, {-0.7, 0.7}}
                 },
 			},
 		},
