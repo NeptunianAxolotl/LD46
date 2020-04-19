@@ -5,6 +5,7 @@ local data = {
 	"getGrain",
 	"cook",
 	"eat",
+	"build",
 }
 
 return data

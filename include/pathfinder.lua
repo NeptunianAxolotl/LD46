@@ -361,6 +361,11 @@ local function FindPath(start, goal, roomList)
 		return false, false
 	end
     
+	function externalFuncs.NeedRepath(changeX, changeY, changeWidth, changeHeight)
+		-- Todo
+		return true
+	end
+    
 	
 	return externalFuncs
 end

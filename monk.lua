@@ -137,6 +137,16 @@ local function New(init)
 		resourceCount = newCount
 	end
 	
+	function externalFuncs.GetPosition()
+		return pos, movingToPos
+	end
+	
+	function externalFuncs.CheckRepath(x, y, w, h)
+		if #goals > 0 and goals[#goals].currentPath and goals[#goals].currentPath.NeedRepath(x, y, w, h) then
+			goals[#goals].wantRepath = true
+		end
+	end
+	
 	--------------------------------------------------
 	-- Room Status
 	--------------------------------------------------

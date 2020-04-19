@@ -1,5 +1,6 @@
 local IterableMap = require("include/IterableMap")
 local cameraUtilities = require("include/cameraUtilities")
+local structureUtilities = require("include/structureUtilities")
 
 local function GetNewInterface(world)
 
@@ -25,15 +26,28 @@ local function GetNewInterface(world)
 	local externalFuncs = {}
 
 
-	function externalFuncs.MouseMoved(x, y, dx, dy, istouch)
+	function externalFuncs.MouseMoved(mouseX, mouseY, dx, dy, istouch)
 		
 	end
 
-	function externalFuncs.MousePressed(x, y, button, istouch, presses)
-		
+	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
+		if placingStructure then
+			if button == 2 then
+				placingStructure = false
+			else
+				local def = DEFS.roomDefNames[placingStructure]
+				local px, py = structureUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
+				local canPlace = structureUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, px, py)
+				
+				if canPlace then
+					world.CreateStructure(def.buildDef, px, py)
+					placingStructure = false
+				end
+			end
+		end
 	end
 
-	function externalFuncs.MouseReleased(x, y, button, istouch, presses)
+	function externalFuncs.MouseReleased(mouseX, mouseY, button, istouch, presses)
 		
 	end
 
@@ -46,7 +60,11 @@ local function GetNewInterface(world)
 	--------------------------------------------------
 	
 	function externalFuncs.GetCameraOffset()
-		return cameraX, cameraY
+		return math.floor(cameraX), math.floor(cameraY)
+	end
+	
+	function externalFuncs.WorldToInterface(x, y)
+		return x*GLOBAL.TILE_SIZE - math.floor(cameraX), y*GLOBAL.TILE_SIZE - math.floor(cameraY)
 	end
 
 	--------------------------------------------------
@@ -62,12 +80,11 @@ local function GetNewInterface(world)
 		
 		if placingStructure then
 			local def = DEFS.roomDefNames[placingStructure]
-			local x, y = cameraX + mouseX - 0.5*GLOBAL.TILE_SIZE*def.width, cameraY + mouseY - 0.5*GLOBAL.TILE_SIZE*def.height
+			local x, y = structureUtilities.MouseToStructurePos(def, cameraX, cameraY, mouseX, mouseY)
+			local canPlace = structureUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
 			
-			x = math.floor((x + 0.5*GLOBAL.TILE_SIZE)/GLOBAL.TILE_SIZE)*GLOBAL.TILE_SIZE - cameraX
-			y = math.floor((y + 0.5*GLOBAL.TILE_SIZE)/GLOBAL.TILE_SIZE)*GLOBAL.TILE_SIZE - cameraY
-			
-			love.graphics.setColor(0.8, 0.8, 0.8, 0.4)
+			x, y = externalFuncs.WorldToInterface(x, y)
+			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
 			love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		end
 	end

@@ -23,15 +23,15 @@ local startConfig = {
 	rooms = {
 		{
 			defName = "woodpile",
-			pos = {2, 2},
+			pos = {-2, -2},
 		},
 		{
 			defName = "dorm",
-			pos = {3, 5},
+			pos = {1, 1},
 		},
 		{
 			defName = "dorm",
-			pos = {2, 9},
+			pos = {0, 9},
 		},
 		{
 			defName = "dining",
