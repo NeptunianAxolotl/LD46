@@ -1,6 +1,6 @@
 
 local data = {
-	{"monkInterface", "monkInterface.png"},
+	{"monkInterface", "monk_interface.png"},
 	{"strikeout", "strikeout.png"},
 }
 

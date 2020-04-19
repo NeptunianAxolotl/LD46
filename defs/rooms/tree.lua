@@ -14,7 +14,7 @@ end
 
 local data = {
 	name = "tree",
-	image = "tree.png",
+	image = "trees/tree.png",
 	clickTask = "chop",
 	clickTaskPrefers = true,
 	drawInPost = true,
