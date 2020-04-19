@@ -37,13 +37,13 @@ local function GetNewWorld(startLayout)
 	--------------------------------------------------
 	local externalFuncs = {}
 
-	function externalFuncs.CreateRoom(def, px, py)
+	function externalFuncs.CreateRoom(defName, px, py)
 		local initData = {
-			defName = def,
+			defName = defName,
 			pos = {px, py},
 		}
 		roomList.Add(GetNewRoom(initData, stationsByUse))
-		monkList.ApplySelf("CheckRepath", px, py, def.width, def.height)
+		monkList.ApplySelf("CheckRepath", px, py, DEFS.roomDefNames[defName].width, DEFS.roomDefNames[defName].height)
 	end
 
 	function externalFuncs.GetRoomList()
