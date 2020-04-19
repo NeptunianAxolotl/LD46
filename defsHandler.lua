@@ -29,6 +29,16 @@ local defs = {
 local function LoadRoom(filename)
 	local roomDef = require(ROOM_PATH .. filename)
 	roomDef.image = love.graphics.newImage(IMAGE_PATH .. roomDef.image)
+	
+	-- Calculate station positions.
+	for i = 1, #roomDef.stations do
+		local station = roomDef.stations[i]
+		for j = 1, #station.doors do
+			local x, y = station.doors[j].pathFunc(0)
+			station.doors[j].pos = {x, y}
+		end
+	end
+	
 	return roomDef
 end
 

@@ -112,12 +112,4 @@ local data = {
 	}
 }
 
-for i = 1, #data.stations do
-	local station = data.stations[i]
-	for j = 1, #station.doors do
-		local x, y = station.doors[j].pathFunc(0)
-		station.doors[j].pos = {x, y}
-	end
-end
-
 return data
