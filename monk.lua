@@ -154,6 +154,14 @@ local function New(init)
 		return false
 	end
 	
+	local function GetActiveTask()
+		local currentGoal = GetCurrentGoal()
+		if atStation and currentGoal and currentGoal.station and atStation.index == currentGoal.station.index and atStation.GetTaskType() == currentGoal.taskType and movingProgress >= 1 then
+			return currentGoal.taskType
+		end
+		return false
+	end
+	
 	--------------------------------------------------
 	-- Interface
 	--------------------------------------------------
@@ -469,14 +477,14 @@ local function New(init)
             local walklookup = {def.images.stand_NE,def.images.stand_E,def.images.walk_SE,def.images.stand_S,def.images.stand_SW,def.images.stand_W,def.images.stand_NW,def.images.stand_N}
             local desiredAnimation = nil
             
-            local currentGoal = GetCurrentGoal()
             -- find the animation we should be doing
-            if atStation and currentGoal and currentGoal.station and atStation.index == currentGoal.station.index and atStation.GetTaskType() == currentGoal.taskType and movingProgress >= 1 then
-                if currentGoal.taskType == "chop" then
-                    desiredAnimation = def.images.chop_E
-                else -- no known animation, go idle
-                    desiredAnimation = standlookup[imageDirection]
-                end
+			local activeTask = GetActiveTask()
+			
+			if activeTask == "chop" then
+                desiredAnimation = def.images.chop_E
+			elseif activeTask then
+				-- no known animation, go idle
+                desiredAnimation = standlookup[imageDirection]
             elseif movingToPos then
                 desiredAnimation = walklookup[imageDirection]
             else -- idle

@@ -78,9 +78,11 @@ local function GetNewWorld(startLayout)
 
 	function externalFuncs.DrawWorld(interface, dt)
 		love.graphics.setColor(1, 1, 1)
+		--draw
 		featureList.ApplySelf("Draw", interface, dt)
 		roomList.ApplySelf("Draw", interface, dt)
 		monkList.ApplySelf("Draw", interface, dt)
+		roomList.ApplySelf("DrawPost", interface, dt)
 		monkList.ApplySelf("DrawPost", interface, dt)
 	end
 	

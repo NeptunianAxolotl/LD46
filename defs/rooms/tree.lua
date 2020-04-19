@@ -1,6 +1,6 @@
 
 local function ChopAction(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("progress", dt*0.6, 1)
+	local boundReached = room.AddResource("progress", dt*0.35, 1)
 	monk.ModifyFatigue(-0.04*dt)
 	monk.ModifyFood(-0.06*dt)
 	if boundReached then
@@ -17,18 +17,25 @@ local data = {
 	image = "tree.png",
 	clickTask = "chop",
 	clickTaskPrefers = true,
+	drawInPost = true,
 	drawOriginX = -0.08,
 	drawOriginY = 1.2,
 	width = 1,
 	height = 1,
 	stations = {
 		{
-			pos = {0.9, 0},
+			pos = {-0.4, -0.8},
 			taskType = "chop",
 			PerformAction = ChopAction,
 			doors = {
                 {
-                    entryPath = {{1, 0}}
+                    entryPath = {{-1, -1}}
+                },
+                {
+                    entryPath = {{0, -1}}
+                },
+                {
+                    entryPath = {{-1, 0}}
                 },
 			},
 		},

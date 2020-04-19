@@ -120,17 +120,27 @@ local function New(init, stationsByUse)
 		end
 	end
 	
-	function externalFuncs.Draw(interface, dt)
-		if hidden then
-			return
-		end
-
+	local function Draw(interface, dt)
 		local x, y = interface.WorldToScreen(pos[1], pos[2], def.drawOriginX, def.drawOriginY)
 		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
 		
 		if def.DrawFunc then
 			def.DrawFunc(externalFuncs, x, y)
 		end
+	end
+	
+	function externalFuncs.Draw(interface, dt)
+		if hidden or def.drawInPost then
+			return
+		end
+		Draw(interface, dt)
+	end
+	
+	function externalFuncs.DrawPost(interface, dt)
+		if hidden or (not def.drawInPost) then
+			return
+		end
+		Draw(interface, dt)
 	end
 	
 	--------------------------------------------------
