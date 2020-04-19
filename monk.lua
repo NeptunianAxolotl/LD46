@@ -22,7 +22,14 @@ local function New(init)
 	-- wantRepath
 	-- workData
 	
-	local priorities = {}
+	local priorities = {
+		{
+			taskType = "field",
+		},
+		{
+			taskType = "cook",
+		},
+	}
 	-- taskType
 	-- requiredRoom
 	-- preferredRoom
@@ -49,7 +56,7 @@ local function New(init)
 	-- Goal Handling
 	--------------------------------------------------
 	
-	local function AddGoal(newTaskType, stationsByUse, placeReservation, requiredRoom, preferredRoom)
+	local function AddGoal(newTaskType, stationsByUse, placeReservation, requiredRoom, preferredRoom, alreadyFoundStation)
 		if #goals > 0 then
 			goals[#goals].wantRepath = true
 		end
@@ -60,7 +67,10 @@ local function New(init)
 		}
 		local goalData = goals[#goals]
 		
-		if placeReservation then
+		if alreadyFoundStation then
+			goalData.station = alreadyFoundStation
+			goalData.wantRepath = true
+		elseif placeReservation then
 			local potentialStations = stationsByUse[newTaskType]
 			goalData.station = stationUtilities.ReserveClosestStation(externalFuncs, goalData.requiredRoom, goalData.preferredRoom, pos, potentialStations)
 			goalData.wantRepath = true
@@ -96,17 +106,14 @@ local function New(init)
 	local function FindGoal(stationsByUse)
 		local index = 1
 		local priorityCount = #priorities
-		while index < priorityCount do
+		while index <= priorityCount do
 			local pri = priorities[index]
-			if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse[pri.taskType], pri.requiredRoom, pri.preferredRoom) then
-				AddGoal("field", stationsByUse, true, pri.requiredRoom, pri.preferredRoom)
+			local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, pri.requiredRoom, pri.preferredRoom, pos, stationsByUse[pri.taskType])
+			if reservedStation then
+				AddGoal(pri.taskType, stationsByUse, true, pri.requiredRoom, pri.preferredRoom, reservedStation)
+				return
 			end
-		end
-		
-		if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
-			AddGoal("field", stationsByUse, true)
-		elseif stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["cook"]) then
-			AddGoal("cook", stationsByUse, true)
+			index = index + 1
 		end
 	end
 
@@ -307,6 +314,7 @@ local function New(init)
 				UpdateStationPosition(movingProgress, GLOBAL.PI)
 				return
 			end
+			movingProgress = 0
 			UpdateStationPosition(0, GLOBAL.PI)
 			atStation = false
 			atStationDoor = false
