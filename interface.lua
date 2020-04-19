@@ -16,6 +16,8 @@ local function GetNewInterface(world)
 	local camSpeedX, camSpeedY = 0, 0
 	local placingStructure = false
 	local selectedMonk = false
+	
+	local uiClick = false
 
 	--------------------------------------------------
 	-- Utilities
@@ -32,6 +34,14 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
+		if uiClick then
+			if uiClick.removePriority then
+				uiClick.monk.RemovePriority(uiClick.removePriority)
+			end
+			uiClick = false
+			return
+		end
+		
 		if placingStructure then
 			if button == 2 then
 				placingStructure = false
@@ -122,6 +132,7 @@ local function GetNewInterface(world)
 		local mouseX, mouseY = love.mouse.getPosition()
 		
 		love.graphics.setLineWidth(2)
+		uiClick = false
 		
 		local hoveredMonk
 		if placingStructure then
@@ -156,7 +167,7 @@ local function GetNewInterface(world)
 				end
 			end
 			
-			interfaceUtilities.DrawMonkInterface(interface, selectedMonk)
+			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY)
 		end
 	end
 	

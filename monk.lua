@@ -186,6 +186,13 @@ local function New(init)
 		SetNewGoal(newTaskType, priorities[1].requiredRoom, priorities[1].preferredRoom)
 	end
 
+	function externalFuncs.RemovePriority(index)
+		for i = index, #priorities - 1 do
+			priorities[i] = priorities[i + 1]
+		end
+		priorities[#priorities] = nil
+	end
+
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
 		return sleep, food, resourceCarried, (currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
