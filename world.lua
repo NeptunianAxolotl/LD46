@@ -1,4 +1,5 @@
 local IterableMap = require("include/IterableMap")
+local drawUtilities = require("include/drawUtilities")
 
 local GetNewMonk = require("monk")
 local GetNewRoom = require("room")
@@ -79,6 +80,9 @@ local function GetNewWorld(startLayout)
 	function externalFuncs.DrawWorld(interface, dt)
 		love.graphics.setColor(1, 1, 1)
 		--draw
+		drawUtilities.DrawGrass(interface)
+		love.graphics.setColor(1, 1, 1)
+		
 		featureList.ApplySelf("Draw", interface, dt)
 		roomList.ApplySelf("Draw", interface, dt)
 		monkList.ApplySelf("Draw", interface, dt)
