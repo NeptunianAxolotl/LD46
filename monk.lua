@@ -454,7 +454,7 @@ local function New(init)
             local dirlookup = {def.images.move_NE,def.images.move_E,def.images.move_SE,def.images.move_S,def.images.move_SW,def.images.move_W,def.images.move_NW,def.images.move_N}
             --print(direction)
             --print(imageDirection)
-            imageToDraw = dirlookup[imageDirection] or def.defaultImage
+            imageToDraw = dirlookup[imageDirection][1] or def.defaultImage
         end
         w,h = love.graphics.getDimensions(imageToDraw)
         love.graphics.draw(imageToDraw, x, y, 0, GLOBAL.TILE_SIZE / w, GLOBAL.TILE_SIZE / h, 0, 0, 0, 0)

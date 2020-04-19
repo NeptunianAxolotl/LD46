@@ -96,9 +96,13 @@ local function LoadMonk(filename)
         local filename = v.file
         local nframes = v.frames
         local extension = v.ext
+        monkDef.images[k] = {}
         if nframes == 0 then
-            monkDef.images[k] = love.graphics.newImage(IMAGE_PATH .. filename .. extension)
+            monkDef.images[k][1] = love.graphics.newImage(IMAGE_PATH .. filename .. extension)
         else
+            for i = 1, nframes do
+                monkDef.images[k][i] = love.graphics.newImage(IMAGE_PATH .. filename .. i .. extension)
+            end
             error('Animation not yet supported')
         end
     end
