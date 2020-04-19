@@ -16,6 +16,18 @@ local function CheckSubGoal(monk, currentGoal)
 	return false
 end
 
+local function RemoveMonkRoomLinks(room, monkList)
+	for _, monk in monkList.Iterator() do
+		if monk.IsUsingRoom(room) then
+			return false
+		end
+	end
+	
+	monkList.ApplySelf("DiscardRoomGoals", room)
+	return true
+end
+
 return {
 	CheckSubGoal = CheckSubGoal,
+	RemoveMonkRoomLinks = RemoveMonkRoomLinks,
 }

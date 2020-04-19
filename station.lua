@@ -23,15 +23,31 @@ local function New(def, parent, stationsByUse)
 	--------------------------------------------------
 	local externalFuncs = {}
 
+	function externalFuncs.Destroy()
+		stationsByUse[def.taskType].Remove(externalFuncs.index)
+		externalFuncs = nil
+		parent = nil
+		parentPos = nil
+		doorPosition = nil
+	end
+	
+	function externalFuncs.GetParent()
+		return parent
+	end
+	
+	function externalFuncs.GetTaskType()
+		return def.taskType
+	end
+	
+	--------------------------------------------------
+	-- Doors and Pathing
+	--------------------------------------------------
+	
 	function externalFuncs.Distance(x, y, stationDoor)
 		if stationDoor then
 			return math.abs(x - doorPosition[stationDoor][1]) +  math.abs(y - doorPosition[stationDoor][2])
 		end
 		return math.abs(x - pos[1]) +  math.abs(y - pos[2])
-	end
-	
-	function externalFuncs.GetTaskType()
-		return def.taskType
 	end
 	
 	function externalFuncs.GetDoorPosition(stationDoor)
@@ -65,13 +81,20 @@ local function New(def, parent, stationsByUse)
 		return def.doors[stationDoor].pathLength
 	end
 	
+	--------------------------------------------------
+	-- Action
+	--------------------------------------------------
+	
 	function externalFuncs.PerformAction(monk, workData, dt)
+		if not parent.IsRoomActive() then
+			return true -- Stop action
+		end
 		local toRemove = def.PerformAction(externalFuncs, parent, monk, workData, dt)
 		return toRemove
 	end
 	
 	function externalFuncs.IsAvailible(monk)
-		if reserved then
+		if reserved or (not parent.IsRoomActive()) then
 			return false
 		end
 		

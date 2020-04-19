@@ -1,5 +1,8 @@
 
 local function DoSleep(station, room, monk, workData, dt)
+	if math.random() < 0.01 then
+		room.Destroy()
+	end
 	return monk.ModifyFatigue(0.3*dt)
 end
 

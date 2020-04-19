@@ -1,5 +1,6 @@
 
 local GetNewStation = require("station")
+local goalUtilities = require("include/goalUtilities")
 
 local function New(init, stationsByUse)
 	--------------------------------------------------
@@ -12,17 +13,35 @@ local function New(init, stationsByUse)
 	local stations = {}
 
 	init = nil
+	
+	local externalFuncs = {}
+	
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
 	local resources = {}
 	local reservedResources = {}
+	local wantDestruction = false
+	local roomDisabled = false
 
+	local function CheckDestroy(monkList)
+		if not goalUtilities.RemoveMonkRoomLinks(externalFuncs, monkList) then
+			return false
+		end
+		
+		for i = 1, #def.stations do
+			stations[i].Destroy()
+		end
+		externalFuncs = nil
+		stations = nil
+		resources = nil
+		reservedResources = nil
+		return true
+	end
 
 	--------------------------------------------------
 	-- Interface
 	--------------------------------------------------
-	local externalFuncs = {}
 
 	function externalFuncs.GetPos()
 		return pos
@@ -32,15 +51,17 @@ local function New(init, stationsByUse)
 		return pos, def.width, def.height
 	end
 	
-	function externalFuncs.Draw(offsetX, offsetY)
-		local x, y = pos[1]*GLOBAL.TILE_SIZE - offsetX, pos[2]*GLOBAL.TILE_SIZE - offsetY
-		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
-		
-		if def.DrawFunc then
-			def.DrawFunc(externalFuncs, x, y)
-		end
+	function externalFuncs.Destroy(roomList, monkList)
+		wantDestruction = true
 	end
 	
+	function externalFuncs.IsRoomActive()
+		return not (wantDestruction or roomDisabled)
+	end
+	
+	--------------------------------------------------
+	-- Resources
+	--------------------------------------------------
 	function externalFuncs.AddResource(resType, change, bound)
 		resources[resType] = (resources[resType] or 0) + change
 		if bound then
@@ -65,6 +86,25 @@ local function New(init, stationsByUse)
 	
 	function externalFuncs.ReserveResource(resType, change)
 		reservedResources[resType] = (reservedResources[resType] or 0) + change
+	end
+	
+	--------------------------------------------------
+	-- Drawing and Updates
+	--------------------------------------------------
+	
+	function externalFuncs.UpdateRoom(dt, monkList)
+		if wantDestruction and CheckDestroy(monkList) then
+			return true -- Remove from roomList
+		end
+	end
+	
+	function externalFuncs.Draw(offsetX, offsetY)
+		local x, y = pos[1]*GLOBAL.TILE_SIZE - offsetX, pos[2]*GLOBAL.TILE_SIZE - offsetY
+		love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
+		
+		if def.DrawFunc then
+			def.DrawFunc(externalFuncs, x, y)
+		end
 	end
 	
 	--------------------------------------------------

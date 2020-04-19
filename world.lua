@@ -28,6 +28,7 @@ local function GetNewWorld(startLayout)
 	--------------------------------------------------
 
 	local function UpdateWorld(dt)
+		roomList.ApplySelf("UpdateRoom", dt, monkList)
 		monkList.ApplySelf("UpdateMonk", dt, roomList, stationsByUse)
 	end
 

@@ -136,6 +136,38 @@ local function New(init)
 		resourceCarried = newResource
 		resourceCount = newCount
 	end
+	
+	--------------------------------------------------
+	-- Room Status
+	--------------------------------------------------
+	
+	function externalFuncs.IsUsingRoom(room)
+		return atStation and (atStation.GetParent().index == room.index)
+	end
+	
+	function externalFuncs.DiscardRoomGoals(room)
+		if atStation and (atStation.GetParent().index == room.index) then
+			atStation = false
+			atStationDoor = false
+		end
+		
+		local goalCount = #goals
+		local goalRead, goalWrite = 1, 1
+		while goalRead <= goalCount do
+			local goalData = goals[goalRead]
+			if goalData.station.GetParent().index == room.index then
+				goals[goalRead] = nil
+				goalRead = goalRead + 1
+			else
+				if goalRead ~= goalWrite then
+					goals[goalRead] = nil
+					goals[goalWrite] = goalData
+				end
+				goalRead = goalRead + 1
+				goalWrite = goalWrite + 1
+			end
+		end
+	end
 
 	--------------------------------------------------
 	-- Update
