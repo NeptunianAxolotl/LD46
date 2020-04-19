@@ -82,6 +82,7 @@ end
 local cMoves = {{1,0},{0,1},{-1,0},{0,-1}}
 local dMoves = {{1,1},{-1,1},{-1,-1},{1,-1}}
 local allSkewMoves = {{1,0},{0,1},{2,-1},{-1,1},{1,-1},{-2,1},{0,-1},{-1,0}}
+local MAXITERCOUNT = 9000
 
 local function distanceEstimate(v1,v2)
     local x = math.abs(v1[1]-v2[1])
@@ -140,7 +141,9 @@ local function FindPath(start, goal, roomList)
     
     local reversepath = {}
     
-    if UTIL.Dist(start[1],start[2],goal[1],goal[2]) > 0.9 then
+    if isCollision(goal,roomList) then
+        print('WARNING: Pathfinder target is inside an obstacle at ' .. goal[1] .. ';' .. goal[2])
+    elseif UTIL.Dist(start[1],start[2],goal[1],goal[2]) > 0.9 then
 
         local moveangle = UTIL.Angle(goal[1]-start[1],goal[2]-start[2])
         -- cardinal directions: 1 = east, 2 = south, 3 = west, 4 = north
@@ -179,9 +182,11 @@ local function FindPath(start, goal, roomList)
         --idToSkew[#idToSkew+1] = {0,0}
         --openHeap.Insert(#idToSkew, distanceEstimate(start,goal))
         --local stack = {}
+        local itercount = 0
         
-        while not goalfound and (#stack > 0 or openHeap[1]) do
-        
+        while (itercount < MAXITERCOUNT) and not goalfound and (#stack > 0 or openHeap[1]) do
+            
+            itercount = itercount + 1
             local currc = 0
             local currd = 0
             if basicsearch and #stack > 0 then
@@ -312,6 +317,10 @@ local function FindPath(start, goal, roomList)
             end
         end
         
+        if itercount >= MAXITERCOUNT then
+            print('WARNING: Pathfinder exceeded maximum search depth!')
+        end
+        
         if goalfound then
             local currskew = {cdist,ddist}
             local mth = skewmatrix[currskew[1]][currskew[2]].movetohere
@@ -322,7 +331,7 @@ local function FindPath(start, goal, roomList)
                 mth = skewmatrix[currskew[1]][currskew[2]].movetohere
             end
         else
-            print('No path found!')
+            print('WARNING: No path found!')
         end
     end
     
