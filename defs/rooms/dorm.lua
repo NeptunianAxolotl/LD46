@@ -20,18 +20,12 @@ local data = {
 			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
-				{
-					pathLength = math.sqrt(2),
-					pathFunc = function (progress)
-						return 1 - progress, -1 + progress, math.rad(225)
-					end
-				},
-				{
-					pathLength = math.sqrt(5),
-					pathFunc = function (progress)
-						return 1 - progress, 2  -2*progress, math.rad(225)
-					end
-				},
+                {
+                    entryPath = {{1,-1},{1,0}}
+                },
+                {
+                    entryPath = {{1,2},{1,0}}
+                },
 			},
 		},
 		{
@@ -39,18 +33,12 @@ local data = {
 			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
-				{
-					pathLength = math.sqrt(5),
-					pathFunc = function (progress)
-						return 1 - progress, -1 + 2*progress, math.rad(225)
-					end
-				},
-				{
-					pathLength = math.sqrt(2),
-					pathFunc = function (progress)
-						return 1 - progress, 2 - progress, math.rad(225)
-					end
-				},
+                {
+                    entryPath = {{1,-1},{1,1}}
+                },
+                {
+                    entryPath = {{1,2},{1,1}}
+                },
 			},
 		},
 		{
@@ -58,18 +46,12 @@ local data = {
 			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
-				{
-					pathLength = math.sqrt(5),
-					pathFunc = function (progress)
-						return 1 + progress, -1 + 2*progress, math.rad(225)
-					end
-				},
-				{
-					pathLength = math.sqrt(2),
-					pathFunc = function (progress)
-						return 1 + progress, 2 - progress, math.rad(225)
-					end
-				},
+                {
+                    entryPath = {{1,-1},{1,0}}
+                },
+                {
+                    entryPath = {{1,2},{1,1}}
+                },
 			},
 		},
 	}

@@ -49,12 +49,9 @@ local data = {
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
 			doors = {
-				{
-					pathLength = math.sqrt(2),
-					pathFunc = function (progress)
-						return -1 + 2*progress, 1 - 0.5*progress, math.rad(0)
-					end
-				},
+                {
+                    entryPath = {{-1,1},{0,1}}
+                },
 			},
 		},
 		{
@@ -63,12 +60,9 @@ local data = {
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckGrainLimit,
 			doors = {
-				{
-					pathLength = math.sqrt(5),
-					pathFunc = function (progress)
-						return -1 + 2*progress, 1 + 0.5*progress, math.rad(0)
-					end
-				},
+                {
+                    entryPath = {{-1,1},{0,1}}
+                },
 			},
 		},
 		{
@@ -83,12 +77,9 @@ local data = {
 				}
 			},
 			doors = {
-				{
-					pathLength = 1,
-					pathFunc = function (progress)
-						return 0, 3 - progress, math.rad(0)
-					end
-				},
+                {
+                    entryPath = {{0,3}}
+                },
 			},
 		},
 	}

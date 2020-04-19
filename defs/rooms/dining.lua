@@ -49,12 +49,9 @@ local data = {
 			PerformAction = DoEat,
 			requireResources = eatRequirement,
 			doors = {
-				{
-					pathLength = 1,
-					pathFunc = function (progress)
-						return -1 + progress, 1, math.rad(270)
-					end
-				},
+                {
+                    entryPath = {{-1,1}}
+                },
 			},
 		},
 		{
@@ -63,12 +60,9 @@ local data = {
 			PerformAction = DoEat,
 			requireResources = eatRequirement,
 			doors = {
-				{
-					pathLength = 1,
-					pathFunc = function (progress)
-						return 1, -1 + progress, math.rad(180)
-					end
-				},
+                {
+                    entryPath = {{1,-1}}
+                },
 			},
 		},
 		{
@@ -77,12 +71,9 @@ local data = {
 			PerformAction = DoEat,
 			requireResources = eatRequirement,
 			doors = {
-				{
-					pathLength = 1,
-					pathFunc = function (progress)
-						return 1, 3 - progress, math.rad(0)
-					end
-				},
+                {
+                    entryPath = {{1,3}}
+                },
 			},
 		},
 		{
@@ -90,12 +81,9 @@ local data = {
 			taskType = "cook",
 			PerformAction = DoCook,
 			doors = {
-				{
-					pathLength = math.sqrt(2),
-					pathFunc = function (progress)
-						return 3 - progress, 2 - progress, math.rad(135)
-					end
-				},
+                {
+                    entryPath = {{3,2},{2,2}}
+                },
 			},
 		},
 		{
@@ -103,13 +91,11 @@ local data = {
 			taskType = "cook",
 			PerformAction = DoCook,
 			doors = {
-				{
-					pathLength = math.sqrt(2),
-					pathFunc = function (progress)
-						return 3 - progress, 2, math.rad(135)
-					end
-				},
+                {
+                    entryPath = {{3,2}}
+                },
 			},
+            
 		},
 	}
 }
