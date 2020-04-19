@@ -15,13 +15,17 @@ local function GetPathMaybeFromRoom(pos, goalPos, roomList, atStation, atStation
 	return path, atStationDoor
 end
 
-local function FindStationPath(monk, pos, roomList, potentialStations, alreadySetGoalStation, atStation, atStationDoor)
+local function FindStationPath(monk, pos, roomList, potentialStations, requiredRoom, preferredRoom, alreadySetGoalStation, atStation, atStationDoor)
 	local closeStation = alreadySetGoalStation
 	
 	if not closeStation then
 		local costDist
 		for _, station in potentialStations.Iterator() do
-			if station.IsAvailible(monk) then
+			if ((not requiredRoom) or requiredRoom.index == station.getParent().index) and station.IsAvailible(monk) then
+				local dist = station.Distance(pos[1], pos[2])
+				if preferredRoom and preferredRoom.index == station.getParent().index then
+					dist = dist - 1000000
+				end
 				local dist = station.Distance(pos[1], pos[2])
 				if (not costDist) or (dist < costDist) then
 					closeStation = station
@@ -44,12 +48,15 @@ local function FindStationPath(monk, pos, roomList, potentialStations, alreadySe
 	return closeStation, closeDoor, stationPath, leaveByDoor
 end
 
-local function ReserveClosestStation(monk, pos, potentialStations)
+local function ReserveClosestStation(monk, requiredRoom, preferredRoom, pos, potentialStations)
 	local closeStation
 	local costDist
 	for _, station in potentialStations.Iterator() do
-		if station.IsAvailible(monk) then
+		if ((not requiredRoom) or requiredRoom.index == station.getParent().index) and station.IsAvailible(monk) then
 			local dist = station.Distance(pos[1], pos[2])
+			if preferredRoom and preferredRoom.index == station.getParent().index then
+				dist = dist - 1000000
+			end
 			if (not costDist) or (dist < costDist) then
 				closeStation = station
 				costDist = dist
@@ -68,9 +75,9 @@ local function ReserveClosestStation(monk, pos, potentialStations)
 	return closeStation
 end
 
-local function CheckFreeStation(monk, potentialStations)
+local function CheckFreeStation(monk, potentialStations, requiredRoom)
 	for _, station in potentialStations.Iterator() do
-		if station.IsAvailible(monk) then
+		if ((not requiredRoom) or requiredRoom.index == station.getParent().index) and station.IsAvailible(monk) then
 			return true
 		end
 	end

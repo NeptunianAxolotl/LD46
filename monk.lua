@@ -13,10 +13,20 @@ local function New(init)
 	local moveSpeed = 2
 	
 	local goals = {}
+	-- taskType
+	-- preferredRoom
+	-- requiredRoom
 	-- station
 	-- stationDoor
 	-- currentPath
+	-- wantRepath
+	-- workData
+	
+	local priorities = {}
 	-- taskType
+	-- preferredRoom
+	-- requiredRoom
+	-- tempoary
 	
 	local atStation = false
 	local atStationDoor = false
@@ -42,18 +52,21 @@ local function New(init)
 	-- Goal Handling
 	--------------------------------------------------
 	
-	local function AddGoal(newTaskType, stationsByUse)
+	local function AddGoal(newTaskType, stationsByUse, placeReservation, requiredRoom, preferredRoom)
 		if #goals > 0 then
 			goals[#goals].wantRepath = true
 		end
 		goals[#goals + 1] = {
-			taskType = newTaskType
+			taskType = newTaskType,
+			requiredRoom = requiredRoom,
+			preferredRoom = preferredRoom,
 		}
+		local goalData = goals[#goals]
 		
-		if stationsByUse then
+		if placeReservation then
 			local potentialStations = stationsByUse[newTaskType]
-			goals[#goals].station = stationUtilities.ReserveClosestStation(externalFuncs, pos, potentialStations)
-			goals[#goals].wantRepath = true
+			goalData.station = stationUtilities.ReserveClosestStation(externalFuncs, goalData.requiredRoom, goalData.preferredRoom, pos, potentialStations)
+			goalData.wantRepath = true
 		end
 	end
 	
@@ -165,7 +178,8 @@ local function New(init)
 		local goalRead, goalWrite = 1, 1
 		while goalRead <= goalCount do
 			local goalData = goals[goalRead]
-			if goalData.station and goalData.station.GetParent().index == room.index then
+			
+			if (goalData.requiredRoom and goalData.requiredRoom.index == room.index) or (goalData.station and goalData.station.GetParent().index == room.index) then
 				goals[goalRead] = nil
 				goalRead = goalRead + 1
 			else
@@ -184,28 +198,8 @@ local function New(init)
 	--------------------------------------------------
 	
 	function externalFuncs.UpdateMonk(dt, roomList, stationsByUse)
-		local currentGoal = goals[#goals]
-		
 		externalFuncs.ModifyFatigue(-0.008*dt)
 		externalFuncs.ModifyFood(-0.008*dt)
-		
-		-- Check whether the goal needs changing to satisfy a want
-		local wantGoal = CheckWants(currentGoal)
-		if wantGoal then
-			SetNewGoal(wantGoal)
-			currentGoal = goals[#goals]
-			--print("wantGoal", wantGoal, #goals)
-		end
-		
-		-- Find a goal?
-		if (#goals == 0) then
-			if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
-				AddGoal("field", stationsByUse)
-			elseif stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["cook"]) then
-				AddGoal("cook", stationsByUse)
-			end
-			currentGoal = goals[#goals]
-		end
 		
 		-- Moving towards an adjacent square. Update position.
 		if movingToPos then
@@ -223,10 +217,29 @@ local function New(init)
 			movingProgress = movingProgress - 1
 		end
 		
+		local currentGoal = goals[#goals]
+		-- Check whether the goal needs changing to satisfy a want
+		local wantGoal = CheckWants(currentGoal)
+		if wantGoal then
+			SetNewGoal(wantGoal)
+			currentGoal = goals[#goals]
+			--print("wantGoal", wantGoal, #goals)
+		end
+		
+		-- Find a goal?
+		if (#goals == 0) then
+			if stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["field"]) then
+				AddGoal("field", stationsByUse, true)
+			elseif stationUtilities.CheckFreeStation(externalFuncs, stationsByUse["cook"]) then
+				AddGoal("cook", stationsByUse, true)
+			end
+			currentGoal = goals[#goals]
+		end
+		
 		-- Add any required subgoals.
 		local subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		while subGoal do
-			AddGoal(subGoal, stationsByUse)
+			AddGoal(subGoal, stationsByUse, true, subGoal.requiredRoom)
 			currentGoal = goals[#goals]
 			subGoal = goalUtilities.CheckSubGoal(externalFuncs, currentGoal)
 		end
@@ -235,8 +248,12 @@ local function New(init)
 		if currentGoal and (currentGoal.wantRepath or (not currentGoal.station)) then
 			local potentialStations = stationsByUse[currentGoal.taskType]
 			--print("find path", currentGoal.taskType, (currentGoal.station or {index = 0}).index, (currentGoal.station and currentGoal.station.GetTaskType()) or "none", potentialStations.GetIndexMax())
-			currentGoal.station, currentGoal.stationDoor, currentGoal.currentPath, doorToLeaveBy = stationUtilities.FindStationPath(
-			                            externalFuncs, pos, roomList, potentialStations, currentGoal.station, atStation, (movingProgress < 1) and atStationDoor)
+			currentGoal.station, currentGoal.stationDoor, currentGoal.currentPath, doorToLeaveBy =
+			stationUtilities.FindStationPath(
+				externalFuncs, pos, roomList, potentialStations,
+				currentGoal.requiredRoom, currentGoal.preferredRoom, currentGoal.station,
+				atStation, (movingProgress < 1) and atStationDoor
+			)
 			currentGoal.wantRepath = false
 			if doorToLeaveBy then
 				--print("doorToLeaveBy", doorToLeaveBy, (currentGoal.station or {index = 0}).index)
