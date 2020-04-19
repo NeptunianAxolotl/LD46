@@ -155,7 +155,7 @@ local function New(init)
 		local goalRead, goalWrite = 1, 1
 		while goalRead <= goalCount do
 			local goalData = goals[goalRead]
-			if goalData.station.GetParent().index == room.index then
+			if goalData.station and goalData.station.GetParent().index == room.index then
 				goals[goalRead] = nil
 				goalRead = goalRead + 1
 			else
