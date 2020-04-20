@@ -1,7 +1,7 @@
 
 local function InitTradeStatus(monk, potentialStations, requiredRoom)
 	local tradeData = {
-		money = 14,
+		money = 20,
 		goods = {
 			{
 				name = "battery",
@@ -12,20 +12,20 @@ local function InitTradeStatus(monk, potentialStations, requiredRoom)
 			{
 				name = "beer",
 				requesting = false,
-				price = 48.2,
+				price = 50.2,
 				get = "get_beer",
 			},
 			{
 				name = "book",
 				requesting = false,
-				price = 27.2,
-				priceShift = 8,
+				price = 24.2,
+				priceShift = 4,
 				get = "get_book",
 			},
 			{
 				name = "bread",
 				requesting = false,
-				price = 10.2,
+				price = 11.2,
 				get = "get_bread",
 			},
 			{
@@ -51,7 +51,7 @@ local function InitTradeStatus(monk, potentialStations, requiredRoom)
 	
 	for i = 1, #tradeData.goods do
 		local good = tradeData.goods[i]
-		good.minPrice = good.price*0.6
+		good.minPrice = good.price*0.7
 		good.maxPrice = good.price*4
 		good.buyMarkup = 1.6
 		good.priceShift = good.priceShift or good.price*0.02

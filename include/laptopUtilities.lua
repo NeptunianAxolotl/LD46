@@ -18,17 +18,17 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
 			{
 				name = "speakers",
 				humanName = "Speakers",
-				price = 120,
+				price = 100,
 			},
 			{
 				name = "graphicscard",
 				humanName = "Graphics Card",
-				price = 250,
+				price = 200,
 			},
 			{
 				name = "monitor",
 				humanName = "Monitor",
-				price = 520,
+				price = 360,
 			},
 		},
     }
