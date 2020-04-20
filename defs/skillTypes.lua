@@ -1,27 +1,22 @@
 
+local basicLearnMod = 1.7
+local basicPowerMod = 1.2
+
+local interLearnMod = 1.3
+local interPowerMod = 1.6
+
+local advLearnMod = 1.3
+local advPowerMod = 1.6
+
 local data = {
-	{
-		name = "masonry",
-		humanName = "Masonry",
-		titleName = "Mason",
-		desc = "Do stone",
-		learnMod = 1.7,
-		learnPowerDrainMod = 1.2,
-		taskSpeed = {
-			make_stone = 2,
-			build = 1.5,
-		},
-		requiredPeripherals = {
-		
-		},
-	},
-	{
+    -- basic skills
+    {
 		name = "farming",
 		humanName = "Farming",
 		titleName = "Farmer",
-		desc = "Do stone",
-		learnMod = 1.7,
-		learnPowerDrainMod = 1.2,
+		desc = "Gather crops",
+		learnMod = basicLearnMod,
+		learnPowerDrainMod = basicPowerMod,
 		preferedTask = "make_veg",
 		taskSpeed = {
 			make_grain = 2,
@@ -31,7 +26,109 @@ local data = {
 		
 		},
 	},
-
+    {
+		name = "carpentry",
+		humanName = "Carpentry",
+		titleName = "Carpenter",
+		desc = "Build with wood",
+		learnMod = basicLearnMod,
+		learnPowerDrainMod = basicPowerMod,
+		taskSpeed = {
+			make_wood = 2,
+			build = 1.5,
+		},
+		requiredPeripherals = {
+		
+		},
+	},
+    -- intermediate skills
+	{
+		name = "masonry",
+		humanName = "Masonry",
+		titleName = "Mason",
+		desc = "Build with stone",
+		learnMod = interLearnMod,
+		learnPowerDrainMod = interPowerMod,
+		taskSpeed = {
+			make_stone = 2,
+			build = 1.5,
+		},
+		requiredPeripherals = {
+		
+		},
+	},
+    {
+		name = "baking",
+		humanName = "Baking",
+		titleName = "Baker",
+		desc = "Baking bread",
+		learnMod = interLearnMod,
+		learnPowerDrainMod = interPowerMod,
+		taskSpeed = {
+            make_bread = 2,
+			cook = 1.5,
+		},
+		requiredPeripherals = {
+		
+		},
+	},
+    {
+		name = "brewing",
+		humanName = "Brewing",
+		titleName = "Brewer",
+		desc = "Brewing beer",
+		learnMod = interLearnMod,
+		learnPowerDrainMod = interPowerMod,
+		taskSpeed = {
+			make_beer = 2,
+			cook = 1.5,
+		},
+		requiredPeripherals = {
+		
+		},
+	},
+    -- advanced skills
+    {
+		name = "programming",
+		humanName = "Programming",
+		titleName = "Coder",
+		desc = "Maintaining laptop",
+		learnMod = advLearnMod,
+		learnPowerDrainMod = advPowerMod,
+		taskSpeed = {
+			upkeep_laptop = 2,
+		},
+		requiredPeripherals = {
+            "monitor"
+		},
+	},
+    {
+		name = "music",
+		humanName = "Music",
+		titleName = "Musician",
+		desc = "Plays in chapel",
+		learnMod = advLearnMod,
+		learnPowerDrainMod = advPowerMod,
+		taskSpeed = {
+			play_organ = 2,
+		},
+		requiredPeripherals = {
+            "speakers"
+		},
+	},
+    {
+		name = "art",
+		humanName = "Art",
+		titleName = "Artist",
+		desc = "Preserves culture",
+		learnMod = advLearnMod,
+		learnPowerDrainMod = advPowerMod,
+		taskSpeed = {
+		},
+		requiredPeripherals = {
+            "graphicscard"
+		},
+	},
 }
 
 return data
