@@ -19,6 +19,7 @@ local function GetNewInterface(world)
 	local selectedMonk = false
 	
 	local uiClick = false
+	local buttonHovered = false
 	
 	local infoscreenData = {
 		active = false,
@@ -40,13 +41,12 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
-		if infoscreenData.active then
-			infoscreenUtilities.HandleClick(infoscreenData, world, interface, mouseX, mouseY)
-			return
+		if buttonHovered then
+			infoscreenUtilities.ButtonClicked(infoscreenData, world, interface, buttonHovered)
 		end
 		
-		local handled = infoscreenUtilities.ButtonClicked(infoscreenData, world, interface, mouseX, mouseY)
-		if handled then
+		if infoscreenData.active then
+			infoscreenUtilities.HandleClick(infoscreenData, world, interface, mouseX, mouseY)
 			return
 		end
 		
@@ -166,8 +166,6 @@ local function GetNewInterface(world)
 		love.graphics.setLineWidth(2)
 		uiClick = false
 		
-		local buttonHovered = infoscreenUtilities.DrawButtonHover(infoscreenData, world, interface, mouseX, mouseY)
-		
 		local hoveredMonk
 		if not buttonHovered then
 			if placingStructure then
@@ -215,10 +213,8 @@ local function GetNewInterface(world)
 			
 			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY, clickTask)
 		end
-        
-        interfaceUtilities.DrawButtonInterface(interface, mouseX, mouseY)
 		
-		infoscreenUtilities.Draw(infoscreenData, world, interface, mouseX, mouseY)
+		buttonHovered = infoscreenUtilities.Draw(infoscreenData, world, interface, mouseX, mouseY)
 	end
 	
 	return externalFuncs
