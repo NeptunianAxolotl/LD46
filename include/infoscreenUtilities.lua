@@ -464,8 +464,8 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	font.SetSize(2)
 	local startX = drawX
 	love.graphics.print("Subject", drawX, drawY)
-	--drawX = drawX + 220
-	--love.graphics.print("Title", drawX, drawY)
+	drawX = drawX + 220
+	love.graphics.print("Title", drawX, drawY)
 	
 	drawX = drawX + 240
 	love.graphics.print("Progress", drawX, drawY)
@@ -478,8 +478,8 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 			drawX = startX
 			
 			love.graphics.print(options[i].humanName, drawX, drawY)
-			--drawX = drawX + 220
-			--love.graphics.print(options[i].humanName, drawX, drawY)
+			drawX = drawX + 220
+			love.graphics.print(options[i].bookTitle or "", drawX, drawY)
 			drawX = drawX + 240
 			love.graphics.print(math.floor((bookProgress[name] or 0)*100) .. "%", drawX, drawY)
 			drawY = drawY + 35

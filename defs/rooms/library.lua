@@ -5,7 +5,7 @@ local function CheckEligible(station, room, monk)
 		return false
 	end
 	
-	local knowData = GetWorld.GetOrModifyKnowStatus()
+	local knowData = GetWorld().GetOrModifyKnowStatus()
 	if not knowData.booksWritten[skillDef.name] then
 		return
 	end

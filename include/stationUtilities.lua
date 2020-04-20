@@ -111,9 +111,14 @@ local function CheckFreeStation(monk, potentialStations, requiredRoom)
 	return false
 end
 
+local function CheckGoalSubgoals(monk, requiredRoom, stationsByUse, taskType)
+	return true
+end
+
 return {
 	FindStationPath = FindStationPath,
 	ReserveClosestStation = ReserveClosestStation,
 	ReserveClosestStationMultiType = ReserveClosestStationMultiType,
 	CheckFreeStation = CheckFreeStation,
+	CheckGoalSubgoals = CheckGoalSubgoals,
 }

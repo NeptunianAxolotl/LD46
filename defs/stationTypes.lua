@@ -33,12 +33,28 @@ local data = {
 	"transcribe",
 }
 
+local taskSubGoals = {
+	cook = {
+		{
+			{"get_grain", "grain"}
+		},
+		{
+			{"get_veg", "veg"}
+		},
+	},
+	make_wood = {{{"chop", "wood"}}},
+	upkeep_laptop = {{{"get_battery", "battery"}}},
+	charge_battery = {{{"get_battery_spent", "battery_spent"}}},
+	make_bread = {{{"get_grain", "grain"}}},
+	make_beer = {{{"get_grain", "grain"}}},
+}
+
 local stationTypeNames = {
 	sleep = "Sleeping",
-	get_veg = "Tend Vegetables",
+	get_veg = "Pick Vegetables",
 	make_grain = "Reap Grain",
 	get_grain = "Fetch Grain",
-	make_veg = "Pick Vegetables",
+	make_veg = "Tend Vegetables",
 	cook = "Cook Food",
 	eat = "Eat",
 	build = "Build",

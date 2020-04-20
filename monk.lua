@@ -138,10 +138,13 @@ local function New(init)
 	local function FindGoal(dt, stationsByUse)
 		for i = 1, #priorities do
 			local priData = priorities[i]
-			local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, priData.requiredRoom, priData.preferredRoom, stationsByUse[priData.taskType])
-			if reservedStation then
-				AddGoal(priData.taskType, stationsByUse, true, priData.requiredRoom, priData.preferredRoom, reservedStation)
-				return
+			if stationUtilities.CheckGoalSubgoals(externalFuncs, priData.requiredRoom, stationsByUse, priData.taskType) then
+				local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, priData.requiredRoom, priData.preferredRoom, stationsByUse[priData.taskType])
+				print("FindGoal", i, reservedStation)
+				if reservedStation then
+					AddGoal(priData.taskType, stationsByUse, true, priData.requiredRoom, priData.preferredRoom, reservedStation)
+					return
+				end
 			end
 		end
 	end

@@ -3,7 +3,7 @@ local STORE_LIMIT = 4
 
 local function DoProcess(station, room, monk, workData, dt)
 	local resource, count = monk.GetResource()
-	if resource ~= "wood" then
+	if resource ~= "log" then
 		return true
 	end
 	workData.timer = (workData.timer or 0) + 0.6*dt*monk.GetTaskMod("make_wood")
