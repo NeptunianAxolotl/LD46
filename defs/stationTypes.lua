@@ -35,9 +35,24 @@ local data = {
 }
 
 local stationTypeNames = {
-	sleep = "Sleep",
-	get_veg = "Seek Vegies",
-	chop = "Fell Tree",
+	sleep = "Sleeping",
+	get_veg = "Picking Vegetables",
+	make_grain = "Reaping Grain",
+	get_grain = "Fetching Grain",
+	make_veg = "Picking Vegetables",
+	cook = "Cooking Food",
+	eat = "Eating",
+	build = "Building ", -- Add variable for building name
+	build_adv = "Building ", -- Add variable for building name
+	get_wood = "Gathering Timber",
+	make_wood = "Gathering Wood",
+	add_wood = "Getting Timber",
+	add_stone = "Getting Stone",
+	get_stone = "Getting Stone",
+	make_stone = "Quarrying Stone",
+	upkeep_laptop = "Changing Batteries",
+	use_laptop = "Using Laptop",
+	chop = "Felling Tree",
 }
 
 local resourceNames = {
