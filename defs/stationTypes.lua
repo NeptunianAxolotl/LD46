@@ -3,6 +3,7 @@ local data = {
 	"sleep",
 	"make_grain",
 	"get_grain",
+	"make_veg",
 	"get_veg",
 	"cook",
 	"eat",

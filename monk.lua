@@ -42,6 +42,7 @@ local function New(init)
 	-- preferredRoom
 	
 	local currentSkill = {}
+	-- desiredSkillChange
 	-- name
 	-- rank
 	-- progress
@@ -252,10 +253,32 @@ local function New(init)
 
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
-		local skill = currentSkill and currentSkill.name
+		local skill = currentSkill and currentSkill.def and currentSkill.def.humanName
 		local skillRank = currentSkill and currentSkill.rank
 		local skillProgress = currentSkill and currentSkill.progress
 		return sleep, food, resourceCarried, skill, skillRank, skillProgress,(currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
+	end
+	
+	function externalFuncs.GetSkill()
+		return currentSkill.def, currentSkill.rank, currentSkill.progress, currentSkill.desiredSkillChange
+	end
+	
+	function externalFuncs.AddSkillProgress(change, enableChange)
+		if currentSkill.desiredSkillChange and enableChange then
+			if currentSkill.def and currentSkill.def.name ~= currentSkill.desiredSkillChange then
+				currentSkill.def = DEFS.skillDefNames[currentSkill.desiredSkillChange]
+				currentSkill.rank = 1
+				currentSkill.progress = 0
+			end
+			currentSkill.desiredSkillChange = nil
+		end
+		
+		currentSkill.progress = currentSkill.progress + change
+		if currentSkill.progress > 1 then
+			currentSkill.rank = currentSkill.rank + 1
+			currentSkill.progress = 0
+			return true
+		end
 	end
 	
 	--------------------------------------------------

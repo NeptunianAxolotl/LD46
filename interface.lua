@@ -97,6 +97,9 @@ local function GetNewInterface(world)
 				end
 				
 				if clickTask then
+					if clickTask == "use_laptop" then
+					
+					end
 					selectedMonk.SetNewPriority(room, clickTask, false, true)
 				end
 				return

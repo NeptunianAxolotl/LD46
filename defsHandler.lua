@@ -126,6 +126,16 @@ local function LoadStationTypes(filename)
 	return require(filename)
 end
 
+local function LoadSkillTypes(filename)
+	local skillList = require(filename)
+	local skillMap = {}
+	for i = 1, #skillList do
+		skillMap[skillList[i].name] = skillList[i]
+	end
+	
+	return skillList, skillMap
+end
+
 local function LoadGlobalImages(filename)
 	local images = require(filename)
 	local imageMap = {}
@@ -154,6 +164,8 @@ function defs.Load()
 	defs.monkDef = LoadMonk("defs/monk")
 	defs.stationTypes = LoadStationTypes("defs/stationTypes")
 	defs.images = LoadGlobalImages("defs/globalImages")
+	
+	defs.skillDefs, defs.skillDefNames = LoadSkillTypes("defs/skillTypes")
 end
 
 return defs
