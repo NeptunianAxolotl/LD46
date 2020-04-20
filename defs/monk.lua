@@ -20,8 +20,8 @@ local data = {
         walk_S = {file="monk/monk_stand_s.png",width=640,duration=100},
         walk_E = {file="monk/monk_walk_e.png",width=640,duration=0.7},
         walk_W = {file="monk/monk_walk_w.png",width=640,duration=0.7},
-        walk_NE = {file="monk/monk_stand_ne.png",width=640,duration=100},
-        walk_NW = {file="monk/monk_stand_nw.png",width=640,duration=100},
+        walk_NE = {file="monk/monk_walk_ne.png",width=640,duration=0.7},
+        walk_NW = {file="monk/monk_walk_nw.png",width=640,duration=0.7},
         walk_SE = {file="monk/monk_walk_se.png",width=640,duration=0.7},
         walk_SW = {file="monk/monk_walk_sw.png",width=640,duration=0.7},
         
