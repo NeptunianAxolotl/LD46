@@ -16,15 +16,18 @@ local data = {
 	demolishable = false,
 	stations = {
 		{
-			pos = {0, 0},
+			pos = {0.55, 0.4},
 			taskType = "sleep",
 			PerformAction = DoSleep,
+            overrideDir = 0,
 			doors = {
                 {
-                    entryPath = {{1,-1},{1,0}}
+                    entryPath = {{0,2},{0.5,1.6},{0.5,1.2}},
+                    teleportToStation = true,
                 },
                 {
-                    entryPath = {{1,2},{1,0}}
+                    entryPath = {{1,2},{0.5,1.6},{0.5,1.2}},
+                    teleportToStation = true,
                 },
 			},
 		},
