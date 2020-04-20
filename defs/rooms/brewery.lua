@@ -37,7 +37,7 @@ local function DrawSupply(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
 	love.graphics.setColor(1, 1, 1)
-	love.graphics.print(math.floor(self.GetResourceCount("beer")), drawX + 1.35*GLOBAL.TILE_SIZE, drawY + 0.4*GLOBAL.TILE_SIZE)
+	love.graphics.print(math.floor(self.GetResourceCount(PRODUCE)), drawX + 1.35*GLOBAL.TILE_SIZE, drawY + 0.4*GLOBAL.TILE_SIZE)
 	
 	love.graphics.setColor(1, 1, 1)
 end
@@ -63,7 +63,7 @@ local data = {
 	stations = {
 		{
 			pos = {0.5,0.5},
-			taskType = "get_beer",
+			taskType = "get_" .. PRODUCE,
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
 			doors = {
@@ -80,7 +80,7 @@ local data = {
 		},
 		{
 			pos = {1.5, 1.4},
-			taskType = "make_beer",
+			taskType = "make_" .. PRODUCE,
 			fetchResource = {NEED},
 			PerformAction = MakeAction,
 			AvailibleFunc = CheckStorageLimit,
