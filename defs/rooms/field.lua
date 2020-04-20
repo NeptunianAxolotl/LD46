@@ -1,5 +1,5 @@
 
-local STORE_LIMIT = 4
+local STORE_LIMIT = 8
 
 local function FieldAction(station, room, monk, workData, dt)
 	local boundReached = room.AddResource("grain", dt*0.35*monk.GetTaskMod("make_grain"), STORE_LIMIT)

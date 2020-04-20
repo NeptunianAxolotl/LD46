@@ -29,17 +29,7 @@ local function New(init)
 		active = false
 	}
 	
-	local priorities = {
-		--{
-		--	taskType = "build",
-		--},
-		--{
-		--	taskType = "make_grain",
-		--},
-		--{
-		--	taskType = "cook",
-		--},
-	}
+	local priorities = {}
 	-- taskType
 	-- requiredRoom
 	-- preferredRoom
@@ -72,6 +62,10 @@ local function New(init)
 
 	local animCurrent = nil
 	local animTimer = 0
+	
+	if init.priorities then
+		priorities = init.priorities
+	end
 
 	init = nil
 	--------------------------------------------------

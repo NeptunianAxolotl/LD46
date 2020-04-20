@@ -42,7 +42,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
-        bookTitle = "Chopping like Bunyan: The Compleat Guide"
+        bookTitle = "The Compleat Guide to Chopping"
 	},
     -- intermediate skills
 	{
@@ -94,7 +94,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
-        bookTitle = "Home Brewer's Guide to Getting Stinking Drunk"
+        bookTitle = "Home Brewery for Abstinents"
 	},
     {
 		name = "economics",
@@ -109,7 +109,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
-        bookTitle = "On Negotiating for Worthless Pieces of Plastic"
+        bookTitle = "Price Gouging in Antiques Markets"
 	},
     -- advanced skills
     {

@@ -56,7 +56,7 @@ local function DoUseLaptop(station, room, monk, workData, dt)
 	laptopData.charge = laptopData.charge - dt*(laptopData.currentDrain - laptopData.passiveDrain)
 	
 	local skillDef, progress = monk.GetSkill()
-	return monk.AddSkillProgress(0.05*dt, true), skillDef.preferedTask
+	return monk.AddSkillProgress(0.028*dt, true), skillDef.preferedTask
 end
 
 local function CollectAction(station, room, monk, workData, dt)
@@ -111,8 +111,7 @@ local data = {
 	DrawFunc = DrawSupply,
 	isLaptop = true,
 	spawnResources = {
-		{"battery", 2},
-		{"battery_spent", 1},
+		{"battery", 1},
 	},
 	stations = {
 		{

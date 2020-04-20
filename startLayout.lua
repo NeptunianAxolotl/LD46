@@ -2,19 +2,30 @@
 local startConfig = {
 	monks = {
 		{
+			pos = {4, 1},
+			priorities = {
+				{taskType = "charge_battery"},
+				{taskType = "upkeep_laptop"},
+			},
+		},
+		{
 			pos = {6, 0},
+			priorities = {
+				{taskType = "cook"},
+				{taskType = "make_veg"},
+			},
 		},
 		{
 			pos = {6, 2},
-		},
-		{
-			pos = {6, 5},
+			priorities = {
+				{taskType = "make_veg"},
+			},
 		},
 		{
 			pos = {4, 3},
 		},
 		{
-			pos = {4, 5},
+			pos = {6, 4},
 		},
 	},
 	rooms = {

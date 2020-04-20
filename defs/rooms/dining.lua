@@ -1,3 +1,4 @@
+local STORE_LIMIT = 8
 
 local function DoCook(station, room, monk, workData, dt)
 	local resource, count = monk.GetResource()
@@ -20,6 +21,13 @@ local function DoEat(station, room, monk, workData, dt)
 		room.AddResource("food", -1)
 		return true
 	end
+end
+
+local function CheckStorageLimit(station, room, monk)
+	if room.GetResourceCount("food") >= STORE_LIMIT then
+		return false
+	end
+	return true
 end
 
 local eatRequirement = {
@@ -52,7 +60,7 @@ local data = {
 	demolishable = false,
 	stations = {
 		{
-			pos = {0, 1},
+			pos = {0.3, 1},
 			taskType = "eat",
 			PerformAction = DoEat,
 			requireResources = eatRequirement,
@@ -63,7 +71,7 @@ local data = {
 			},
 		},
 		{
-			pos = {1, 0},
+			pos = {1, 0.3},
 			taskType = "eat",
 			PerformAction = DoEat,
 			requireResources = eatRequirement,
@@ -74,7 +82,7 @@ local data = {
 			},
 		},
 		{
-			pos = {1, 2},
+			pos = {1, 1.7},
 			taskType = "eat",
 			PerformAction = DoEat,
 			requireResources = eatRequirement,
@@ -87,6 +95,7 @@ local data = {
 		{
 			pos = {2.1, 0.3},
 			taskType = "cook",
+			AvailibleFunc = CheckStorageLimit,
 			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
 			doors = {
@@ -98,6 +107,7 @@ local data = {
 		{
 			pos = {1.6, 0.3},
 			taskType = "cook",
+			AvailibleFunc = CheckStorageLimit,
 			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
             overrideDir = 3*math.pi/2,

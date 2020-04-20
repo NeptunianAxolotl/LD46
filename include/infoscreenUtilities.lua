@@ -120,12 +120,12 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     love.graphics.setColor(0, 0, 0)
     
     -- power
-    love.graphics.print("Power Consumption When In Use: " .. math.ceil((laptopData.currentDrain or -1)*1000)/10*60 .. "% per minute", drawX, drawY)
+    love.graphics.print("Power Consumption (Half When Idle): " .. math.ceil(60*(laptopData.currentDrain or -1)*100) .. "% per minute", drawX, drawY)
     
-    if laptopData.currentDrain and laptopData.passiveDrain and laptopData.currentDrain > laptopData.passiveDrain then
-        drawY = drawY + 28
-        love.graphics.print("Passive Power Consumption: " .. math.ceil(laptopData.passiveDrain*1000)/10*60 .. "% per minute", drawX, drawY)
-    end
+	local mult = (1.1 - 2*laptopData.passiveDrain)
+	local nextDrain = laptopData.currentDrain*mult
+	drawY = drawY + 28
+	love.graphics.print("Power Consumption For Next Battery: " .. math.ceil(60*nextDrain*100) .. "% per minute", drawX, drawY)
 	
     drawX = originalX
     drawY = drawY + 40
@@ -479,16 +479,16 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 
 	for i = 1, #options do
 		local name = options[i].name
-		--if booksWritten[name] or bookProgress[name] then
-			drawX = startX
-			
-			love.graphics.print(options[i].humanName, drawX, drawY)
-			drawX = drawX + 155
+		drawX = startX
+		
+		love.graphics.print(options[i].humanName, drawX, drawY)
+		drawX = drawX + 155
+		if booksWritten[name] or bookProgress[name] then
 			love.graphics.print(options[i].bookTitle or "", drawX, drawY)
-			drawX = drawX + 325
-			love.graphics.print(math.floor((bookProgress[name] or 0)*100) .. "%", drawX, drawY)
-			drawY = drawY + 35
-		--end
+		end
+		drawX = drawX + 325
+		love.graphics.print(math.floor((bookProgress[name] or 0)*100) .. "%", drawX, drawY)
+		drawY = drawY + 35
 	end
 	
 end
