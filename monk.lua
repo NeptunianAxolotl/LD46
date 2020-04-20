@@ -43,9 +43,7 @@ local function New(init)
 	-- preferredRoom
 	
 	local currentSkill = {}
-	-- desiredSkillChange
 	-- name
-	-- rank
 	-- progress
 	
 	local atStation = false
@@ -271,53 +269,39 @@ local function New(init)
 	
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
+		local skillDef = (currentSkill and currentSkill.def)
+		local skillProgress = (currentSkill and currentSkill.progress) or 0
 		
-		local skillName = currentSkill and currentSkill.desiredSkillChange
-		if not skillName then
-			skillName = currentSkill and currentSkill.def and currentSkill.def.name
-		end
-		local skillRank = currentSkill and currentSkill.rank
-		local skillProgress = currentSkill and currentSkill.progress
-		
-		return sleep, food, resourceCarried, skillName, skillRank, skillProgress,(currentGoal and currentGoal.taskType), humanName, priorities
+		return sleep, food, resourceCarried, skillDef, skillProgress,(currentGoal and currentGoal.taskType), humanName, priorities
 	end
 	
 	function externalFuncs.GetSkill()
-		return currentSkill.def, currentSkill.rank or 0, currentSkill.progress, currentSkill.desiredSkillChange
+		return currentSkill.def, currentSkill.progress
 	end
 	
 	function externalFuncs.MidwayThroughLaptop()
-		if currentSkill.def and (currentSkill.rank or 1) < 2 then
+		if currentSkill.def and ((currentSkill.progress or 0) < 1) then
 			return true
 		end
 		return false
 	end
 	
 	function externalFuncs.SetDesiredSkill(newSkill)
-		if currentSkill.def and currentSkill.def.name ~= newSkill then
+		if currentSkill.def and currentSkill.def.name == newSkill then
 			return
 		end
-		currentSkill.desiredSkillChange = newSkill
+		currentSkill.def = DEFS.skillDefNames[newSkill]
+		currentSkill.progress = 0
 	end
 	
 	function externalFuncs.AddSkillProgress(change, enableChange)
-		if currentSkill.desiredSkillChange and enableChange then
-			if (not currentSkill.def) or currentSkill.def.name ~= currentSkill.desiredSkillChange then
-				currentSkill.def = DEFS.skillDefNames[currentSkill.desiredSkillChange]
-				currentSkill.rank = 1
-				currentSkill.progress = 0
-			end
-			currentSkill.desiredSkillChange = nil
-		end
-		
 		if not currentSkill.def then
 			return
 		end
 		
 		currentSkill.progress = (currentSkill.progress or 0) + change*currentSkill.def.learnMod
 		if currentSkill.progress > 1 then
-			currentSkill.rank = currentSkill.rank + 1
-			currentSkill.progress = 0
+			currentSkill.progress = 1
 			return true
 		end
 	end

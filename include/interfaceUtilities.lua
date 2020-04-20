@@ -79,24 +79,21 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(DEFS.images.monkInterface, 0, 0, 0, 1, 1, 0, 0, 0, 0)
 	
-	local sleep, food, resourceCarried, skill, skillRank, skillProgress, currentTaskType, name, priorities = monk.GetStatus()
+	local sleep, food, resourceCarried, skillDef, skillProgress, currentTaskType, name, priorities = monk.GetStatus()
 	
 	local currentTaskName = (currentTaskType and (DEFS.stationTypeNames[currentTaskType] or currentTaskType)) or "Idle"
 	
 	local skillStr = "Unskilled"
-	skillProgress = skillProgress or 0
 	
-	if skill then
-		local def = DEFS.skillDefNames[skill]
-		skillRank = skillRank or 1
-		if skillRank == 3 then
+	if skillDef then
+		if skillProgress == 1 then
 			skillStr = "Master "
-		elseif skillRank >= 2 then
+		elseif skillProgress >= 0.5 then
 			skillStr = "Adept "
 		else
 			skillStr = "Novice "
 		end
-		skillStr = skillStr .. def.titleName
+		skillStr = skillStr .. skillDef.titleName
 	end
 	
 	local drawX = 12

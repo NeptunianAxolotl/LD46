@@ -324,7 +324,7 @@ end
 --------------------------------------------------
 
 local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
-	if not UTIL.PosInRectangle(808, 66, 32, 32, mouseX, mouseY) then
+	if not UTIL.PosInRectangle(172, 50, 690, 640, mouseX, mouseY) then
 		CloseScreen(infoscreenData, world, interface)
 	end
 	

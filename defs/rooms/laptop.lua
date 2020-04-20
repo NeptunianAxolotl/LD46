@@ -19,8 +19,8 @@ local function UpdateFunc(room, dt)
 end
 
 local function CheckEligible(station, room, monk, workData, dt)
-	local skillDef, rank, progress, desiredChange  = monk.GetSkill()
-	if (not (skillDef or desiredChange)) or (rank >= 2) then
+	local skillDef, progress = monk.GetSkill()
+	if (not skillDef) or (progress == 1) then
 		return false
 	end
 	
