@@ -78,25 +78,25 @@ local data = {
 			},
 		},
 		{
-			pos = {2, 1},
+			pos = {2.1, 0.3},
 			taskType = "cook",
 			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
 			doors = {
                 {
-                    entryPath = {{3,2},{2,2}}
+                    entryPath = {{3,2},{2,1.2}}
                 },
 			},
 		},
 		{
-			pos = {2, 2},
+			pos = {1.6, 0.3},
 			taskType = "cook",
 			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
             overrideDir = 3*math.pi/2,
 			doors = {
                 {
-                    entryPath = {{3,2}}
+                    entryPath = {{3,2},{2,1.2}}
                 },
 			},
             
