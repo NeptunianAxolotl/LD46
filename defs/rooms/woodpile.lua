@@ -41,6 +41,7 @@ local data = {
 	buildDef = "woodpile_build",
 	image = "woodpile.png",
 	clickTask = "make_wood",
+    desc = "Store wood\nCost: None",
 	drawOriginX = 0,
 	drawOriginY = 1,
 	width = 2,

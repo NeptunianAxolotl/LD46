@@ -55,6 +55,7 @@ local data = {
 	image = "bike.png",
 	buildDef = "bike_build",
 	clickTask = "charge_battery",
+    desc = "Recharge batteries\nCost: 4 wood",
 	drawOriginX = 0,
 	drawOriginY = 1,
 	width = 2,

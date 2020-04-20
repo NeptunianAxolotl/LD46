@@ -3,6 +3,7 @@ local data = {
 	name = "library",
 	humanName = "Library",
 	buildDef = "library_build",
+    desc = "Stores knowledge\nCost: 7 wood, 4 stone",
 	image = "library_0.png",
 	clickTaskFunc = function (x, y)
 		if x < 2 then

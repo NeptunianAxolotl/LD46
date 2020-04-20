@@ -54,6 +54,7 @@ local data = {
 	humanName = "Brewery",
 	image = "brewery.png",
 	buildDef = "brewery_build",
+    desc = "Wheat -> beer to trade\nCost: 6 wood, 3 stone",
 	clickTask = "make_beer",
 	drawOriginX = 0,
 	drawOriginY = 1.5,

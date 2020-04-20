@@ -43,6 +43,7 @@ local data = {
 	image = "dining.png",
 	buildDef = "dining_build",
 	clickTask = "cook",
+    desc = "Feeds monks\nCost: 8 wood",
 	width = 3,
 	height = 3,
     drawOriginX = 0,

@@ -39,6 +39,7 @@ local data = {
 	humanName = "Stone Quarry",
 	image = "quarry.png",
 	buildDef = "quarry_build",
+    desc = "Collect stone\nCost: 2 wood",
 	clickTask = "make_stone",
 	drawOriginX = 0,
 	drawOriginY = 1,

@@ -40,6 +40,7 @@ local data = {
 	buildDef = "field_build",
 	image = "fields.png",
 	clickTask = "make_grain",
+    desc = "Grow grain\nCost: 2 wood",
 	width = 3,
 	height = 3,
     drawOriginX = 0,

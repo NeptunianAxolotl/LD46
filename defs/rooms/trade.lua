@@ -20,6 +20,7 @@ local data = {
 	name = "trade",
 	image = "trade.png",
 	clickTask = "trade",
+    desc = "Trade for goods",
 	drawOriginX = 0,
 	drawOriginY = 1.5,
 	width = 3,

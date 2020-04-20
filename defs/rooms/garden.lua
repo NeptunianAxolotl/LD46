@@ -26,6 +26,7 @@ local data = {
 	name = "garden",
 	humanName = "Veggie Patch",
 	buildDef = "garden_build",
+    desc = "Grow vegetables\nCost: 2 wood",
 	image = "garden.png",
 	width = 2,
 	height = 2,

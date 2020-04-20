@@ -88,6 +88,7 @@ end
 local data = {
 	name = "laptop",
 	image = "laptop_room.png",
+    desc = "Source of knowledge",
 	clickTaskFunc = function (x, y)
 		if y < 1.8 then
 			return "upkeep_laptop"
