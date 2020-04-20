@@ -23,7 +23,7 @@ local function GetNewWorld(startLayout)
 	end
 
 	local tradeStatus = tradeUtilities.InitTradeStatus()
-    local laptopStatus = laptopUtilities.InitLaptopStatus()
+	local laptopStatus = laptopUtilities.InitLaptopStatus()
 
 	--------------------------------------------------
 	-- Initialization
@@ -39,6 +39,7 @@ local function GetNewWorld(startLayout)
 	end
 	
 	tradeUtilities.AddTradingPost(tradeStatus, roomList)
+	laptopUtilities.AddLaptop(laptopStatus, roomList)
     
     musicUtilities.InitialiseMusic()
 	

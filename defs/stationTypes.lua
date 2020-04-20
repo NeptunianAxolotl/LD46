@@ -50,7 +50,7 @@ local stationTypeNames = {
 	add_stone = "Getting Stone",
 	get_stone = "Getting Stone",
 	make_stone = "Quarrying Stone",
-	upkeep_laptop = "Changing Batteries",
+	upkeep_laptop = "Monitor Batteries",
 	use_laptop = "Using Laptop",
 	chop = "Felling Tree",
 }

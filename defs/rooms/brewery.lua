@@ -78,7 +78,7 @@ local data = {
 		{
 			pos = {2, 1},
 			taskType = "make_beer",
-			fetchResource = NEED,
+			fetchResource = {NEED},
 			PerformAction = MakeAction,
 			AvailibleFunc = CheckStorageLimit,
 			doors = {

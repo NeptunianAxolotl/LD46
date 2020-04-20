@@ -6,20 +6,32 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
         passiveDrain = 0.001,
         currentDrain = 0.002,
         peripherals = {
-            speakers = true,
+            speakers = false,
             monitor = false,
-            graphicscard = true,
+            graphicscard = false,
         }
     }
     
     return laptopData
 end
 
-local function PerformAction(laptopData, actionData)
-
+local function UpdateLaptop(dt)
+	
 end
+
+local function AddLaptop(laptopData, roomList)
+	for _, room in roomList.Iterator() do
+		local def = room.GetDef()
+		if def.isLaptop then
+			laptopData.room = room
+			return
+		end
+	end
+end
+
 
 return {
 	InitLaptopStatus = InitLaptopStatus,
-	PerformAction = PerformAction,
+	AddLaptop = AddLaptop,
+	UpdateLaptop = UpdateLaptop,
 }
