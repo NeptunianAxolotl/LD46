@@ -320,6 +320,72 @@ end
 
 
 --------------------------------------------------
+-- Help Screen
+--------------------------------------------------
+
+local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
+	love.graphics.setColor(0, 0, 0, 1)
+	
+	font.SetSize(0)
+	love.graphics.print("Manual", 435, 90)
+    
+    local laptopData = world.GetOrModifyLaptopStatus()
+    local originalX = 240
+    local drawX = originalX
+    local drawY = 140
+    local linebreak = 22
+    local parabreak = 40
+	
+    font.SetSize(2)
+	love.graphics.print("As civilization crumbled, your monastery kept safe a laptop", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("containing the combined knowledge of humanity.", drawX, drawY)
+    drawY = drawY + parabreak
+    
+	love.graphics.print("Now the laptop's batteries are failing and you must transcribe", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("its contents into a library of books, keeping that knowledge", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("alive for future generations. If the laptop turns off nobody", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("remembers the password to log back in again...", drawX, drawY)
+    drawY = drawY + parabreak
+    
+    love.graphics.print("Gather resources, trade for parts, and expand your monastery ", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("to fulfill your goal... Vivere Computatrum!", drawX, drawY)
+    drawY = drawY + parabreak + 10
+    
+    font.SetSize(1)
+    love.graphics.print("Controls", drawX, drawY)
+    font.SetSize(2)
+    drawY = drawY + parabreak
+    
+    love.graphics.print("WASD to move camera", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("Click on monks to select, then click tree/building to prioritise job", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("Click on job in monk's priority queue to remove it", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("Click buttons to open menus", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("Press Space or click red X to exit menus (like this one)", drawX, drawY)
+    drawY = drawY + parabreak + 10
+    
+    font.SetSize(1)
+    love.graphics.print("Objectives", drawX, drawY)
+    font.SetSize(2)
+    drawY = drawY + parabreak
+    
+    love.graphics.print("Have monks learn every skill from laptop, then write it in a library", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("Don't let the laptop reach 0% power and turn off", drawX, drawY)
+    drawY = drawY + linebreak
+    
+    -- battery
+end
+
+--------------------------------------------------
 -- Skill Selection Screen
 --------------------------------------------------
 
@@ -405,6 +471,7 @@ local function DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 		DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 4 then
 	elseif infoscreenData.displayedScreen == 5 then
+        DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
 	end
 end
 
