@@ -43,7 +43,7 @@ local startConfig = {
 		--},
         {
 			defName = "trade",
-			pos = {8, 10},
+			pos = {8, 13},
 		},
         {
 			defName = "laptop",

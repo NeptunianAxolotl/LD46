@@ -7,7 +7,7 @@ local function DrawGrass(interface)
 	local originX, originY = interface.WorldToScreen(worldX, worldY, 0, 0.5)
 	
 	local goUp = true
-	while originX < 1124 do
+	while originX < 1320 do
 		local tempWorldX = worldX
 		local tempWorldY = worldY
 		for y = originY, 868, GLOBAL.TILE_SIZE do

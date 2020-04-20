@@ -26,11 +26,11 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Construct a Building", 328, 90)
+	love.graphics.print("Construct a Building", 328 + 128, 90)
 	
 	local buildOptions = world.GetBuildOptions()
 	local startHeight = 150
-	local drawX = 330
+	local drawX = 330 + 128
 	local drawY = startHeight
 	
 	for i = 1, #buildOptions do
@@ -60,14 +60,14 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	
 	if GLOBAL.DEMOLISH_BUILDING then
 		drawY = drawY + 10
-		if UTIL.PosInRectangle(drawX-30, drawY - 10, 190, 40, mouseX, mouseY) then
+		if UTIL.PosInRectangle(drawX-70, drawY - 10, 250, 40, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {demolish = true}
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
 		font.SetSize(1)
-		love.graphics.print("Demolish Building", drawX - 30, drawY)
+		love.graphics.print("Demolish Construction", drawX - 70, drawY)
 	end
 end
 
@@ -79,10 +79,10 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Laptop Status", 395, 90)
+	love.graphics.print("Laptop Status", 395 + 128, 90)
     
     local laptopData = world.GetOrModifyLaptopStatus()
-    local originalX = 240
+    local originalX = 240 + 128
     local drawX = originalX
     local drawY = 165
     local powerBarWidth = 200
@@ -196,10 +196,10 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Trading Post", 400, 90)
+	love.graphics.print("Trading Post", 400 + 128, 90)
 	
 	local tradeData = world.GetOrModifyTradeStatus()
-	local drawX = 240
+	local drawX = 240 + 128
 	local drawY = 135
 	
 	local room = tradeData.room
@@ -327,10 +327,10 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Manual", 435, 90)
+	love.graphics.print("A Seat of Knowledge", 348 + 128, 90)
     
     local laptopData = world.GetOrModifyLaptopStatus()
-    local originalX = 240
+    local originalX = 240 + 128
     local drawX = originalX
     local drawY = 140
     local linebreak = 21
@@ -361,17 +361,17 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     font.SetSize(2)
     drawY = drawY + parabreak
     
-    love.graphics.print("WASD to move camera", drawX, drawY)
+    love.graphics.print(" - WASD to move camera", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Click on monks to select, then click tree/building to prioritize job", drawX, drawY)
+    love.graphics.print(" - Click on monks to select, then click a building to prioritize jobs", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("(Note: Some buildings have more than one job)", drawX, drawY)
+    love.graphics.print("    (Note: Some buildings have more than one job)", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Click on job in monk's priority queue to remove it", drawX, drawY)
+    love.graphics.print(" - Click on job in monk's priority queue to remove it", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Click buttons to open menus", drawX, drawY)
+    love.graphics.print(" - Click buttons to open menus", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Press Space or click red X to exit menus (like this one)", drawX, drawY)
+    love.graphics.print(" - Press Space or click red X to exit menus (like this one)", drawX, drawY)
     drawY = drawY + parabreak + 10
     
     font.SetSize(1)
@@ -379,11 +379,11 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     font.SetSize(2)
     drawY = drawY + parabreak
     
-    love.graphics.print("Have monks learn every skill from laptop", drawX, drawY)
+    love.graphics.print(" - Have monks learn every skill from the laptop", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Buy books from the trader and write each skill in them", drawX, drawY)
+    love.graphics.print(" - Buy blank books from the trader and write a book on each skill", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Don't let the laptop reach 0% power and turn off", drawX, drawY)
+    love.graphics.print(" - Don't let the laptop reach 0% power and turn off", drawX, drawY)
     drawY = drawY + linebreak
     
     -- battery
@@ -406,11 +406,11 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Select a Skill", 374, 90)
+	love.graphics.print("Select a Skill", 374 + 128, 90)
 	
 	local options = DEFS.skillDefs
 	local startHeight = 165
-	local drawX = 256
+	local drawX = 256 + 128
 	local drawY = startHeight
     local laptopData = world.GetOrModifyLaptopStatus()
 	
@@ -455,7 +455,7 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Library", 455, 90)
+	love.graphics.print("Library", 455 + 128, 90)
 	
 	local options = DEFS.skillDefs
     local booksWritten = world.GetOrModifyKnowStatus().booksWritten
@@ -463,7 +463,7 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	
 	love.graphics.setColor(0, 0, 0, 1)
 	
-	local drawX = 240
+	local drawX = 240 + 128
 	local drawY = 180
 	
 	font.SetSize(2)
@@ -501,15 +501,15 @@ local function DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 	infoscreenData.hoveredOption = false
 	
 	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.draw(DEFS.images.infoscreen, 0, 0, 0, 1, 1, 0, 0, 0, 0)
+	love.graphics.draw(DEFS.images.infoscreen, 0 + 128, 0, 0, 1, 1, 0, 0, 0, 0)
 	
-	if UTIL.PosInRectangle(808, 66, 32, 32, mouseX, mouseY) then
+	if UTIL.PosInRectangle(808 + 128, 66, 32, 32, mouseX, mouseY) then
 		infoscreenData.hoveredOption = {closeScreen = true}
 		love.graphics.setColor(1, 1, 1, 1)
 	else
 		love.graphics.setColor(0.8, 0.8, 0.8, 1)
 	end
-	love.graphics.draw(DEFS.images.closescreen, 808, 66, 0, 1, 1, 0, 0, 0, 0)
+	love.graphics.draw(DEFS.images.closescreen, 808 + 128, 66, 0, 1, 1, 0, 0, 0, 0)
 	
 	if infoscreenData.displayedScreen == 0 then
 		DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, mouseY)
@@ -538,7 +538,7 @@ end
 --------------------------------------------------
 
 local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
-	if not UTIL.PosInRectangle(172, 50, 675, 640, mouseX, mouseY) then
+	if not UTIL.PosInRectangle(172 + 128, 50, 675, 640, mouseX, mouseY) then
 		CloseScreen(infoscreenData, world, interface)
 	end
 	
@@ -596,7 +596,7 @@ local function Draw(infoscreenData, world, interface, mouseX, mouseY)
 		DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 	end
 	
-	local buttonX = 94
+	local buttonX = 94 + 128
 	local buttonY = windowHeight - 60
 	local hovered = false
 	
