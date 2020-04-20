@@ -15,6 +15,13 @@ local roomDefFiles = {
 	"tree",
 	"garden",
 	"laptop",
+	"library",
+	"dorm_small",
+	"chapel",
+	"bakery",
+	--"brewery",
+	--"bike",
+	--"trade",
 }
 
 local featureDefFiles = {

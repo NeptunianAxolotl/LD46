@@ -43,6 +43,22 @@ local startConfig = {
 			pos = {7, 0},
 		},
 		{
+			defName = "library",
+			pos = {6, -4},
+		},
+		{
+			defName = "dorm_small",
+			pos = {3, -4},
+		},
+		{
+			defName = "chapel",
+			pos = {-2, -4},
+		},
+		{
+			defName = "bakery",
+			pos = {10, -8},
+		},
+		{
 			defName = "tree",
 			pos = {0, 6},
 		},
