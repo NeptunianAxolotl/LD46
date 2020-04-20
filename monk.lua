@@ -569,7 +569,11 @@ local function New(init)
 			local activeTask = GetActiveTask()
 			
 			if activeTask == "chop" then
-                desiredAnimation = def.images.chop_E
+                desiredAnimation = def.GetChopAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "cook" then
+                desiredAnimation = def.GetCookAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "make_grain" then
+                desiredAnimation = def.GetMakeGrainAnim(UTIL.DirectionToCardinal(direction))
 			elseif activeTask then
 				-- no known animation, go idle
                 desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))

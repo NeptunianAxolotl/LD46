@@ -27,6 +27,13 @@ local data = {
         
         -- chopping animations
         chop_E = {file="monk/monk_chop_e.png",width=640,duration=0.7},
+        
+        -- cooking animations 
+        cook_NE = {file="monk/monk_cook_ne.png",width=640,duration=0.7},
+        cook_NW = {file="monk/monk_cook_nw.png",width=640,duration=0.7},
+        
+        -- make grain animations
+        grain_NE = {file="monk/monk_make_grain_ne.png",width=640,duration=0.7},
     },
 	drawOriginX = 0.13,
 	drawOriginY = 1.25,
@@ -34,6 +41,7 @@ local data = {
 
 local standlookup = {data.images.stand_NE,data.images.stand_E,data.images.stand_SE,data.images.stand_S,data.images.stand_SW,data.images.stand_W,data.images.stand_NW,data.images.stand_N}
 local walklookup = {data.images.walk_NE,data.images.walk_E,data.images.walk_SE,data.images.walk_S,data.images.walk_SW,data.images.walk_W,data.images.walk_NW,data.images.walk_N}
+local cooklookup = {data.images.cook_NE,nil,nil,nil,nil,nil,data.images.cook_NW,nil}
 
 function data.GetStandAnim(direction)
 	return standlookup[direction]
@@ -41,6 +49,18 @@ end
 
 function data.GetWalkAnim(direction)
 	return walklookup[direction]
+end
+
+function data.GetChopAnimation(direction)
+    return data.images.chop_E
+end
+
+function data.GetMakeGrainAnim(direction)
+    return data.images.grain_NE
+end
+
+function data.GetCookAnim(direction)
+    return cooklookup[direction] or standlookup[direction]
 end
 
 return data
