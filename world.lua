@@ -30,11 +30,16 @@ local function GetNewWorld(startLayout)
 	local knowStatus = knowUtilities.InitKnowStatus()
 	local spawnStatus = spawnUtilities.InitSpawnStatus()
 
+	local usedNames = {}
+	local function GetUniqueName()
+		return nameUtilities.GetRandomUniqueName(usedNames)
+	end
+
 	--------------------------------------------------
 	-- Initialization
 	--------------------------------------------------
 	for i = 1, #startLayout.monks do
-		monkList.Add(GetNewMonk(startLayout.monks[i]))
+		monkList.Add(GetNewMonk(startLayout.monks[i], GetUniqueName()))
 	end
 	for i = 1, #startLayout.rooms do
 		roomList.Add(GetNewRoom(startLayout.rooms[i], stationsByUse))
@@ -148,7 +153,7 @@ local function GetNewWorld(startLayout)
 		local initData = {
 			pos = {px, py},
 		}
-		local newMonk = GetNewMonk(initData)
+		local newMonk = GetNewMonk(initData, GetUniqueName())
 		monkList.Add(newMonk)
 		return newMonk
 	end

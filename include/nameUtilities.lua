@@ -1,7 +1,4 @@
-
-local usedNames = {}
-
-local function GetRandomUniqueName()
+local function GetRandomUniqueName(usedNames)
 	local nameCount = #DEFS.nameList
 	
 	for i = 1, 100 do

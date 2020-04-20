@@ -2,7 +2,7 @@ stationUtilities = require("include/stationUtilities")
 goalUtilities = require("include/goalUtilities")
 nameUtilities = require("include/nameUtilities")
 
-local function New(init)
+local function New(init, humanName)
 	local food = 1
 	local sleep = 1
 	local moral = 1
@@ -57,14 +57,16 @@ local function New(init)
 	local def       = DEFS.monkDef
 	local pos       = init.pos
 	local direction = math.random()
-	
-	local humanName = nameUtilities.GetRandomUniqueName()
 
 	local animCurrent = nil
 	local animTimer = 0
 	
 	if init.priorities then
-		priorities = init.priorities
+		for i = 1, #init.priorities do
+			priorities[i] = {
+				taskType = init.priorities[i].taskType
+			}
+		end
 	end
 
 	init = nil

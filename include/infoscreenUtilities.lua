@@ -441,7 +441,7 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	
 	drawY = drawY + 75
 	if infoscreenData.extraData and infoscreenData.extraData.alreadyHasSkill then
-		if UTIL.PosInRectangle(drawX, drawY, 180, 34, mouseX, mouseY) then
+		if UTIL.PosInRectangle(drawX, drawY - 20, 180, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {cancel = true}
 		else
