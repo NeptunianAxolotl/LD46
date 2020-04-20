@@ -284,20 +284,34 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	local drawX = 256
 	local drawY = startHeight
 	
-	font.SetSize(1)
 	for i = 1, #options do
-		if UTIL.PosInRectangle(drawX, drawY, 130, 34, mouseX, mouseY) then
+		if UTIL.PosInRectangle(drawX, drawY, 420, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {skill = options[i].name}
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
+		font.SetSize(1)
 		love.graphics.print(options[i].humanName, drawX, drawY)
+		font.SetSize(2)
+		love.graphics.print(options[i].desc, drawX + 174, drawY + 4)
 		drawY = drawY + 36
 		if drawY > 630 then
 			drawY = startHeight
 			drawX = drawX + 160
 		end
+	end
+	
+	drawY = drawY + 75
+	if infoscreenData.extraData and infoscreenData.extraData.alreadyHasSkill then
+		if UTIL.PosInRectangle(drawX, drawY, 180, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {cancel = true}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		font.SetSize(1)
+		love.graphics.print("Cancel and keep current skill", drawX, drawY)
 	end
 end
 
@@ -358,7 +372,9 @@ local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
 	end
 	
 	if infoscreenData.displayedScreen == 0 then
-		infoscreenData.extraData.monk.SetDesiredSkill(infoscreenData.hoveredOption.skill)
+		if infoscreenData.hoveredOption.skill then
+			infoscreenData.extraData.monk.SetDesiredSkill(infoscreenData.hoveredOption.skill)
+		end
 		CloseScreen(infoscreenData, world, interface)
 	end
 	if infoscreenData.displayedScreen == 1 then

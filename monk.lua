@@ -286,6 +286,13 @@ local function New(init)
 		return false
 	end
 	
+	function externalFuncs.HasSkill()
+		if currentSkill.def then
+			return true
+		end
+		return false
+	end
+	
 	function externalFuncs.SetDesiredSkill(newSkill)
 		if currentSkill.def and currentSkill.def.name == newSkill then
 			return

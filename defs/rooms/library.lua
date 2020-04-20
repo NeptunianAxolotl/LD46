@@ -3,7 +3,7 @@ local data = {
 	name = "library",
 	humanName = "Library",
 	buildDef = "library_build",
-	image = "library_empty.png",
+	image = "library_0.png",
 	clickTaskFunc = function (x, y)
 		if x < 2 then
 			return "library_learn"
