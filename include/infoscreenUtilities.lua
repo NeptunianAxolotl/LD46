@@ -372,6 +372,8 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     love.graphics.print(" - Click buttons to open menus", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print(" - Press Space or click red X to exit menus (like this one)", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print(" - Press Ctrl + Shift + R to restart game", drawX, drawY)
     drawY = drawY + parabreak + 10
     
     font.SetSize(1)
