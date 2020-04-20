@@ -25,6 +25,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
+        bookTitle = "Seasonal Guide to Growing Your Own Food"
 	},
     {
 		name = "carpentry",
@@ -41,6 +42,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
+        bookTitle = "Chopping like Bunyan: The Compleat Guide"
 	},
     -- intermediate skills
 	{
@@ -58,6 +60,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
+        bookTitle = "Piling Higher and Deeper"
 	},
     {
 		name = "baking",
@@ -74,6 +77,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
+        bookTitle = "Feeding Ungrateful Sods"
 	},
     {
 		name = "brewing",
@@ -90,6 +94,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
+        bookTitle = "Home Brewer's Guide to Getting Stinking Drunk"
 	},
     {
 		name = "economics",
@@ -104,6 +109,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
+        bookTitle = "On Negotiating for Worthless Pieces of Plastic"
 	},
     -- advanced skills
     {
@@ -120,6 +126,7 @@ local data = {
 		requiredPeripherals = {
             "monitor"
 		},
+        bookTitle = "Y2K-Compliant Coding"
 	},
     {
 		name = "music",
@@ -135,6 +142,7 @@ local data = {
 		requiredPeripherals = {
             "speakers"
 		},
+        bookTitle = "The Siren's Call (Organ, D minor)"
 	},
     {
 		name = "art",
@@ -148,6 +156,7 @@ local data = {
 		requiredPeripherals = {
             "graphicscard"
 		},
+        bookTitle = "A Short History of Game Design"
 	},
 }
 
