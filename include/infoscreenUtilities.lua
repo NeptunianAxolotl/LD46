@@ -54,6 +54,58 @@ end
 -- Trade Screen
 --------------------------------------------------
 
+local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY)
+	love.graphics.setColor(0, 0, 0, 1)
+	
+	font.SetSize(0)
+	love.graphics.print("Laptop Status", 395, 90)
+    
+    local laptopData = world.GetOrModifyLaptopStatus()
+    local originalX = 240
+    local drawX = originalX
+    local drawY = 165
+    local powerBarWidth = 200
+    local powerBarHeight = 50
+    
+    font.SetSize(2)
+	love.graphics.print("Battery Life: ", drawX, drawY)
+    drawY = drawY + 25
+    
+    love.graphics.setColor(0, 0, 0)
+	love.graphics.rectangle("fill", drawX, drawY, powerBarWidth, powerBarHeight, 2, 0, 0 )
+    love.graphics.rectangle("fill", drawX+powerBarWidth-2, drawY+powerBarHeight/5, powerBarWidth/20, 3*powerBarHeight/5, 2, 0, 0 )
+    love.graphics.setColor(0.5, 0.5, 0.5)
+    love.graphics.rectangle("fill", drawX+2, drawY+2, powerBarWidth-4, powerBarHeight-4, 2, 0, 0 )
+    love.graphics.rectangle("fill", drawX+powerBarWidth, drawY+powerBarHeight/5+2, powerBarWidth/20-4, 3*powerBarHeight/5-4, 2, 0, 0 )
+    love.graphics.setColor(0, 0, 0)
+    if laptopData.charge < 0.1 then
+        love.graphics.setColor(1, 0, 0)
+    elseif laptopData.charge < 0.3 then
+        love.graphics.setColor(1, 1, 0)
+    else
+        love.graphics.setColor(0, 1, 0)
+    end
+	love.graphics.rectangle("fill", drawX+2, drawY+2, (powerBarWidth-4)*laptopData.charge, powerBarHeight-4, 2, 0, 0 )
+	
+	love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.print(math.ceil(laptopData.charge*100) .. "%", drawX+powerBarWidth/2-12, drawY+powerBarHeight/2-10)
+    
+    drawX = originalX
+    drawY = drawY + powerBarHeight
+    drawY = drawY + 25
+    love.graphics.setColor(0, 0, 0)
+    
+    love.graphics.print("Power Consumption Rate: ", drawX, drawY)
+    drawY = drawY + 100
+    
+    love.graphics.print("Current Peripherals: ", drawX, drawY)
+    
+end
+
+--------------------------------------------------
+-- Trade Screen
+--------------------------------------------------
+
 local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
@@ -189,6 +241,7 @@ local function DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 1 then
 		DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 2 then
+        DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 3 then
 		DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 4 then

@@ -2,6 +2,7 @@ local IterableMap = require("include/IterableMap")
 local drawUtilities = require("include/drawUtilities")
 
 tradeUtilities = require("include/tradeUtilities")
+laptopUtilities = require("include/laptopUtilities")
 
 local GetNewMonk = require("monk")
 local GetNewRoom = require("room")
@@ -19,6 +20,7 @@ local function GetNewWorld(startLayout)
 	end
 
 	local tradeStatus = tradeUtilities.InitTradeStatus()
+    local laptopStatus = laptopUtilities.InitLaptopStatus()
 
 	--------------------------------------------------
 	-- Initialization
@@ -64,6 +66,10 @@ local function GetNewWorld(startLayout)
 		return DEFS.buildOptions
 	end
 	
+    function externalFuncs.GetOrModifyLaptopStatus()
+        return laptopStatus
+    end
+    
 	function externalFuncs.GetOrModifyTradeStatus()
 		return tradeStatus
 	end
