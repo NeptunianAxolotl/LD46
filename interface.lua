@@ -111,7 +111,11 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
-		if infoscreenUtilitiesKeyPressed(infoscreenData, world, interface, key) then
+		if infoscreenUtilities.KeyPressed(infoscreenData, world, interface, key) then
+			return
+		end
+		if key == "space" then
+			world.SetPaused(not world.GetPaused())
 			return
 		end
 		if key == "1" then

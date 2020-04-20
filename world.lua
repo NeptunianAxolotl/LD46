@@ -29,9 +29,12 @@ local function GetNewWorld(startLayout)
 		featureList.Add(GetNewFeature(startLayout.features[i]))
 	end
 
+	local paused = false
+	
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
+
 
 	local function UpdateWorld(dt)
 		roomList.ApplySelf("UpdateRoom", dt, monkList)
@@ -40,9 +43,21 @@ local function GetNewWorld(startLayout)
 	end
 
 	--------------------------------------------------
-	-- Interface
+	-- Messing with the world
 	--------------------------------------------------
 	local externalFuncs = {}
+	
+	function externalFuncs.SetPaused(newPaused)
+		paused = newPaused
+	end
+	
+	function externalFuncs.GetPaused()
+		return paused
+	end
+	
+	--------------------------------------------------
+	-- Creation
+	--------------------------------------------------
 
 	function externalFuncs.CreateRoom(defName, px, py)
 		local initData = {
@@ -65,6 +80,9 @@ local function GetNewWorld(startLayout)
 		return newFeature
 	end
 
+	--------------------------------------------------
+	-- Data
+	--------------------------------------------------
 	function externalFuncs.GetRoomList()
 		return roomList
 	end
@@ -74,6 +92,9 @@ local function GetNewWorld(startLayout)
 	end
 
 	function externalFuncs.Update(dt)
+		if paused then
+			return
+		end
 		UpdateWorld(dt)
 	end
 
@@ -82,6 +103,10 @@ local function GetNewWorld(startLayout)
 		--draw
 		drawUtilities.DrawGrass(interface)
 		love.graphics.setColor(1, 1, 1)
+		
+		if paused then
+			dt = 0
+		end
 		
 		featureList.ApplySelf("Draw", interface, dt)
 		roomList.ApplySelf("Draw", interface, dt)
