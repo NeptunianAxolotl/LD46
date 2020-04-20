@@ -19,9 +19,9 @@ local roomDefFiles = {
 	"dorm_small",
 	"chapel",
 	"bakery",
-	--"brewery",
-	--"bike",
-	--"trade",
+	"brewery",
+	"trade",
+	"bike",
 }
 
 local featureDefFiles = {
