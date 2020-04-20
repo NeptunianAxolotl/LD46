@@ -189,6 +189,11 @@ local function GetNewInterface(world)
 	function externalFuncs.DrawInterface()
 		local mouseX, mouseY = love.mouse.getPosition()
 		
+		--if true then
+		--	local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
+		--	print(x, y)
+		--end
+		
 		love.graphics.setLineWidth(2)
 		uiClick = false
 		

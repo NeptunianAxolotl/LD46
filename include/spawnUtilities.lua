@@ -1,17 +1,24 @@
 
+local spawnLocations = {
+	{0, -30},
+	{45, 16},
+	{4, 58},
+	{-42, 12},
+}
+
 local function InitSpawnStatus(monk, potentialStations, requiredRoom)
 	local spawnData = {
 		progress = 0,
-		rate = 0.5,
+		rate = 0.1,
 	}
 	
 	return spawnData
 end
 
 local function SpawnMonk(spawnData, room)
-	spawnData.rate = spawnData.rate*0.85
-	local pos = room.GetPosition()
-	local monk = GetWorld().CreateMonk(pos[1] - 1, pos[2] - 1)
+	spawnData.rate = spawnData.rate*0.7 + 0.005
+	local pos = spawnLocations[math.floor(4*math.random()) + 1] or spawnLocations[1]
+	local monk = GetWorld().CreateMonk(pos[1], pos[2])
 	monk.SetNewPriority(room, "pray", true)
 end
 

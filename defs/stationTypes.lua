@@ -34,7 +34,7 @@ local data = {
 }
 
 local stationTypeNames = {
-	sleep = "Sleeping",
+	sleep = "Sleep",
 	get_veg = "Pick Vegetables",
 	make_grain = "Reap Grain",
 	get_grain = "Fetch Grain",

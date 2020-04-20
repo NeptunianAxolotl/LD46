@@ -70,6 +70,6 @@ function love.load()
 	love.graphics.setBackgroundColor(0.3, 0.5, 0.1)
 	math.randomseed(os.clock())
 	DEFS.Load()
-	world = GetNewWorld(require("startLayout_test"))
+	world = GetNewWorld(require("startLayout"))
 	interface = GetNewInterface(world)
 end
