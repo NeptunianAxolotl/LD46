@@ -30,9 +30,8 @@ end
 local function DrawSupply(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
-	love.graphics.setColor(0, 0, 0)
-	love.graphics.print(math.floor(self.GetResourceCount("wood")*10)/10, drawX + 1.2*GLOBAL.TILE_SIZE, drawY + 0.2*GLOBAL.TILE_SIZE)
-	
+	love.graphics.setColor(1, 1, 1)
+	love.graphics.print(math.floor(self.GetResourceCount("wood")*10)/10, drawX + 0.8*GLOBAL.TILE_SIZE, drawY + 0.3*GLOBAL.TILE_SIZE)
 	love.graphics.setColor(1, 1, 1)
 end
 

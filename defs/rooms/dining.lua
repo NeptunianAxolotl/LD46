@@ -28,9 +28,8 @@ local eatRequirement = {
 local function DrawDining(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
-	love.graphics.setColor(0, 0, 0)
-	love.graphics.print(math.floor(self.GetResourceCount("food")*10)/10, drawX + 2.35*GLOBAL.TILE_SIZE, drawY + 0.2*GLOBAL.TILE_SIZE)
-	
+	love.graphics.setColor(1, 1, 1)
+	love.graphics.print(math.floor(self.GetResourceCount("food")*10)/10, drawX + 0.55*GLOBAL.TILE_SIZE, drawY + 1.2*GLOBAL.TILE_SIZE)
 	love.graphics.setColor(1, 1, 1)
 end
 
