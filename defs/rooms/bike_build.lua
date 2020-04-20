@@ -1,6 +1,6 @@
 
 local CONSTRUCTED_BUILDING = "bike"
-local BUILD_IMAGE = "bike.png"
+local BUILD_IMAGE = "bike_partial.png"
 local WIDTH = 2
 local HEIGHT = 2
 
