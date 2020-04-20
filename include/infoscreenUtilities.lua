@@ -273,6 +273,15 @@ end
 -- Skill Selection Screen
 --------------------------------------------------
 
+local function CheckPeriph(req, have)
+	for i = 1, #req do
+		if not have[req[i]] then
+			return false
+		end
+	end
+	return true
+end
+
 local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
@@ -283,9 +292,12 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	local startHeight = 165
 	local drawX = 256
 	local drawY = startHeight
+    local laptopData = world.GetOrModifyLaptopStatus()
 	
 	for i = 1, #options do
-		if UTIL.PosInRectangle(drawX, drawY, 420, 34, mouseX, mouseY) then
+		if not CheckPeriph(options[i].requiredPeripherals, laptopData.peripherals) then
+			love.graphics.setColor(0.4, 0.4, 0.4, 1)
+		elseif UTIL.PosInRectangle(drawX, drawY, 420, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {skill = options[i].name}
 		else

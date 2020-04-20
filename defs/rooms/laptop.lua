@@ -32,6 +32,12 @@ local function CheckEligible(station, room, monk, workData, dt)
 		return false
 	end
 	
+	for i = 1, #skillDef.requiredPeripherals do
+		if not laptopData.peripherals[skillDef.requiredPeripherals[i]] then
+			return false
+		end
+	end
+	
 	-- Check peripherals
 	return true
 end
