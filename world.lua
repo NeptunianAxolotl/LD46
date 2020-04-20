@@ -64,8 +64,8 @@ local function GetNewWorld(startLayout)
 		featureList.ApplySelf("UpdateFeature", dt)
 		monkList.ApplySelf("UpdateMonk", dt, roomList, stationsByUse)
 		
-		knowUtilities.CheckVictory(knowStatus, world)
-		laptopUtilities.CheckDefeat(laptopStatus, world)
+		knowUtilities.CheckVictory(knowStatus, externalFuncs)
+		laptopUtilities.CheckDefeat(laptopStatus, externalFuncs)
 		
         musicUtilities.CheckMusicChange("background")
         Audio.Update(dt)
@@ -178,8 +178,8 @@ local function GetNewWorld(startLayout)
 		if paused then
 			return
 		end
-		totalGameTime = totalGameTime + dt
-		UpdateWorld(dt)
+		totalGameTime = totalGameTime + dt*40
+		UpdateWorld(dt*40)
 	end
 
 	function externalFuncs.DrawWorld(interface, dt)
