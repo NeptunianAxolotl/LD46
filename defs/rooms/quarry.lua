@@ -4,9 +4,9 @@ local data = {
 	image = "quarry.png",
 	clickTask = "make_stone",
 	drawOriginX = 0,
-	drawOriginY = 1.5,
-	width = 3,
-	height = 3,
+	drawOriginY = 1,
+	width = 2,
+	height = 2,
 	stations = {
 	}
 }
