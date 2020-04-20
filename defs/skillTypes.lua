@@ -19,8 +19,8 @@ local data = {
 		learnPowerDrainMod = basicPowerMod,
 		--preferedTask = "make_veg",
 		taskSpeed = {
-			make_grain = 1.8,
-			make_veg = 1.6,
+			make_grain = 1.9,
+			make_veg = 1.8,
 		},
 		requiredPeripherals = {
 		
