@@ -1,3 +1,4 @@
+local hugeFont
 local bigFont
 local medFont
 local smallFont
@@ -9,7 +10,10 @@ function externalFunc.SetSize(size)
 	if not bigFont then
 		externalFunc.Load()
 	end
-	if size == 1 then
+	if size == 0 then
+		love.graphics.setFont(hugeFont)
+		_size = 0
+	elseif size == 1 then
 		love.graphics.setFont(bigFont)
 		_size = 1
 	elseif size == 2 then
@@ -32,7 +36,8 @@ function externalFunc.GetFont()
 end
 
 function externalFunc.Load()
-	bigFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 28)
+	hugeFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 36)
+	bigFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 24)
 	medFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 16)
 	smallFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 16)
 end

@@ -55,6 +55,10 @@ local function GetNewWorld(startLayout)
 		return paused
 	end
 	
+	function externalFuncs.GetBuildOptions()
+		return {"dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm"}
+	end
+	
 	--------------------------------------------------
 	-- Creation
 	--------------------------------------------------

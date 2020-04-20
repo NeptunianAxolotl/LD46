@@ -25,15 +25,20 @@ local function GetNewInterface(world)
 		active = false,
 		currentScreen = 0
 	}
+	
+	local externalFuncs = {}
 
 	--------------------------------------------------
 	-- Utilities
 	--------------------------------------------------
 	
+	function externalFuncs.SetPlacingStructure(newPlacingStructure)
+		placingStructure = newPlacingStructure
+	end
+	
 	--------------------------------------------------
 	-- Input
 	--------------------------------------------------
-	local externalFuncs = {}
 
 
 	function externalFuncs.MouseMoved(mouseX, mouseY, dx, dy, istouch)
@@ -42,11 +47,9 @@ local function GetNewInterface(world)
 
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
 		if buttonHovered then
-			infoscreenUtilities.ButtonClicked(infoscreenData, world, interface, buttonHovered)
-		end
-		
-		if infoscreenData.active then
-			infoscreenUtilities.HandleClick(infoscreenData, world, interface, mouseX, mouseY)
+			infoscreenUtilities.ButtonClicked(infoscreenData, world, externalFuncs, buttonHovered)
+		elseif infoscreenData.active then
+			infoscreenUtilities.HandleClick(infoscreenData, world, externalFuncs)
 			return
 		end
 		
@@ -211,10 +214,10 @@ local function GetNewInterface(world)
 				end
 			end
 			
-			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY, clickTask)
+			uiClick = interfaceUtilities.DrawMonkInterface(externalFuncs, selectedMonk, mouseX, mouseY, clickTask)
 		end
 		
-		buttonHovered = infoscreenUtilities.Draw(infoscreenData, world, interface, mouseX, mouseY)
+		buttonHovered = infoscreenUtilities.Draw(infoscreenData, world, externalFuncs, mouseX, mouseY)
 	end
 	
 	return externalFuncs
