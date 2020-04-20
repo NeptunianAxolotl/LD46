@@ -1,4 +1,11 @@
 
+local function DoUpkeepLaptop(station, room, monk, workData, dt)
+
+end
+
+local function DoUseLaptop(station, room, monk, workData, dt)
+
+end
 
 local data = {
 	name = "laptop",
@@ -17,6 +24,7 @@ local data = {
 		{
 			pos = {0, 1},
 			taskType = "upkeep_laptop",
+			PerformAction = DoUpkeepLaptop,
 			doors = {
                 {
                     entryPath = {{-1,1}}
@@ -26,6 +34,7 @@ local data = {
 		{
 			pos = {1, 0},
 			taskType = "use_laptop",
+			PerformAction = DoUseLaptop,
 			doors = {
                 {
                     entryPath = {{1,-1}}
