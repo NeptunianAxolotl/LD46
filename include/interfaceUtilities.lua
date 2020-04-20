@@ -99,63 +99,64 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 		skillStr = skillStr .. def.titleName
 	end
 	
-	local barX = 16
-	local barWidth = 162
-	local barHeight = 23
+	local drawX = 12
+	local barY = -6
+	local barX = 4
+	local barWidth = 232
+	local barHeight = 25
 	
-	local drawY = 334
+	local drawY = 349
 	
 	font.SetSize(2)
 	love.graphics.setColor(0, 0, 0, 1)
 	
-	love.graphics.print(name, 20, drawY)
-	drawY = drawY + 23
+	love.graphics.print(name, drawX, drawY)
+	drawY = drawY + 26
 	
-	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 0, 0 )
 	love.graphics.setColor(GLOBAL.BAR_SKILL_RED, GLOBAL.BAR_SKILL_GREEN, GLOBAL.BAR_SKILL_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, skillProgress*barWidth, barHeight, 2, 0, 0 )
+	love.graphics.rectangle("fill", barX, drawY + barY + 4, skillProgress*barWidth, barHeight, 2, 0, 0 )
 	drawY = drawY + 2
 	
 	love.graphics.setColor(0, 0, 0, 1)
-	love.graphics.print(skillStr, 20, drawY)
+	love.graphics.print(skillStr, drawX, drawY)
+	drawY = drawY + 26
 	
-	drawY = drawY + 28
-	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 0, 0 )
+	drawY = drawY + 32
 	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, sleep*barWidth, barHeight, 2, 0, 0 )
-	drawY = drawY + 2
+	love.graphics.rectangle("fill", barX, drawY + barY, sleep*barWidth, barHeight, 2, 0, 0 )
 	
 	love.graphics.setColor(0, 0, 0, 1)
-	love.graphics.print("Rest", 20, drawY)
-	
+	love.graphics.print("Rest", drawX, drawY)
 	drawY = drawY + 28
-	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 0, 0 )
+	
 	love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, food*barWidth, barHeight, 2, 0, 0 )
-	drawY = drawY + 2
+	love.graphics.rectangle("fill", barX, drawY + barY, food*barWidth, barHeight, 2, 0, 0 )
 	
 	love.graphics.setColor(0, 0, 0, 1)
-	love.graphics.print("Food", 20, drawY)
+	love.graphics.print("Satiety", drawX, drawY)
+	drawY = drawY + 27
 	
-	love.graphics.setColor(0, 0, 0, 1)
-	drawY = drawY + 28
-	
-	love.graphics.print("Task: " .. currentTaskName, 20, drawY)
-	drawY = drawY + 23
+	love.graphics.print("Task: " .. currentTaskName, drawX, drawY)
+	drawY = drawY + 27
 	if resourceCarried then
-		love.graphics.print("Carrying: " .. resourceCarried, 20, drawY)
+		love.graphics.print("Carrying: " .. resourceCarried, drawX, drawY)
 	end
-	drawY = drawY + 23
+	drawY = drawY + 27
 	
-	love.graphics.print("Jobs:", 20, drawY)
-	drawY = drawY + 23
+	if clickTask then
+		clickTask = DEFS.stationTypeNames[clickTask] or clickTask
+		love.graphics.setColor(0, 0.5, 0, 1)
+		love.graphics.print("Order: " .. clickTask, drawX, drawY)
+		love.graphics.setColor(0, 0, 0, 1)
+	end
+	
+	drawY = drawY + 27
+	love.graphics.print("Jobs:", drawX, drawY)
+	drawY = drawY + 30
 	
 	for i = 1, #priorities do
 		local name = DEFS.stationTypeNames[priorities[i].taskType] or priorities[i].taskType
-		love.graphics.print(" " .. i .. ". " .. name, 20, drawY)
+		love.graphics.print(" " .. i .. ".   " .. name, drawX - 2, drawY)
 		if UTIL.PosInRectangle(10, drawY, 180, 20, mouseX, mouseY) then
 			uiClick = {
 				monk = monk,
@@ -166,16 +167,9 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 			love.graphics.setColor(0, 0, 0, 1)
 		end
 		
-		drawY = drawY + 23
+		drawY = drawY + 28
 	end
 	
-	if clickTask then
-		clickTask = DEFS.stationTypeNames[clickTask] or clickTask
-		love.graphics.setColor(0, 0.5, 0, 1)
-		love.graphics.print("Order: " .. clickTask, 20, drawY)
-		drawY = drawY + 23
-		love.graphics.setColor(0, 0, 0, 1)
-	end
 	
 	
 	return uiClick
