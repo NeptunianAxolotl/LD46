@@ -101,7 +101,7 @@ local function GetNewInterface(world)
 				
 				if clickTask then
 					if clickTask == "use_laptop" and not selectedMonk.MidwayThroughLaptop() then
-						infoscreenUtilities.SetInfoscreen(infoscreenData, world, 5, {monk = selectedMonk})
+						infoscreenUtilities.SetInfoscreen(infoscreenData, world, 0, {monk = selectedMonk})
 					end
 					selectedMonk.SetNewPriority(room, clickTask, false, true)
 				end
