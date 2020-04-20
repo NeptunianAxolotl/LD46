@@ -16,6 +16,17 @@ local names = {
 	"Brother Stephen",
 	"Brother Alberic",
 	"Brother Peter",
+	"Brother Kasimir",
+	"Brother Augustus",
+	"Brother John",
+	"Brother Thomas",
+	"Brother Godel",
+	"Brother David",
+	"Brother Timothy",
+	"Brother Francis",
+	"Brother Nicodemus",
+	"Brother Abel",
+	"Brother Cain",
 }
 
 return names
