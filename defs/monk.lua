@@ -51,7 +51,7 @@ function data.GetWalkAnim(direction)
 	return walklookup[direction]
 end
 
-function data.GetChopAnimation(direction)
+function data.GetChopAnim(direction)
     return data.images.chop_E
 end
 
