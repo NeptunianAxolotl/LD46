@@ -79,30 +79,32 @@ local data = {
 	demolishable = false,
 	stations = {
 		{
-			pos = {1.27, 1.85},
+			pos = {2.07, 1.3},
 			taskType = "transcribe",
 			PerformAction = WriteBook,
 			AvailibleFunc = CheckWriteBook,
+            overrideDir = 0,
 			doors = {
                 {
-                    entryPath = {{1,4}}
+                    entryPath = {{1,3},{1.27, 1.85},{1.5,1.5}}
                 },
                 {
-                    entryPath = {{-1,2},{0,2},{1,2.4}}
+                    entryPath = {{2,-1},{2,0},{1.5,0.5}}
                 },
 			},
 		},
 		{
-			pos = {1.27, 1.85},
+			pos = {0.4, 0},
 			taskType = "library_learn",
 			PerformAction = DoUseLaptop,
 			AvailibleFunc = CheckEligible,
+            overrideDir = 3*math.pi/2,
 			doors = {
                 {
-                    entryPath = {{1,4}}
+                    entryPath = {{1,3},{1.27, 1.85},{1.5,1.5},{1.5,0.5}}
                 },
                 {
-                    entryPath = {{-1,2},{0,2},{1,2.4}}
+                    entryPath = {{2,-1},{2,0},{1.5,0.5}}
                 },
 			},
 		},

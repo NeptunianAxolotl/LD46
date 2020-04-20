@@ -333,7 +333,7 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     local drawX = originalX
     local drawY = 140
     local linebreak = 22
-    local parabreak = 40
+    local parabreak = 35
 	
     font.SetSize(2)
 	love.graphics.print("As civilization crumbled, your monastery kept safe a laptop", drawX, drawY)
@@ -363,6 +363,8 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     love.graphics.print("WASD to move camera", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print("Click on monks to select, then click tree/building to prioritize job", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("(Note: Some buildings have more than one job)", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print("Click on job in monk's priority queue to remove it", drawX, drawY)
     drawY = drawY + linebreak
