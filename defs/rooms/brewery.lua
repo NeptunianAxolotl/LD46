@@ -1,5 +1,5 @@
 
-local STORE_LIMIT = 20
+local STORE_LIMIT = 12
 local NEED = "grain"
 local PRODUCE = "beer"
 
@@ -9,7 +9,7 @@ local function MakeAction(station, room, monk, workData, dt)
 		return true
 	end
 	workData.timer = (workData.timer or 0) + 0.25*dt*monk.GetTaskMod("make_beer")
-	monk.ModifyFatigue(-0.05*dt)
+	monk.ModifyFatigue(-0.075*dt)
 	monk.ModifyFood(-0.05*dt)
 	if workData.timer > 1 then
 		monk.SetResource(false, 0)

@@ -2,10 +2,10 @@ local STORE_LIMIT = 8
 
 local function DoCook(station, room, monk, workData, dt)
 	local resource, count = monk.GetResource()
-	if resource ~= "grain" and resource ~= "veg" then
+	if resource ~= "bread" and resource ~= "veg" then
 		return true
 	end
-	local speed = (((resource == "veg") and 0.18) or 1.2)
+	local speed = (((resource == "veg") and 0.18) or 0.6)
 	
 	workData.timer = (workData.timer or 0) + speed*dt*monk.GetTaskMod("cook")
 	monk.ModifyFatigue(-0.03*dt)
@@ -98,7 +98,7 @@ local data = {
 			pos = {2.1, 0.3},
 			taskType = "cook",
 			AvailibleFunc = CheckStorageLimit,
-			fetchResource = {"grain", "veg"},
+			fetchResource = {"bread", "veg"},
 			PerformAction = DoCook,
 			doors = {
                 {
@@ -110,7 +110,7 @@ local data = {
 			pos = {1.6, 0.3},
 			taskType = "cook",
 			AvailibleFunc = CheckStorageLimit,
-			fetchResource = {"grain", "veg"},
+			fetchResource = {"bread", "veg"},
 			PerformAction = DoCook,
             overrideDir = 3*math.pi/2,
 			doors = {

@@ -8,7 +8,7 @@ local function MakeAction(station, room, monk, workData, dt)
 		return true
 	end
 	workData.timer = (workData.timer or 0) + 0.16*dt*monk.GetTaskMod("make_bread")
-	monk.ModifyFatigue(-0.05*dt)
+	monk.ModifyFatigue(-0.075*dt)
 	monk.ModifyFood(-0.05*dt)
 	if workData.timer > 1 then
 		monk.SetResource(false, 0)

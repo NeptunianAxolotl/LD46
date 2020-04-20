@@ -4,11 +4,11 @@ local function CheckCookGoal(monk, currentGoal, stationsByUse)
 		return false
 	end
 	local resource, count = monk.GetResource()
-	if (resource == "grain" or resource == "veg") and count > 0 then
+	if (resource == "bread" or resource == "veg") and count > 0 then
 		return false
 	end
 	
-	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_grain", "get_veg"})
+	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_bread", "get_veg"})
 	return taskType, station, nil, not taskType
 end
 
