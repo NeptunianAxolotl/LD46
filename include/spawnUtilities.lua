@@ -16,7 +16,7 @@ local function InitSpawnStatus(monk, potentialStations, requiredRoom)
 end
 
 local function SpawnMonk(spawnData, room)
-	spawnData.rate = spawnData.rate*0.7 + 0.005
+	spawnData.rate = spawnData.rate*0.6 + 0.002
 	local pos = spawnLocations[math.floor(4*math.random()) + 1] or spawnLocations[1]
 	local monk = GetWorld().CreateMonk(pos[1], pos[2])
 	monk.SetNewPriority(room, "pray", true)
