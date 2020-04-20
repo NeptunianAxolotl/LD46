@@ -73,7 +73,7 @@ local data = {
 			},
 		},
 		{
-			pos = {0.6, 0.2},
+			pos = {0.67, 0.04},
 			taskType = "charge_battery",
 			fetchResource = {NEED},
 			PerformAction = MakeAction,
