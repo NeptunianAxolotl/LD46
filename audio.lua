@@ -8,18 +8,18 @@ function externalFunc.load ()
 end
 
 local volMult = {
-    background = 0.02,
-    chapel = 0.02,
-    laptophymn = 0.02,
+    background = 0.03,
+    chapel = 0.09,
+    laptophymn = 0.09,
 }
 
 function addSource(name, id)
     if name == "background" then
-        return love.audio.newSource("sounds/music/background.mid", "static")
+        return love.audio.newSource("sounds/music/background.wav", "static")
     elseif name == "chapel" then
-        return love.audio.newSource("sounds/music/chapel.mid", "static")
+        return love.audio.newSource("sounds/music/chapel.wav", "static")
     elseif name == "laptophymn" then
-        return love.audio.newSource("sounds/music/laptophymn.mid", "static")
+        return love.audio.newSource("sounds/music/laptoproom.wav", "static")
     end
 end
 
