@@ -48,7 +48,38 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 			drawX = drawX + 160
 		end
 	end
+end
 
+--------------------------------------------------
+-- Knowldge Screen
+--------------------------------------------------
+
+local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, mouseY)
+	love.graphics.setColor(0, 0, 0, 1)
+	
+	font.SetSize(0)
+	love.graphics.print("Select a Skill", 374, 90)
+	
+	local options = DEFS.skillDefs
+	local startHeight = 165
+	local drawX = 256
+	local drawY = startHeight
+	
+	font.SetSize(1)
+	for i = 1, #options do
+		if UTIL.PosInRectangle(drawX, drawY, 130, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {build = options[i]}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		love.graphics.print(options[i].humanName, drawX, drawY)
+		drawY = drawY + 36
+		if drawY > 630 then
+			drawY = startHeight
+			drawX = drawX + 160
+		end
+	end
 end
 
 --------------------------------------------------
@@ -59,11 +90,19 @@ local function DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(DEFS.images.infoscreen, 0, 0, 0, 1, 1, 0, 0, 0, 0)
 	
+	if UTIL.PosInRectangle(808, 66, 32, 32, mouseX, mouseY) then
+		infoscreenData.hoveredOption = {closeScreen = true}
+		love.graphics.setColor(1, 1, 1, 1)
+	else
+		love.graphics.setColor(0.8, 0.8, 0.8, 1)
+	end
+	love.graphics.draw(DEFS.images.closescreen, 808, 66, 0, 1, 1, 0, 0, 0, 0)
+	
 	-- Draw cross to close
 	if infoscreenData.displayedScreen == 1 then
 		DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 5 then
-		DrawKnowledgeScreen(infoscreenData, world, interface, mouseX, mouseY)
+		DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, mouseY)
 	end
 end
 
@@ -81,19 +120,32 @@ end
 local function HandleClick(infoscreenData, world, interface)
 	if infoscreenData.displayedScreen == 1 then
 		if infoscreenData.hoveredOption then
-			interface.SetPlacingStructure(infoscreenData.hoveredOption)
+			if not infoscreenData.hoveredOption.closeScreen then
+				interface.SetPlacingStructure(infoscreenData.hoveredOption.build)
+			end
 			CloseScreen(infoscreenData, world, interface)
 		end
 	end
-	
-	
+	if infoscreenData.displayedScreen == 5 then
+		if infoscreenData.hoveredOption then
+			if not infoscreenData.hoveredOption.closeScreen then
+				infoscreenData.extraData.monk.SetDesiredSkill(infoscreenData.hoveredOption.name)
+			end
+			CloseScreen(infoscreenData, world, interface)
+		end
+	end
+end
+
+local function SetInfoscreen(infoscreenData, world, newDisplayedScreen, data)
+	infoscreenData.active = true
+	infoscreenData.displayedScreen = newDisplayedScreen
+	infoscreenData.hoveredOption = false
+	infoscreenData.extraData = data
+	world.SetPaused(true)
 end
 
 local function ButtonClicked(infoscreenData, world, interface, buttonHovered)
-	infoscreenData.active = true
-	infoscreenData.displayedScreen = buttonHovered
-	infoscreenData.hoveredOption = false
-	world.SetPaused(true)
+	SetInfoscreen(infoscreenData, world, buttonHovered)
 end
 
 local function KeyPressed(infoscreenData, world, interface, key)
@@ -131,6 +183,7 @@ local function Draw(infoscreenData, world, interface, mouseX, mouseY)
 end
 
 return {
+	SetInfoscreen = SetInfoscreen,
 	HandleClick = HandleClick,
 	ButtonClicked = ButtonClicked,
 	KeyPressed = KeyPressed,

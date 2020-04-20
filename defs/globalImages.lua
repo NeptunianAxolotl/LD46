@@ -5,6 +5,7 @@ local data = {
 	{"infoscreen", "infoscreen.png"},
 	{"strikeout", "strikeout.png"},
 	{"grass", "grass.png"},
+	{"closescreen", "closescreen.png"},
 }
 
 return data

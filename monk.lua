@@ -263,6 +263,13 @@ local function New(init)
 		return currentSkill.def, currentSkill.rank, currentSkill.progress, currentSkill.desiredSkillChange
 	end
 	
+	function externalFuncs.SetDesiredSkill(newSkill)
+		if currentSkill.def and currentSkill.def.name ~= newSkill then
+			return
+		end
+		currentSkill.desiredSkillChange = newSkill
+	end
+	
 	function externalFuncs.AddSkillProgress(change, enableChange)
 		if currentSkill.desiredSkillChange and enableChange then
 			if currentSkill.def and currentSkill.def.name ~= currentSkill.desiredSkillChange then

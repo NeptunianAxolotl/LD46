@@ -22,8 +22,8 @@ local data = {
 		end,
 	},
 	{
-		name = "agriculture",
-		humanName = "Masonry",
+		name = "farming",
+		humanName = "Farming",
 		desc = "Do stone",
 		learnMod = 1.7,
 		practiseMod = 1.3,
