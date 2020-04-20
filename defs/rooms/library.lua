@@ -18,8 +18,10 @@ local function DoUseLaptop(station, room, monk, workData, dt)
 		return true
 	end
 	
+	monk.ModifyFatigue(-0.03*dt)
+	monk.ModifyFood(-0.03*dt)
 	local skillDef, progress = monk.GetSkill()
-	return monk.AddSkillProgress(0.02*dt, true), skillDef.preferedTask
+	return monk.AddSkillProgress(0.02*dt, true) --, skillDef.preferedTask
 end
 
 local function CheckWriteBook(station, room, monk)
@@ -51,6 +53,8 @@ local function WriteBook(station, room, monk, workData, dt)
 		monk.SetResource(false, 0) -- Use book
 	end
 	
+	monk.ModifyFatigue(-0.03*dt)
+	monk.ModifyFood(-0.03*dt)
 	knowData.bookProgress[skillDef.name] = (knowData.bookProgress[skillDef.name] or 0) + (skillDef.transcribeMod or 1)*0.02*dt*monk.GetTaskMod("transcribe")
 	
 	if knowData.bookProgress[skillDef.name] >= 1 then

@@ -4,6 +4,8 @@ local drawUtilities = require("include/drawUtilities")
 tradeUtilities = require("include/tradeUtilities")
 laptopUtilities = require("include/laptopUtilities")
 knowUtilities = require("include/knowledgeUtilites")
+spawnUtilities = require("include/spawnUtilities")
+
 musicUtilities = require("include/musicUtilities")
 
 local Audio = require("audio")
@@ -26,6 +28,7 @@ local function GetNewWorld(startLayout)
 	local tradeStatus = tradeUtilities.InitTradeStatus()
 	local laptopStatus = laptopUtilities.InitLaptopStatus()
 	local knowStatus = knowUtilities.InitKnowStatus()
+	local spawnStatus = spawnUtilities.InitSpawnStatus()
 
 	--------------------------------------------------
 	-- Initialization
@@ -88,6 +91,10 @@ local function GetNewWorld(startLayout)
 		return knowStatus
 	end
 	
+	function externalFuncs.GetOrModifySpawnStatus()
+		return spawnStatus
+	end
+	
 	--------------------------------------------------
 	-- Creation
 	--------------------------------------------------
@@ -101,6 +108,15 @@ local function GetNewWorld(startLayout)
 		roomList.Add(newRoom)
 		monkList.ApplySelf("CheckRepath", px, py, DEFS.roomDefNames[defName].width, DEFS.roomDefNames[defName].height)
 		return newRoom
+	end
+
+	function externalFuncs.CreateMonk(px, py)
+		local initData = {
+			pos = {px, py},
+		}
+		local newMonk = GetNewMonk(initData)
+		monkList.Add(newMonk)
+		return newMonk
 	end
 
 	function externalFuncs.CreateFeature(defName, px, py)

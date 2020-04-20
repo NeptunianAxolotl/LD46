@@ -52,7 +52,7 @@ local stationTypeNames = {
 	use_laptop = "Use Laptop",
 	library_learn = "Book Learning",
 	chop = "Fell Tree",
-	get_book = "Fetch Book",
+	get_book = "Fetch Blank Book",
 	transcribe = "Transcribe Book",
 	play_organ = "Play Organ",
 	get_battery_spent = "Fetch Low Battery",
@@ -63,12 +63,14 @@ local stationTypeNames = {
 	make_beer = "brew Beer",
 	get_beer = "Fetch Beer",
 	trade = "Trade",
+	pray = "Pray",
 }
 
 local resourceNames = {
 	["log"] = "Tree",
 	wood = "Wood",
 	beer = "Beer",
+	book = "Blank Book",
 }
 
 local taskSubgoal = {}
