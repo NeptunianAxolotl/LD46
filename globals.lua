@@ -36,9 +36,9 @@ local globals = {
 	
 	DOUBLE_CLICK_TIME = 0.7,
 	
-	CAMERA_ROAM_BOUND = 1120,
-	CAMERA_START_X = 200,
-	CAMERA_START_Y = 200,
+	CAMERA_ROAM_BOUND = 864,
+	CAMERA_START_X = -300,
+	CAMERA_START_Y = -500,
 }
 
 return globals
