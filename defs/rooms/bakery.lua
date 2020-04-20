@@ -65,6 +65,7 @@ local data = {
 			taskType = "get_" .. PRODUCE,
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
+			allowParallelUse = true,
 			doors = {
                 {
                     entryPath ={{-1,1},{-0.3,0.5}}

@@ -52,6 +52,7 @@ local data = {
 			taskType = "make_wood",
 			PerformAction = DoProcess,
 			fetchResource = {"log"},
+			allowParallelUse = true,
 			doors = {
                 {
                     entryPath = {{-1,0}}

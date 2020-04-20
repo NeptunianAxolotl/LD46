@@ -66,6 +66,7 @@ local data = {
 			taskType = "get_battery",
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
+			allowParallelUse = true,
 			doors = {
                 {
                     entryPath = {{1,3}}
