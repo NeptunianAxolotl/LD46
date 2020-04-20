@@ -51,12 +51,12 @@ local function DoUseLaptop(station, room, monk, workData, dt)
 		return true
 	end
 	
-	monk.ModifyFatigue(-0.03*dt)
-	monk.ModifyFood(-0.03*dt)
+	monk.ModifyFatigue(-0.06*dt)
+	monk.ModifyFood(-0.035*dt)
 	laptopData.charge = laptopData.charge - dt*(laptopData.currentDrain - laptopData.passiveDrain)
 	
 	local skillDef, progress = monk.GetSkill()
-	return monk.AddSkillProgress(0.028*dt, true), skillDef.preferedTask
+	return monk.AddSkillProgress(0.023*dt, true), skillDef.preferedTask
 end
 
 local function CollectAction(station, room, monk, workData, dt)

@@ -9,7 +9,7 @@ local function DoCook(station, room, monk, workData, dt)
 	
 	workData.timer = (workData.timer or 0) + speed*dt*monk.GetTaskMod("cook")
 	monk.ModifyFatigue(-0.03*dt)
-	monk.ModifyFood(-0.03*dt)
+	monk.ModifyFood(-0.026*dt)
 	if workData.timer > 1 then
 		monk.SetResource(false, 0)
 		room.AddResource("food", 1)
@@ -53,7 +53,7 @@ local data = {
 	image = "dining.png",
 	buildDef = "dining_build",
 	clickTask = "cook",
-    desc = "Feeds monks\nCost: 8 wood",
+    desc = "Feeds monks\nCost: 7 wood",
 	width = 3,
 	height = 3,
     drawOriginX = 0,

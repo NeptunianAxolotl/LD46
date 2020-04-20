@@ -10,7 +10,7 @@ local function MakeAction(station, room, monk, workData, dt)
 	end
 	workData.timer = (workData.timer or 0) + 0.05*dt*monk.GetTaskMod("charge_battery")
 	monk.ModifyFatigue(-0.13*dt)
-	monk.ModifyFood(-0.1*dt)
+	monk.ModifyFood(-0.2*dt)
 	if workData.timer > 1 then
 		monk.SetResource(false, 0)
 		room.AddResource(PRODUCE, 1)

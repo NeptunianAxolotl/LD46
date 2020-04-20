@@ -2,8 +2,8 @@
 local function SpawnAction(station, room, monk, workData, dt)
 	local spawnData = GetWorld().GetOrModifySpawnStatus()
 	
-	monk.ModifyFatigue(-0.02*dt)
-	monk.ModifyFood(-0.02*dt)
+	monk.ModifyFatigue(-0.04*dt)
+	monk.ModifyFood(-0.04*dt)
 	spawnData.progress = spawnData.progress + spawnData.rate*dt*monk.GetTaskMod("play_organ")
 	if spawnData.progress > 1 then
 		spawnData.progress = spawnData.progress - 1
@@ -12,8 +12,8 @@ local function SpawnAction(station, room, monk, workData, dt)
 end
 
 local function Pray(station, room, monk, workData, dt)
-	monk.ModifyFatigue(-0.002*dt)
-	monk.ModifyFood(-0.002*dt)
+	monk.ModifyFatigue(-0.008*dt)
+	monk.ModifyFood(-0.01*dt)
 end
 
 local function DrawSupply(self, drawX, drawY)

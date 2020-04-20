@@ -12,7 +12,6 @@ local startConfig = {
 			pos = {6, 0},
 			priorities = {
 				{taskType = "cook"},
-				{taskType = "make_veg"},
 			},
 		},
 		{

@@ -4,7 +4,7 @@ local BUILD_IMAGE = "dining_partial.png"
 local WIDTH = 3
 local HEIGHT = 3
 
-local WOOD_COST = 8
+local WOOD_COST = 7
 local STONE_COST = 0
 
 local BUILD_TIME = 5
