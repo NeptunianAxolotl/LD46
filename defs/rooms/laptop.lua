@@ -3,8 +3,23 @@ local function DoUpkeepLaptop(station, room, monk, workData, dt)
 
 end
 
-local function DoUseLaptop(station, room, monk, workData, dt)
 
+local function CheckEligible(station, room, monk, workData, dt)
+	local skillDef, rank, progress, desiredChange  = monk.GetSkill()
+	if (not (skillDef or desiredChange)) or (rank >= 2) then
+		return false
+	end
+	
+	-- Check peripherals
+	return true
+end
+
+local function DoUseLaptop(station, room, monk, workData, dt)
+	if not CheckEligible(station, room, monk, workData, dt) then
+		return true
+	end
+	
+	return monk.AddSkillProgress(0.05*dt, true)
 end
 
 local data = {
@@ -38,6 +53,7 @@ local data = {
 			pos = {1, 2},
 			taskType = "use_laptop",
 			PerformAction = DoUseLaptop,
+			AvailibleFunc = CheckEligible,
 			doors = {
                 {
                     entryPath = {{1,4}}

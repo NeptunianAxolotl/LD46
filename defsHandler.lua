@@ -166,6 +166,8 @@ function defs.Load()
 	defs.images = LoadGlobalImages("defs/globalImages")
 	
 	defs.skillDefs, defs.skillDefNames = LoadSkillTypes("defs/skillTypes")
+	
+	defs.nameList = require("defs/nameList")
 end
 
 return defs

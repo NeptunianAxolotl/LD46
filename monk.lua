@@ -1,5 +1,6 @@
 stationUtilities = require("include/stationUtilities")
 goalUtilities = require("include/goalUtilities")
+nameUtilities = require("include/nameUtilities")
 
 local function New(init)
 	local food = 1
@@ -27,15 +28,15 @@ local function New(init)
 	}
 	
 	local priorities = {
-		{
-			taskType = "build",
-		},
-		{
-			taskType = "make_grain",
-		},
-		{
-			taskType = "cook",
-		},
+		--{
+		--	taskType = "build",
+		--},
+		--{
+		--	taskType = "make_grain",
+		--},
+		--{
+		--	taskType = "cook",
+		--},
 	}
 	-- taskType
 	-- requiredRoom
@@ -66,9 +67,11 @@ local function New(init)
 	local def       = DEFS.monkDef
 	local pos       = init.pos
 	local direction = math.random()
-    
-    local animCurrent = nil
-    local animTimer = 0
+	
+	local humanName = nameUtilities.GetRandomUniqueName()
+
+	local animCurrent = nil
+	local animTimer = 0
 
 	init = nil
 	--------------------------------------------------
@@ -261,11 +264,18 @@ local function New(init)
 		local skillRank = currentSkill and currentSkill.rank
 		local skillProgress = currentSkill and currentSkill.progress
 		
-		return sleep, food, resourceCarried, skillName, skillRank, skillProgress,(currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
+		return sleep, food, resourceCarried, skillName, skillRank, skillProgress,(currentGoal and currentGoal.taskType), humanName, priorities
 	end
 	
 	function externalFuncs.GetSkill()
-		return currentSkill.def, currentSkill.rank, currentSkill.progress, currentSkill.desiredSkillChange
+		return currentSkill.def, currentSkill.rank or 0, currentSkill.progress, currentSkill.desiredSkillChange
+	end
+	
+	function externalFuncs.MidwayThroughLaptop()
+		if currentSkill.def and (currentSkill.rank or 1) < 2 then
+			return true
+		end
+		return false
 	end
 	
 	function externalFuncs.SetDesiredSkill(newSkill)
@@ -277,7 +287,7 @@ local function New(init)
 	
 	function externalFuncs.AddSkillProgress(change, enableChange)
 		if currentSkill.desiredSkillChange and enableChange then
-			if currentSkill.def and currentSkill.def.name ~= currentSkill.desiredSkillChange then
+			if (not currentSkill.def) or currentSkill.def.name ~= currentSkill.desiredSkillChange then
 				currentSkill.def = DEFS.skillDefNames[currentSkill.desiredSkillChange]
 				currentSkill.rank = 1
 				currentSkill.progress = 0
@@ -285,7 +295,11 @@ local function New(init)
 			currentSkill.desiredSkillChange = nil
 		end
 		
-		currentSkill.progress = currentSkill.progress + change
+		if not currentSkill.def then
+			return
+		end
+		
+		currentSkill.progress = (currentSkill.progress or 0) + change*currentSkill.def.learnMod
 		if currentSkill.progress > 1 then
 			currentSkill.rank = currentSkill.rank + 1
 			currentSkill.progress = 0
