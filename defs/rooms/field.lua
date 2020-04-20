@@ -25,11 +25,11 @@ local function CheckGrainLimit(station, room, monk)
 	return true
 end
 
-local function DrawField(self, drawX, drawY)
+local function DrawSupply(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
-	love.graphics.setColor(0, 0, 0)
-	love.graphics.print(math.floor(self.GetResourceCount("grain")*10)/10, drawX + 0.2*GLOBAL.TILE_SIZE, drawY + 2.2*GLOBAL.TILE_SIZE)
+	love.graphics.setColor(1, 1, 1)
+	love.graphics.print(math.floor(self.GetResourceCount("grain")*10)/10, drawX + 0.8*GLOBAL.TILE_SIZE, drawY + 1.6*GLOBAL.TILE_SIZE)
 	
 	love.graphics.setColor(1, 1, 1)
 end
@@ -42,7 +42,7 @@ local data = {
 	height = 3,
     drawOriginX = 0,
 	drawOriginY = 1.5,
-	DrawFunc = DrawField,
+	DrawFunc = DrawSupply,
 	stations = {
 		{
 			pos = {1.4, 0.5},
