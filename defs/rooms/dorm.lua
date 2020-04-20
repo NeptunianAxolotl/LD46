@@ -14,40 +14,49 @@ local data = {
 	stations = {
 		{
 			pos = {0, 0},
+            overrideDir = 0,
 			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
                 {
-                    entryPath = {{1,-1},{1,0}}
+                    entryPath = {{1,-1},{1,0}},
+                    teleportToStation = true,
                 },
                 {
-                    entryPath = {{1,2},{1,0}}
+                    entryPath = {{1,2},{1,0}},
+                    teleportToStation = true,
                 },
 			},
 		},
 		{
 			pos = {0, 1},
+            overrideDir = 0,
 			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
                 {
-                    entryPath = {{1,-1},{1,1}}
+                    entryPath = {{1,-1},{1,1}},
+                    teleportToStation = true,
                 },
                 {
-                    entryPath = {{1,2},{1,1}}
+                    entryPath = {{1,2},{1,1}},
+                    teleportToStation = true,
                 },
 			},
 		},
 		{
 			pos = {2, 1},
+            overrideDir = 0,
 			taskType = "sleep",
 			PerformAction = DoSleep,
 			doors = {
                 {
-                    entryPath = {{1,-1},{1,0}}
+                    entryPath = {{1,-1},{1,0}},
+                    teleportToStation = true,
                 },
                 {
-                    entryPath = {{1,2},{1,1}}
+                    entryPath = {{1,2},{1,1}},
+                    teleportToStation = true,
                 },
 			},
 		},

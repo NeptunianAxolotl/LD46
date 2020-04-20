@@ -57,10 +57,20 @@ local function LoadRoom(filename)
             if not (door.pathFunc and door.pathLength) then
                 if door.entryPath then
                     local epath = door.entryPath
-                    if (#epath == 0) or (epath[#epath][1] ~= station.pos[1]) or (epath[#epath][2] ~= station.pos[2]) then
-                        -- end at the station itself if we don't already
+                    
+                    if #epath == 0 then
+                        epath[1] = station.pos
+                    end
+                    
+                    if (not door.teleportToStation and ((epath[#epath][1] ~= station.pos[1]) or (epath[#epath][2] ~= station.pos[2]))) then
+                        -- end at the station itself if we don't want to teleport
                         epath[#epath+1] = station.pos
                     end
+                    
+                    if #epath == 1 then
+                        return epath[1][1], epath[1][2], 0
+                    end
+                    
                     local stepLenCumu = {}
                     local stepAng = {}
                     stepLenCumu[1] = 0
@@ -73,18 +83,24 @@ local function LoadRoom(filename)
                     door.pathFunc = function (progress)
                         local dTravelled = progress * door.pathLength
                         for m = 1, #epath - 1 do
-                            if dTravelled >= stepLenCumu[m] and dTravelled <= stepLenCumu[m + 1] then
+                            if dTravelled >= stepLenCumu[m] and dTravelled < stepLenCumu[m + 1] then
                                 -- found the right step, find distance along it
                                 local fracOfStep = (dTravelled - stepLenCumu[m]) / (stepLenCumu[m + 1] - stepLenCumu[m])
                                 return (1-fracOfStep)*epath[m][1]+fracOfStep*epath[m+1][1], (1-fracOfStep)*epath[m][2]+fracOfStep*epath[m+1][2], stepAng[m] or 0
                             end
                         end
-                        -- check for out of bounds
-                        if dTravelled <= stepLenCumu[1] then
+                        -- check for out of bounds negative
+                        if dTravelled < stepLenCumu[1] then
                             return epath[1][1], epath[1][2], stepAng[1] or 0
                         end
+                        -- check if we have arrived at the destination
                         if dTravelled >= stepLenCumu[#epath] then
-                            return epath[#epath][1], epath[#epath][2], stepAng[#epath-1] or 0
+                            local angle = (station.overrideDir or stepAng[#epath-1]) or 0
+                            if door.teleportToStation then
+                                return station.pos[1], station.pos[2], angle or 0
+                            else
+                                return epath[#epath][1], epath[#epath][2], angle or 0
+                            end
                         end
                         print(progress)
                         print(dTravelled)
