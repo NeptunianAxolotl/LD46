@@ -2,7 +2,7 @@
 local STORE_LIMIT = 8
 
 local function MakeAction(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("stone", dt*0.2*monk.GetTaskMod("make_stone"), STORE_LIMIT)
+	local boundReached = room.AddResource("stone", dt*0.14*monk.GetTaskMod("make_stone"), STORE_LIMIT)
 	monk.ModifyFatigue(-0.11*dt)
 	monk.ModifyFood(-0.07*dt)
 	if boundReached then

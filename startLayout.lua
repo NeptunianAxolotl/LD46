@@ -6,6 +6,7 @@ local startConfig = {
 			priorities = {
 				{taskType = "charge_battery"},
 				{taskType = "upkeep_laptop"},
+				{taskType = "cook"},
 			},
 		},
 		{

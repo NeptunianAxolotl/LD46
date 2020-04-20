@@ -8,7 +8,7 @@ local function MakeAction(station, room, monk, workData, dt)
 	if resource ~= NEED then
 		return true
 	end
-	workData.timer = (workData.timer or 0) + 0.25*dt*monk.GetTaskMod("make_beer")
+	workData.timer = (workData.timer or 0) + 0.14*dt*monk.GetTaskMod("make_beer")
 	monk.ModifyFatigue(-0.075*dt)
 	monk.ModifyFood(-0.05*dt)
 	if workData.timer > 1 then
@@ -54,7 +54,7 @@ local data = {
 	humanName = "Brewery",
 	image = "brewery.png",
 	buildDef = "brewery_build",
-    desc = "Wheat -> beer to trade\nCost: 6 wood, 3 stone",
+    desc = "Wheat -> beer to trade\nCost: 6 wood, 4 stone",
 	clickTask = "make_beer",
 	drawOriginX = 0,
 	drawOriginY = 1.5,

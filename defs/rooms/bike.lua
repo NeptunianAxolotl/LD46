@@ -37,7 +37,7 @@ local function DrawSupply(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
 	love.graphics.setColor(1, 1, 1)
-	love.graphics.print(math.floor(self.GetResourceCount("battery")), drawX + 1.35*GLOBAL.TILE_SIZE, drawY + 0.4*GLOBAL.TILE_SIZE)
+	love.graphics.print(math.floor(self.GetResourceCount("battery")), drawX + 1.35*GLOBAL.TILE_SIZE, drawY + 0.7*GLOBAL.TILE_SIZE)
 	
 	love.graphics.setColor(1, 1, 1)
 end

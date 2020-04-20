@@ -5,11 +5,11 @@ local function DoCook(station, room, monk, workData, dt)
 	if resource ~= "bread" and resource ~= "veg" then
 		return true
 	end
-	local speed = (((resource == "veg") and 0.18) or 0.6)
+	local speed = (((resource == "veg") and 0.16) or 0.6)
 	
 	workData.timer = (workData.timer or 0) + speed*dt*monk.GetTaskMod("cook")
-	monk.ModifyFatigue(-0.03*dt)
-	monk.ModifyFood(-0.015*dt)
+	monk.ModifyFatigue(-0.038*dt)
+	monk.ModifyFood(-0.016*dt)
 	if workData.timer > 1 then
 		monk.SetResource(false, 0)
 		room.AddResource("food", 1)

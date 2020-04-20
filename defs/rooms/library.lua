@@ -21,7 +21,7 @@ local function DoUseLaptop(station, room, monk, workData, dt)
 	monk.ModifyFatigue(-0.03*dt)
 	monk.ModifyFood(-0.03*dt)
 	local skillDef, progress = monk.GetSkill()
-	return monk.AddSkillProgress(0.02*dt, true) --, skillDef.preferedTask
+	return monk.AddSkillProgress(0.015*dt, true) --, skillDef.preferedTask
 end
 
 local function CheckWriteBook(station, room, monk)

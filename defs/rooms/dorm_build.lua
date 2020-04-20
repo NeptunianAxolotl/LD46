@@ -5,7 +5,7 @@ local WIDTH = 3
 local HEIGHT = 2
 
 local WOOD_COST = 3
-local STONE_COST = 3
+local STONE_COST = 5
 
 local BUILD_TIME = 3
 

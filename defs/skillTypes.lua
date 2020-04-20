@@ -19,7 +19,7 @@ local data = {
 		learnPowerDrainMod = basicPowerMod,
 		--preferedTask = "make_veg",
 		taskSpeed = {
-			make_grain = 1.9,
+			make_grain = 3,
 			make_veg = 1.8,
 		},
 		requiredPeripherals = {
@@ -54,7 +54,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-			make_stone = 2.5,
+			make_stone = 3.5,
 			build = 1.5,
 		},
 		requiredPeripherals = {
@@ -71,7 +71,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-            make_bread = 2,
+            make_bread = 3.5,
 			cook = 1.4,
 		},
 		requiredPeripherals = {
@@ -88,7 +88,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-			make_beer = 2,
+			make_beer = 3.5,
 			cook = 1.4,
 		},
 		requiredPeripherals = {

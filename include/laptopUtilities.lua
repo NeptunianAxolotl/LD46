@@ -7,8 +7,8 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
 		charging = false,
 		chargeRate = 0.55,
         -- drain per second
-        passiveDrain = 0.002,
-        currentDrain = 0.004,
+        passiveDrain = 0.0032,
+        currentDrain = 0.0064,
         peripherals = {
             speakers = false,
             monitor = false,
@@ -56,7 +56,7 @@ local function UpdateLaptop(laptopData, dt)
 			laptopData.charge = laptopData.charge + dt*laptopData.chargeRate
 			laptopRoom.AddResource("battery", -1)
 			
-			local mult = (1.1 - 2*laptopData.passiveDrain)
+			local mult = (1.12 - 2*laptopData.passiveDrain)
 			laptopData.passiveDrain = laptopData.passiveDrain*mult
 			laptopData.currentDrain = laptopData.currentDrain*mult
 		end
