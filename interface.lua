@@ -1,6 +1,7 @@
 local IterableMap = require("include/IterableMap")
 local cameraUtilities = require("include/cameraUtilities")
 local interfaceUtilities = require("include/interfaceUtilities")
+local infoscreenUtilities = require("include/infoscreenUtilities")
 
 local function GetNewInterface(world)
 
@@ -18,6 +19,11 @@ local function GetNewInterface(world)
 	local selectedMonk = false
 	
 	local uiClick = false
+	
+	local infoscreenData = {
+		active = false,
+		currentScreen = 0
+	}
 
 	--------------------------------------------------
 	-- Utilities
@@ -34,6 +40,18 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
+		if infoscreenData.active then
+			infoscreenUtilities.HandleClick(infoscreenData, world, mouseX, mouseY)
+			return
+		end
+		
+		local openButton = infoscreenUtilities.ButtonClicked(infoscreenData, world, mouseX, mouseY)
+		if openButton then
+			infoscreenData.active = true
+			infoscreenData.currentScreen = openButton
+			return
+		end
+		
 		if uiClick then
 			if uiClick.removePriority then
 				uiClick.monk.RemovePriority(uiClick.removePriority)
@@ -56,7 +74,7 @@ local function GetNewInterface(world)
 					placingStructure = false
 					if selectedMonk then
 						local roomDef = newRoom.GetDef()
-						selectedMonk.SetNewPriority(newRoom, roomDef.clickTask, true)
+						selectedMonk.SetNewPriority(newRoom, "build", true)
 					end
 				end
 			end
@@ -73,9 +91,15 @@ local function GetNewInterface(world)
 			local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 			if room then
 				local roomDef = room.GetDef()
+				local clickTask = roomDef.clickTask
+				if( not clickTask) and roomDef.clickTaskFunc then
+					local wx, wy = externalFuncs.ScreenToWorld(mouseX, mouseY)
+					local pos = room.GetPosition()
+					clickTask = roomDef.clickTaskFunc(wx - pos[1], wy - pos[2])
+				end
 				
-				if roomDef.clickTask then
-					selectedMonk.SetNewPriority(room, roomDef.clickTask, false, true)
+				if clickTask then
+					selectedMonk.SetNewPriority(room, clickTask, false, true)
 				end
 				return
 			end
@@ -134,22 +158,26 @@ local function GetNewInterface(world)
 		love.graphics.setLineWidth(2)
 		uiClick = false
 		
+		local buttonHovered = infoscreenUtilities.DrawButtonHover(infoscreenData, mouseX, mouseY)
+		
 		local hoveredMonk
-		if placingStructure then
-			local def = DEFS.roomDefNames[placingStructure]
-			local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
-			x, y = interfaceUtilities.SnapStructure(def, x, y)
-			local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
-			
-			x, y = externalFuncs.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
-			love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
-			love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
-		else
-			hoveredMonk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
-			if hoveredMonk then
-				local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, hoveredMonk)
-				love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE, 0.5)
-				love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
+		if not buttonHovered then
+			if placingStructure then
+				local def = DEFS.roomDefNames[placingStructure]
+				local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
+				x, y = interfaceUtilities.SnapStructure(def, x, y)
+				local canPlace = interfaceUtilities.CheckStructurePlacement(world.GetRoomList(), world.GetMonkList(), def, x, y)
+				
+				x, y = externalFuncs.WorldToScreen(x, y, def.drawOriginX, def.drawOriginY)
+				love.graphics.setColor(0.8, (canPlace and 0.8) or 0.3, (canPlace and 0.8) or 0.3, 0.4)
+				love.graphics.draw(def.image, x, y, 0, 1, 1, 0, 0, 0, 0)
+			else
+				hoveredMonk = interfaceUtilities.ScreenToMonk(externalFuncs, world.GetMonkList(), mouseX, mouseY)
+				if hoveredMonk then
+					local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, hoveredMonk)
+					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE, 0.5)
+					love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
+				end
 			end
 		end
 		
@@ -158,17 +186,29 @@ local function GetNewInterface(world)
 			love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 			love.graphics.rectangle("line", x, y, w, h, 2, 6, 4 )
 			
-			if not (hoveredMonk or placingStructure) then
+			local clickTask = false
+			
+			if (not buttonHovered) and (not (hoveredMonk or placingStructure)) then
 				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 				if room then
 					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
 					local vertices = interfaceUtilities.RoomToScreen(externalFuncs, room)
 					love.graphics.polygon("line", vertices)
+					
+					local roomDef = room.GetDef()
+					clickTask = roomDef.clickTask
+					if( not clickTask) and roomDef.clickTaskFunc then
+						local wx, wy = externalFuncs.ScreenToWorld(mouseX, mouseY)
+						local pos = room.GetPosition()
+						clickTask = roomDef.clickTaskFunc(wx - pos[1], wy - pos[2])
+					end
 				end
 			end
 			
-			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY)
+			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY, clickTask)
 		end
+		
+		infoscreenUtilities.Draw(infoscreenData, world, mouseX, mouseY)
 	end
 	
 	return externalFuncs

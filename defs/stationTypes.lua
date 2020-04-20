@@ -14,6 +14,8 @@ local data = {
 	"make_stone",
 	"get_stone",
 	"add_stone",
+	"upkeep_laptop",
+	"use_laptop",
 }
 
 return data

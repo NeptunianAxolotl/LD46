@@ -14,6 +14,7 @@ local roomDefFiles = {
 	"woodpile",
 	"tree",
 	"garden",
+	"laptop",
 }
 
 local featureDefFiles = {

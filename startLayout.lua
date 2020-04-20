@@ -2,7 +2,7 @@
 local startConfig = {
 	monks = {
 		{
-			pos = {7, 2},
+			pos = {5, 2},
 		},
 		{
 			pos = {4, 9},
@@ -39,8 +39,8 @@ local startConfig = {
 			pos = {12, 6},
 		},
 		{
-			defName = "field",
-			pos = {8, 1},
+			defName = "laptop",
+			pos = {7, 0},
 		},
 		{
 			defName = "tree",

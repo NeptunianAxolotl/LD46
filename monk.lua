@@ -41,6 +41,11 @@ local function New(init)
 	-- requiredRoom
 	-- preferredRoom
 	
+	local currentSkill = {}
+	-- name
+	-- rank
+	-- progress
+	
 	local atStation = false
 	local atStationDoor = false
 	
@@ -247,7 +252,10 @@ local function New(init)
 
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
-		return sleep, food, resourceCarried, (currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
+		local skill = currentSkill and currentSkill.name
+		local skillRank = currentSkill and currentSkill.rank
+		local skillProgress = currentSkill and currentSkill.progress
+		return sleep, food, resourceCarried, skill, skillRank, skillProgress,(currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
 	end
 	
 	--------------------------------------------------

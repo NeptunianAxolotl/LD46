@@ -73,13 +73,13 @@ local function ScreenToRoom(interface, roomList, mouseX, mouseY)
 	end
 end
 
-local function DrawMonkInterface(interface, monk, mouseX, mouseY, uiClick)
+local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	local uiClick
 	
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.draw(DEFS.images.monkInterface, 0, 0, 0, 1, 1, 0, 0, 0, 0)
 	
-	local sleep, food, resourceCarried, currentTaskType, name, priorities = monk.GetStatus()
+	local sleep, food, resourceCarried, skill, skillRank, skillProgress, currentTaskType, name, priorities = monk.GetStatus()
 	
 	local barX = 68
 	local barWidth = 112
@@ -90,25 +90,20 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, uiClick)
 	font.SetSize(2)
 	love.graphics.setColor(0, 0, 0, 1)
 	
-	love.graphics.print("Name: " .. name, 20, drawY)
+	love.graphics.print(name, 20, drawY)
 	drawY = drawY + 23
 	
-	love.graphics.print("Task: " .. (currentTaskType or "Idle"), 20, drawY)
+	love.graphics.print(skill or "Unskilled", 20, drawY)
 	drawY = drawY + 23
 	
-	if resourceCarried then
-		love.graphics.print("Carrying: " .. resourceCarried, 20, drawY)
-	end
-	drawY = drawY + 23
-	
-	drawY = drawY + 14
+	drawY = drawY + 6
 	love.graphics.print("Rest", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
 	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
 	love.graphics.rectangle("fill", barX, drawY, sleep*barWidth, barHeight, 2, 6, 4 )
 	
-	drawY = drawY + 32
+	drawY = drawY + 28
 	love.graphics.setColor(0, 0, 0, 1)
 	love.graphics.print("Food", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
@@ -117,8 +112,16 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, uiClick)
 	love.graphics.rectangle("fill", barX, drawY, food*barWidth, barHeight, 2, 6, 4 )
 	
 	love.graphics.setColor(0, 0, 0, 1)
-	drawY = drawY + 38
-	love.graphics.print("Jobs", 20, drawY)
+	drawY = drawY + 28
+	
+	love.graphics.print("Task: " .. (currentTaskType or "Idle"), 20, drawY)
+	drawY = drawY + 23
+	if resourceCarried then
+		love.graphics.print("Carrying: " .. resourceCarried, 20, drawY)
+	end
+	drawY = drawY + 23
+	
+	love.graphics.print("Jobs:", 20, drawY)
 	drawY = drawY + 23
 	
 	for i = 1, #priorities do
@@ -135,6 +138,14 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, uiClick)
 		
 		drawY = drawY + 23
 	end
+	
+	if clickTask then
+		love.graphics.setColor(0, 0.5, 0, 1)
+		love.graphics.print("Order: " .. clickTask, 20, drawY)
+		drawY = drawY + 23
+		love.graphics.setColor(0, 0, 0, 1)
+	end
+	
 	
 	return uiClick
 end
