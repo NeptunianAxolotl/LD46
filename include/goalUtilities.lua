@@ -106,7 +106,8 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 			return "get_stone"
 		end
 	end
-	return false
+	
+	return false, nil, nil, not currentGoal.station
 end
 
 local function RemoveMonkRoomLinks(room, monkList)
