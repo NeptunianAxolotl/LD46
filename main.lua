@@ -66,6 +66,13 @@ end
 -- Loading
 --------------------------------------------------
 
+function RestartGame()
+	-- There are probably circular pointers that make this
+	-- leak memory massively.
+	world = GetNewWorld(require("startLayout"))
+	interface = GetNewInterface(world)
+end
+
 function love.load()
 	love.graphics.setBackgroundColor(0.3, 0.5, 0.1)
 	math.randomseed(os.clock())

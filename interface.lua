@@ -140,6 +140,9 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
+		if key == "r" then
+			RestartGame()
+		end
 		if infoscreenData.active and infoscreenUtilities.KeyPressed(infoscreenData, world, interface, key) then
 			return
 		end
