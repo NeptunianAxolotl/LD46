@@ -67,12 +67,15 @@ local data = {
 			requireResources = collectRequirement,
 			doors = {
                 {
-                    entryPath = {{1,2},{1,1}}
+                    entryPath ={{-1,1},{-0.3,0.5}}
+                },
+                {
+                    entryPath ={{-1,0},{-0.3,0.5}}
                 },
 			},
 		},
 		{
-			pos = {1.5, 1.4},
+			pos = {0.5, 0.25},
 			taskType = "make_" .. PRODUCE,
 			fetchResource = {NEED},
 			PerformAction = MakeAction,
@@ -80,7 +83,10 @@ local data = {
             overrideDir = 0,
 			doors = {
                 {
-                    entryPath = {{1,2},{1,1}}
+                    entryPath ={{-1,1},{-0.3,0.5}}
+                },
+                {
+                    entryPath ={{-1,0},{-0.3,0.5}}
                 },
 			},
 		},
