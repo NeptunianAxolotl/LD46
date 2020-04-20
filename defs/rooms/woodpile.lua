@@ -2,6 +2,10 @@
 local STORE_LIMIT = 4
 
 local function DoProcess(station, room, monk, workData, dt)
+	local resource, count = monk.GetResource()
+	if resource ~= "wood" then
+		return true
+	end
 	workData.timer = (workData.timer or 0) + 0.6*dt*monk.GetTaskMod("make_wood")
 	monk.ModifyFatigue(-0.07*dt)
 	monk.ModifyFood(-0.07*dt)

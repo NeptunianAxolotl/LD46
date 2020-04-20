@@ -1,9 +1,9 @@
 
 local STORE_LIMIT = 4
 
-local function UpdateFunc(room, dt)
-	local boundReached = room.AddResource("veg", dt*0.02, STORE_LIMIT)
-end
+--local function UpdateFunc(room, dt)
+--	local boundReached = room.AddResource("veg", dt*0.02, STORE_LIMIT)
+--end
 
 local function FieldAction(station, room, monk, workData, dt)
 	local boundReached = room.AddResource("veg", dt*0.35*monk.GetTaskMod("make_veg"), STORE_LIMIT)
@@ -54,6 +54,7 @@ local data = {
 	buildDef = "garden_build",
     desc = "Grow vegetables\nCost: 2 wood",
 	image = "garden.png",
+	clickTask = "make_veg",
 	width = 2,
 	height = 2,
 	drawOriginX = 0,

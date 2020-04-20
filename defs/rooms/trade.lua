@@ -85,10 +85,12 @@ local function MakeCollectStation(getResource, resource)
 	data.stations[#data.stations + 1] = station
 end
 
-MakeCollectStation("get_grain", "grain")
 MakeCollectStation("get_veg", "veg")
 MakeCollectStation("get_beer", "beer")
 MakeCollectStation("get_battery", "battery")
+MakeCollectStation("get_book", "book")
+MakeCollectStation("get_bread", "bread")
+MakeCollectStation("get_wood", "wood")
 
 return data
 

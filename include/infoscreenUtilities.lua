@@ -453,20 +453,37 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.print("Books", 455, 90)
 	
 	local options = DEFS.skillDefs
-	local startHeight = 165
-	local drawX = 256
-	local drawY = startHeight
     local booksWritten = world.GetOrModifyKnowStatus().booksWritten
+    local bookProgress = world.GetOrModifyKnowStatus().bookProgress
 	
 	love.graphics.setColor(0, 0, 0, 1)
-	font.SetSize(1)
 	
+	local drawX = 256
+	local drawY = 165
+	
+	font.SetSize(2)
+	local startX = drawX
+	love.graphics.print("Subject", drawX, drawY)
+	--drawX = drawX + 220
+	--love.graphics.print("Title", drawX, drawY)
+	
+	drawX = drawX + 240
+	love.graphics.print("Progress", drawX, drawY)
+
+	drawY = drawY + 43
+
 	for i = 1, #options do
-		if booksWritten[options[i].name] then
+		local name = options[i].name
+		--if booksWritten[name] or bookProgress[name] then
+			drawX = startX
+			
 			love.graphics.print(options[i].humanName, drawX, drawY)
-			love.graphics.print(options[i].humanName, drawX + 174, drawY + 4)
-			drawY = drawY + 36
-		end
+			--drawX = drawX + 220
+			--love.graphics.print(options[i].humanName, drawX, drawY)
+			drawX = drawX + 240
+			love.graphics.print(math.floor((bookProgress[name] or 0)*100) .. "%", drawX, drawY)
+			drawY = drawY + 35
+		--end
 	end
 	
 end

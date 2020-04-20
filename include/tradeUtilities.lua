@@ -4,28 +4,40 @@ local function InitTradeStatus(monk, potentialStations, requiredRoom)
 		money = 600,
 		goods = {
 			{
-				name = "beer",
-				requesting = false,
-				price = 20,
-				get = "get_beer",
-			},
-			{
 				name = "battery",
 				requesting = false,
 				price = 10,
 				get = "get_battery",
 			},
 			{
-				name = "grain",
+				name = "beer",
 				requesting = false,
 				price = 20,
-				get = "get_grain",
+				get = "get_beer",
+			},
+			{
+				name = "book",
+				requesting = false,
+				price = 60,
+				get = "get_book",
+			},
+			{
+				name = "bread",
+				requesting = false,
+				price = 20,
+				get = "get_bread",
 			},
 			{
 				name = "veg",
 				requesting = false,
 				price = 10,
 				get = "get_veg",
+			},
+			{
+				name = "wood",
+				requesting = false,
+				price = 10,
+				get = "get_wood",
 			},
 		},
 		isRequesting = {

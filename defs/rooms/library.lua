@@ -43,6 +43,14 @@ local function WriteBook(station, room, monk, workData, dt)
 	local skillDef, progress = monk.GetSkill()
 	local knowData = GetWorld().GetOrModifyKnowStatus()
 	
+	if not knowData.bookProgress[skillDef.name] then
+		local resource, count = monk.GetResource()
+		if resource ~= "book" then
+			return true
+		end
+		monk.SetResource(false, 0) -- Use book
+	end
+	
 	knowData.bookProgress[skillDef.name] = (knowData.bookProgress[skillDef.name] or 0) + (skillDef.transcribeMod or 1)*0.02*dt*monk.GetTaskMod("transcribe")
 	
 	if knowData.bookProgress[skillDef.name] >= 1 then

@@ -115,5 +115,29 @@ AddTaskSubgoal("make_beer", {"get_grain"})
 AddTaskSubgoal("charge_battery", {"get_battery_spent"})
 AddTaskSubgoal("upkeep_laptop", {"get_battery"})
 
+function taskSubgoal.transcribe(monk, currentGoal, stationsByUse)
+	-- If we don't have a place to make the resource, there is no point fetching it.
+	if not currentGoal.station then
+		return false
+	end
+	local skillDef, progress = monk.GetSkill()
+	if skillDef then
+		local knowData = GetWorld().GetOrModifyKnowStatus()
+		if knowData.bookProgress[skillDef.name] then
+			-- A book has already been spent.
+			return false
+		end
+	end
+	
+	-- If we have the resource in our inventory then don't fetch it.
+	local resource, count = monk.GetResource()
+	if resource == "book" and count > 0 then
+		return false
+	end
+	
+	-- Find the closest station where we can find the resource, if it exists.
+	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_book"})
+	return taskType, station
+end
 
 return {data, stationTypeNames, taskSubgoal, resourceNames}
