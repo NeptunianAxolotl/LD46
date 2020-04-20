@@ -51,10 +51,10 @@ local function InitTradeStatus(monk, potentialStations, requiredRoom)
 	
 	for i = 1, #tradeData.goods do
 		local good = tradeData.goods[i]
-		good.minPrice = good.price*0.5
-		good.maxPrice = good.price*6
-		good.buyMarkup = 1.7
-		good.priceShift = good.priceShift or good.price*0.05
+		good.minPrice = good.price*0.6
+		good.maxPrice = good.price*4
+		good.buyMarkup = 1.6
+		good.priceShift = good.priceShift or good.price*0.02
 	end
 	
 	return tradeData
