@@ -40,4 +40,23 @@ local stationTypeNames = {
 	chop = "Fell Tree",
 }
 
-return {data, stationTypeNames}
+local taskSubgoal = {}
+
+function taskSubgoal.make_beer(monk, currentGoal, stationsByUse)
+	-- If we don't have a place to make the resource, there is no point fetching it.
+	if not currentGoal.station then
+		return false
+	end
+	
+	-- If we have the resource in our inventory then don't fetch it.
+	local resource, count = monk.GetResource()
+	if (resource == "grain") and count > 0 then
+		return false
+	end
+	
+	-- Find the closest station where we can find the resource, if it exists.
+	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_grain"})
+	return taskType, station
+end
+
+return {data, stationTypeNames, taskSubgoal}

@@ -65,7 +65,9 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 		return false
 	end
 	
-	if currentGoal.taskType == "cook" then
+	if DEFS.taskSubgoal[currentGoal.taskType] then
+		return DEFS.taskSubgoal[currentGoal.taskType](monk, currentGoal, stationsByUse)
+	elseif currentGoal.taskType == "cook" then
 		return CheckCookGoal(monk, currentGoal, stationsByUse)
 	elseif currentGoal.taskType == "chop" then
 		local resource, count = monk.GetResource()
