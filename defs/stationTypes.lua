@@ -98,4 +98,38 @@ function taskSubgoal.trade(monk, currentGoal, stationsByUse)
 	return taskType, station
 end
 
+function taskSubgoal.charge_battery(monk, currentGoal, stationsByUse)
+	-- If we don't have a place to make the resource, there is no point fetching it.
+	if not currentGoal.station then
+		return false
+	end
+	
+	-- If we have the resource in our inventory then don't fetch it.
+	local resource, count = monk.GetResource()
+	if currentGoal.station.IsFetchResource(resource) then
+		return false
+	end
+	
+	-- Find the closest station where we can find the resource, if it exists.
+	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_battery_spent"})
+	return taskType, station
+end
+
+function taskSubgoal.upkeep_laptop(monk, currentGoal, stationsByUse)
+	-- If we don't have a place to make the resource, there is no point fetching it.
+	if not currentGoal.station then
+		return false
+	end
+	
+	-- If we have the resource in our inventory then don't fetch it.
+	local resource, count = monk.GetResource()
+	if currentGoal.station.IsFetchResource(resource) then
+		return false
+	end
+	
+	-- Find the closest station where we can find the resource, if it exists.
+	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_battery"})
+	return taskType, station
+end
+
 return {data, stationTypeNames, taskSubgoal, resourceNames}
