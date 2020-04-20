@@ -40,6 +40,7 @@ end
 local data = {
 	name = "dining",
 	image = "dining.png",
+	buildDef = "dining_build",
 	clickTask = "cook",
 	width = 3,
 	height = 3,

@@ -1,6 +1,7 @@
 
 local data = {
 	name = "library",
+	buildDef = "library_build",
 	image = "library_empty.png",
 	clickTaskFunc = function (x, y)
 		if x < 2 then

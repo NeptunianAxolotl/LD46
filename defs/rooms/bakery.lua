@@ -9,6 +9,7 @@ end
 
 local data = {
 	name = "bakery",
+	buildDef = "bakery_build",
 	image = "bakery.png",
 	clickTask = "make_bread",
 	drawOriginX = 0,

@@ -36,6 +36,7 @@ end
 
 local data = {
 	name = "field",
+	buildDef = "field_build",
 	image = "fields.png",
 	clickTask = "make_grain",
 	width = 3,

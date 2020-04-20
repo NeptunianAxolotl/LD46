@@ -24,6 +24,7 @@ end
 
 local data = {
 	name = "garden",
+	buildDef = "garden_build",
 	image = "garden.png",
 	width = 2,
 	height = 2,
