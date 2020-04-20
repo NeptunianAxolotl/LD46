@@ -119,13 +119,16 @@ local data = {
 			},
 		},
 		{
-			pos = {1, 2},
+			pos = {1.27, 1.85},
 			taskType = "use_laptop",
 			PerformAction = DoUseLaptop,
 			AvailibleFunc = CheckEligible,
 			doors = {
                 {
                     entryPath = {{1,4}}
+                },
+                {
+                    entryPath = {{-1,2},{0,2},{1,2.4}}
                 },
 			},
 		},
