@@ -506,7 +506,7 @@ local function New(init)
 		currentGoal, goalBlocked = UpdateSubgoal(dt, stationsByUse)
 		
 		if currentGoal and goalBlocked then
-			taskTypesToAvoid.Add(currentGoal.taskType, {timer = GLOBAL.GOAL_AVOID_TIME})
+			taskTypesToAvoid.Add(currentGoal.taskType, {timer = GLOBAL.GOAL_AVOID_TIME*GLOBAL.GAME_SPEED})
 			ClearGoals()
 			currentGoal = GetCurrentGoal()
 		end

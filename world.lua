@@ -178,8 +178,8 @@ local function GetNewWorld(startLayout)
 		if paused then
 			return
 		end
-		totalGameTime = totalGameTime + dt*40
-		UpdateWorld(dt*40)
+		totalGameTime = totalGameTime + dt*GLOBAL.GAME_SPEED
+		UpdateWorld(dt*GLOBAL.GAME_SPEED)
 	end
 
 	function externalFuncs.DrawWorld(interface, dt)

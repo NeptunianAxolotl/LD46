@@ -2,7 +2,8 @@
 local function InitKnowStatus(monk, potentialStations, requiredRoom)
 	local knowData = {
 		booksWritten = {},
-		bookProgress = {}
+		bookProgress = {},
+		bookCount = 0
 	}
 	
 	return knowData

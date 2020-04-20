@@ -59,10 +59,25 @@ local function WriteBook(station, room, monk, workData, dt)
 	
 	if knowData.bookProgress[skillDef.name] >= 1 then
 		knowData.bookProgress[skillDef.name] = 1
-		knowData.booksWritten[skillDef.name] = true
+		if not knowData.booksWritten[skillDef.name] then
+			knowData.bookCount = knowData.bookCount + 1
+			knowData.booksWritten[skillDef.name] = true
+		end
 		return true
 	end
 end
+
+local function DrawLibrary(self, drawX, drawY)
+	local knowData = GetWorld().GetOrModifyKnowStatus()
+	if knowData.bookCount >= 7 then
+		love.graphics.draw(DEFS.images.library_full, drawX, drawY, 0, 1, 1, 0, 0, 0, 0)
+	elseif knowData.bookCount >= 4 then
+		love.graphics.draw(DEFS.images.library_2, drawX, drawY, 0, 1, 1, 0, 0, 0, 0)
+	elseif knowData.bookCount >= 1 then
+		love.graphics.draw(DEFS.images.library_1, drawX, drawY, 0, 1, 1, 0, 0, 0, 0)
+	end
+end
+
 
 local data = {
 	name = "library",
@@ -81,6 +96,7 @@ local data = {
 	width = 4,
 	height = 3,
 	demolishable = false,
+	DrawFunc = DrawLibrary,
 	stations = {
 		{
 			pos = {2.07, 1.3},

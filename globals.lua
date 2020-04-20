@@ -37,11 +37,12 @@ local globals = {
 	DOUBLE_CLICK_TIME = 0.7,
 	
 	CAMERA_ROAM_BOUND = 800,
-	CAMERA_START_X = -250,
+	CAMERA_START_X = -350,
 	CAMERA_START_Y = -450,
+	GAME_SPEED = 40,
 	
 	DEMOLISH_BUILDING = true,
-	GOAL_AVOID_TIME = 0.5,
+	GOAL_AVOID_TIME = 0.3,
 }
 
 return globals

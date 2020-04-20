@@ -10,6 +10,9 @@ local data = {
 	{"grass4", "grass4.png"},
 	{"closescreen", "closescreen.png"},
 	{"popup", "popup.png"},
+	{"library_1", "library_1.png"},
+	{"library_2", "library_2.png"},
+	{"library_full", "library_full.png"},
 }
 
 return data

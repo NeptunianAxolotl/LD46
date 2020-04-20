@@ -142,7 +142,7 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
-		if key == "r" and love.keyboard.isDown("ctrl") and love.keyboard.isDown("shift") then
+		if key == "r" and (love.keyboard.isDown("rctrl") or love.keyboard.isDown("lctrl")) and (love.keyboard.isDown("rshift") or love.keyboard.isDown("lshift")) then
 			RestartGame()
 		end
 		if infoscreenData.active and infoscreenUtilities.KeyPressed(infoscreenData, world, interface, key) then
