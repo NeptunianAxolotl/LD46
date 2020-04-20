@@ -22,6 +22,7 @@ local roomDefFiles = {
 	"brewery",
 	"trade",
 	"bike",
+	"quarry",
 }
 
 local featureDefFiles = {

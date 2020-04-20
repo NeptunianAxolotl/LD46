@@ -1,12 +1,12 @@
 
 local data = {
-	name = "bakery",
-	image = "bakery.png",
-	clickTask = "make_bread",
+	name = "quarry",
+	image = "quarry.png",
+	clickTask = "make_stone",
 	drawOriginX = 0,
 	drawOriginY = 1.5,
 	width = 3,
-	height = 2,
+	height = 3,
 	stations = {
 	}
 }
