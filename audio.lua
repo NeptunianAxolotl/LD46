@@ -8,9 +8,9 @@ function externalFunc.load ()
 end
 
 local volMult = {
-    background = 0.03,
-    chapel = 0.09,
-    laptophymn = 0.09,
+    background = 0.1,
+    chapel = 0.3,
+    laptophymn = 0.3,
 }
 
 function addSource(name, id)
