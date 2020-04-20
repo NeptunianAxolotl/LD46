@@ -5,8 +5,8 @@ local basicPowerMod = 1.2
 local interLearnMod = 1.3
 local interPowerMod = 1.6
 
-local advLearnMod = 1.3
-local advPowerMod = 1.6
+local advLearnMod = 0.8
+local advPowerMod = 2.2
 
 local data = {
     -- basic skills
@@ -82,6 +82,19 @@ local data = {
 		taskSpeed = {
 			make_beer = 2,
 			cook = 1.5,
+		},
+		requiredPeripherals = {
+		
+		},
+	},
+    {
+		name = "economics",
+		humanName = "Economics",
+		titleName = "Merchant",
+		desc = "Gets better trade deals",
+		learnMod = interLearnMod,
+		learnPowerDrainMod = interPowerMod,
+		taskSpeed = {
 		},
 		requiredPeripherals = {
 		

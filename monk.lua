@@ -597,6 +597,18 @@ local function New(init)
                 desiredAnimation = def.GetMakeGrainAnim(UTIL.DirectionToCardinal(direction))
             elseif activeTask == "sleep" then
                 desiredAnimation = def.GetSleepAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "eat" then
+                desiredAnimation = def.GetEatAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "make_stone" then
+                desiredAnimation = def.GetStoneAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "make_bread" then
+                desiredAnimation = def.GetBakeAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "make_beer" then
+                desiredAnimation = def.GetBrewAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "charge_battery" then
+                desiredAnimation = def.GetBikeAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "use_laptop" then
+                desiredAnimation = def.GetCompAnim(UTIL.DirectionToCardinal(direction))
 			elseif activeTask then
 				-- no known animation, go idle
                 desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))
