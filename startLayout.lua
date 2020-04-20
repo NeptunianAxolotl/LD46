@@ -23,7 +23,7 @@ local startConfig = {
 			pos = {2, 5},
 		},
 		{
-			defName = "dorm",
+			defName = "bike",
 			pos = {1, 1},
 		},
 		{
@@ -71,10 +71,6 @@ local startConfig = {
 			pos = {6, -8},
 		},
 		{
-			defName = "bike",
-			pos = {3, -8},
-		},
-		{
 			defName = "quarry",
 			pos = {-5, 7},
 		},
@@ -89,6 +85,10 @@ local startConfig = {
 		{
 			defName = "tree",
 			pos = {-2, 7},
+		},
+		{
+			defName = "bike",
+			pos = {-4, 10},
 		},
 	},
 	features = {

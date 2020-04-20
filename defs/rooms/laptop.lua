@@ -1,4 +1,6 @@
 
+local PRODUCE = "battery_spent"
+
 local function DoUpkeepLaptop(station, room, monk, workData, dt)
 	local resource, count = monk.GetResource()
 	if resource ~= "battery" then
@@ -28,13 +30,28 @@ local function CheckEligible(station, room, monk, workData, dt)
 	return true
 end
 
+local function CollectAction(station, room, monk, workData, dt)
+	if room.GetResourceCount(PRODUCE) >= 1 then
+		room.AddResource(PRODUCE, -1)
+		monk.SetResource(PRODUCE, 1)
+		return true
+	end
+end
+
+local collectRequirement = {
+	{
+		resType = PRODUCE,
+		resCount = 1,
+	}
+}
+
 local function DrawSupply(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
 	love.graphics.setColor(0.2, 1, 0.3)
 	love.graphics.print(math.floor(self.GetResourceCount("battery")), drawX + 1.55*GLOBAL.TILE_SIZE, drawY + 0.45*GLOBAL.TILE_SIZE)
 	
-	love.graphics.setColor(1, 0.3, 0.3)
+	love.graphics.setColor(1, 0.5, 0.4)
 	love.graphics.print(math.floor(self.GetResourceCount("battery_spent")), drawX + 0.75*GLOBAL.TILE_SIZE, drawY + 1.25*GLOBAL.TILE_SIZE)
 	
 	local laptopCharge = GetWorld().GetOrModifyLaptopStatus().charge
@@ -71,6 +88,10 @@ local data = {
 	UpdateFunc = UpdateFunc,
 	DrawFunc = DrawSupply,
 	isLaptop = true,
+	spawnResources = {
+		{"battery", 2},
+		{"battery_spent", 1},
+	},
 	stations = {
 		{
 			pos = {1.5, 0.3},
@@ -83,6 +104,17 @@ local data = {
                 },
                 {
                     entryPath = {{-1,0}, {1, 0.3}}
+                },
+			},
+		},
+		{
+			pos = {0.5, 0.5},
+			taskType = "get_battery_spent",
+			PerformAction = CollectAction,
+			requireResources = collectRequirement,
+			doors = {
+                {
+                    entryPath = {{-1,2}, {0.5,1.8}}
                 },
 			},
 		},

@@ -60,9 +60,6 @@ local data = {
 	width = 3,
 	height = 3,
 	DrawFunc = DrawSupply,
-	spawnResources = {
-		{"beer", 20},
-	},
 	stations = {
 		{
 			pos = {0.5,0.5},
