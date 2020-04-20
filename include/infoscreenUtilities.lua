@@ -362,7 +362,7 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     
     love.graphics.print("WASD to move camera", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print("Click on monks to select, then click tree/building to prioritise job", drawX, drawY)
+    love.graphics.print("Click on monks to select, then click tree/building to prioritize job", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print("Click on job in monk's priority queue to remove it", drawX, drawY)
     drawY = drawY + linebreak
