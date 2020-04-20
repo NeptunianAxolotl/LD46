@@ -473,8 +473,6 @@ local function New(init)
         local imageToDraw = def.defaultImage
         if def.images then
             local imageDirection = math.floor((direction + math.pi/8) / (math.pi/4)) % 8 + 1
-            local standlookup = {def.images.stand_NE,def.images.stand_E,def.images.stand_SE,def.images.stand_S,def.images.stand_SW,def.images.stand_W,def.images.stand_NW,def.images.stand_N}
-            local walklookup = {def.images.stand_NE,def.images.stand_E,def.images.walk_SE,def.images.stand_S,def.images.stand_SW,def.images.stand_W,def.images.stand_NW,def.images.stand_N}
             local desiredAnimation = nil
             
             -- find the animation we should be doing
@@ -484,11 +482,11 @@ local function New(init)
                 desiredAnimation = def.images.chop_E
 			elseif activeTask then
 				-- no known animation, go idle
-                desiredAnimation = standlookup[imageDirection]
+                desiredAnimation = def.GetStandAnim(imageDirection)
             elseif movingToPos then
-                desiredAnimation = walklookup[imageDirection]
+                desiredAnimation = def.GetWalkAnim(imageDirection)
             else -- idle
-                desiredAnimation = standlookup[imageDirection]
+                desiredAnimation = def.GetStandAnim(imageDirection)
             end
             
             if not animCurrent or animCurrent ~= desiredAnimation then
