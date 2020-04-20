@@ -1,10 +1,14 @@
 local function InitLaptopStatus(monk, potentialStations, requiredRoom) 
     local laptopData = {
+        -- 1 = full charge, 0 = empty charge
         charge = 0.053,
+        -- drain per second
+        passiveDrain = 0.001,
+        currentDrain = 0.002,
         peripherals = {
-            speakers = false,
+            speakers = true,
             monitor = false,
-            graphics = false,
+            graphicscard = true,
         }
     }
     
