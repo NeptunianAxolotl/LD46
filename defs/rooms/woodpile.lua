@@ -50,6 +50,7 @@ local data = {
 			pos = {0, 0},
 			taskType = "make_wood",
 			PerformAction = DoProcess,
+			fetchResource = {"log"},
 			doors = {
                 {
                     entryPath = {{-1,0}}

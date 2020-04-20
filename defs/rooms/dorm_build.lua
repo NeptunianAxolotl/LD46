@@ -55,6 +55,7 @@ local data = {
 			taskType = "add_wood",
 			PerformAction = DoBuildWood,
 			allowParallelUse = true,
+			fetchResource = {"wood"},
 			requireResources = {
 				{
 					resType = "reqWood",

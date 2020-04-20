@@ -22,6 +22,10 @@ local function New(init)
 	-- wantRepath
 	-- workData
 	
+	local delayedSetNewGoal = {
+		active = false
+	}
+	
 	local priorities = {
 		{
 			taskType = "build",
@@ -40,6 +44,7 @@ local function New(init)
 	local atStation = false
 	local atStationDoor = false
 	
+	local moveAnimation = false
 	local movingToPos = false
 	local movingDiagonal = false
 	local movingProgress = 0
@@ -103,6 +108,14 @@ local function New(init)
 	end
 	
 	local function SetNewGoal(newTaskType, requiredRoom, preferredRoom)
+		if not goalUtilities.CheckGoalInterrupt(externalFuncs, GetCurrentGoal()) then
+			delayedSetNewGoal.active = true
+			delayedSetNewGoal.newTaskType = newTaskType
+			delayedSetNewGoal.requiredRoom = requiredRoom
+			delayedSetNewGoal.preferredRoom = preferredRoom
+			return false
+		end
+		delayedSetNewGoal.active = false
 		ClearGoals()
 		AddGoal(newTaskType, nil, false, requiredRoom, preferredRoom)
 	end
@@ -122,6 +135,10 @@ local function New(init)
 			end
 		end
 	end
+	
+	--------------------------------------------------
+	-- Utilities
+	--------------------------------------------------
 
 	local function UpdateSubgoal(dt, stationsByUse)
 		local currentGoal = GetCurrentGoal()
@@ -134,11 +151,10 @@ local function New(init)
 		return currentGoal
 	end
 
-	--------------------------------------------------
-	-- Utilities
-	--------------------------------------------------
-
 	local function CheckWants(currentGoal)
+		if not goalUtilities.CheckGoalInterrupt(externalFuncs, currentGoal) then
+			return false
+		end
 		if currentGoal and (currentGoal.taskType == "sleep" or currentGoal.taskType == "eat") then
 			return false -- We are already pursuing a want.
 		end
@@ -326,6 +342,14 @@ local function New(init)
 				priWrite = priWrite + 1
 			end
 		end
+		
+		if delayedSetNewGoal.requiredRoom and delayedSetNewGoal.requiredRoom.index == room.index then
+			delayedSetNewGoal.active = false
+			delayedSetNewGoal.requiredRoom = nil
+			delayedSetNewGoal.preferredRoom = nil
+		elseif delayedSetNewGoal.preferredRoom and delayedSetNewGoal.preferredRoom.index == room.index then
+			delayedSetNewGoal.preferredRoom = nil
+		end
 	end
 
 	--------------------------------------------------
@@ -336,8 +360,10 @@ local function New(init)
 		externalFuncs.ModifyFatigue(GLOBAL.CONSTANT_FATIGUE*dt)
 		externalFuncs.ModifyFood(GLOBAL.CONSTANT_HUNGER*dt)
 		
+		moveAnimation = false
 		-- Moving towards an adjacent square. Update position.
 		if movingToPos then
+			moveAnimation = true
 			if movingDiagonal then
 				movingProgress = movingProgress + moveSpeed*dt*GLOBAL.INV_DIAG
 			else
@@ -349,7 +375,8 @@ local function New(init)
 				return
 			end
 			pos = movingToPos
-			movingProgress = movingProgress - 1
+			movingToPos = nil
+			movingProgress = 0
 		end
 		
 		local currentGoal = GetCurrentGoal()
@@ -359,6 +386,10 @@ local function New(init)
 			SetNewGoal(wantGoal)
 			currentGoal = GetCurrentGoal()
 			--print("wantGoal", wantGoal, #goals)
+		end
+		
+		if delayedSetNewGoal.active then
+			SetNewGoal(delayedSetNewGoal.newTaskType, delayedSetNewGoal.requiredRoom, delayedSetNewGoal.preferredRoom)
 		end
 		
 		-- Find a goal?
@@ -398,6 +429,7 @@ local function New(init)
 					externalFuncs.ModifyFatigue(GLOBAL.MOTION_FATIGUE*dt)
 					externalFuncs.ModifyFood(GLOBAL.MOTION_HUNGER*dt)
 					UpdateStationPosition(movingProgress, 0)
+					moveAnimation = true
 				end
 				
 				if movingProgress >= 1 then
@@ -420,6 +452,7 @@ local function New(init)
 			end
 			if movingProgress > 0 then
 				movingProgress = movingProgress - moveSpeed*dt / atStation.GetPathLength(atStationDoor)
+				moveAnimation = true
 			end
 			if movingProgress > 0 then
 				externalFuncs.ModifyFatigue(GLOBAL.MOTION_FATIGUE*dt)
@@ -438,6 +471,7 @@ local function New(init)
 			movingToPos, movingDiagonal = currentGoal.currentPath.GetNextNode()
 			if movingToPos then
 				direction = UTIL.Angle(movingToPos[1] - pos[1], movingToPos[2] - pos[2])
+				moveAnimation = true
 			end
 		end
 		
@@ -446,6 +480,7 @@ local function New(init)
 			atStation = currentGoal.station
 			atStationDoor = currentGoal.stationDoor
 			UpdateStationPosition(movingProgress, 0)
+			moveAnimation = true
 		end
 		
 	end
@@ -482,7 +517,7 @@ local function New(init)
 			elseif activeTask then
 				-- no known animation, go idle
                 desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))
-            elseif movingToPos or (movingProgress > 0 and movingProgress < 1) then
+            elseif moveAnimation then
                 desiredAnimation = def.GetWalkAnim(UTIL.DirectionToCardinal(direction))
             else -- idle
                 desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))
@@ -535,7 +570,7 @@ local function New(init)
 			--local text = love.graphics.newText(font.GetFont(), text)
 			love.graphics.print(currentGoal.taskType, x + 0.1*GLOBAL.TILE_SIZE, y + 0.3*GLOBAL.TILE_SIZE)
 		end
-		love.graphics.print(UTIL.DirectionToCardinal(direction), x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
+		love.graphics.print("", x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
 	end
 	
 	return externalFuncs

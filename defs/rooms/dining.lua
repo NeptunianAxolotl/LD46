@@ -80,6 +80,7 @@ local data = {
 		{
 			pos = {2, 1},
 			taskType = "cook",
+			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
 			doors = {
                 {
@@ -90,6 +91,7 @@ local data = {
 		{
 			pos = {2, 2},
 			taskType = "cook",
+			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
 			doors = {
                 {

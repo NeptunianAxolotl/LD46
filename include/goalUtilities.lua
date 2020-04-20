@@ -37,8 +37,31 @@ local function CheckBuildGoal(monk, currentGoal, stationsByUse)
 	end
 end
 
+-- Goals are not interruptable if a monk is carrying a resource
+-- destined for the station that their goal is about.
+-- This prevents resources being destroyed.
+local function CheckGoalInterrupt(monk, currentGoal)
+	if not (currentGoal and currentGoal.station) then
+		return true
+	end
+	local resource, count = monk.GetResource()
+	if (not resource) or (count == 0) then
+		return true
+	end
+	
+	local haveResource, needResource = currentGoal.station.IsFetchResource(resource)
+	if haveResource then
+		return false
+	end
+	return true
+end
+
 local function CheckSubGoal(monk, currentGoal, stationsByUse)
 	if not currentGoal then
+		return false
+	end
+	
+	if not CheckGoalInterrupt(monk, currentGoal) then
 		return false
 	end
 	
@@ -84,4 +107,5 @@ end
 return {
 	CheckSubGoal = CheckSubGoal,
 	RemoveMonkRoomLinks = RemoveMonkRoomLinks,
+	CheckGoalInterrupt = CheckGoalInterrupt,
 }

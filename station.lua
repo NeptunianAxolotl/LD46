@@ -44,6 +44,21 @@ local function New(def, parent, stationsByUse)
 	end
 	
 	--------------------------------------------------
+	-- Goal Checking
+	--------------------------------------------------
+	function externalFuncs.IsFetchResource(resource)
+		if not def.fetchResource then
+			return false, false
+		end
+		for i = 1, #def.fetchResource do
+			if resource == def.fetchResource[i] then
+				return true, true
+			end
+		end
+		return false, true
+	end
+	
+	--------------------------------------------------
 	-- Doors and Pathing
 	--------------------------------------------------
 	
