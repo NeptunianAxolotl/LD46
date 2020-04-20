@@ -64,14 +64,14 @@ local data = {
 	DrawFunc = DrawSupply,
 	stations = {
 		{
-			pos = {1, 2},
+			pos = {1, 1},
 			taskType = "get_battery",
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
 			allowParallelUse = true,
 			doors = {
                 {
-                    entryPath = {{1,3}}
+                    entryPath = {{1,2}}
                 },
 			},
 		},

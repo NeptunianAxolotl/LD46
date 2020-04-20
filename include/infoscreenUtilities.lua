@@ -220,7 +220,7 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	drawX = drawX + 140
 	love.graphics.print("Inventory", drawX, drawY)
 	
-	drawY = drawY + 40
+	drawY = drawY + 43
 	
 	for i = 1, #tradeData.goods do
 		drawX = startX
@@ -286,7 +286,7 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	drawX = drawX + 78
 	love.graphics.print("Aquired", drawX, drawY)
 	
-	drawY = drawY + 40
+	drawY = drawY + 43
 	
 	for i = 1, #periph do
 		drawX = startX

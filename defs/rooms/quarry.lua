@@ -2,7 +2,7 @@
 local STORE_LIMIT = 4
 
 local function MakeAction(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("stone", dt*0.35, STORE_LIMIT)
+	local boundReached = room.AddResource("stone", dt*0.35*monk.GetTaskMod("make_stone"), STORE_LIMIT)
 	monk.ModifyFatigue(-0.08*dt)
 	monk.ModifyFood(-0.07*dt)
 	if boundReached then
@@ -39,7 +39,7 @@ local data = {
 	humanName = "Stone Quarry",
 	image = "quarry.png",
 	buildDef = "quarry_build",
-    desc = "Collect stone\nCost: 2 wood",
+    desc = "Collect stone\nCost: 8 wood and a long time",
 	clickTask = "make_stone",
 	drawOriginX = 0,
 	drawOriginY = 1,

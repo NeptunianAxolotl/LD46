@@ -293,6 +293,13 @@ local function New(init)
 		return false
 	end
 	
+	function externalFuncs.GetTaskMod(taskType)
+		if not (currentSkill.def and currentSkill.progress == 1) then
+			return 1
+		end
+		return (currentSkill.def.taskSpeed and currentSkill.def.taskSpeed[taskType]) or 1
+	end
+	
 	function externalFuncs.SetDesiredSkill(newSkill)
 		if currentSkill.def and currentSkill.def.name == newSkill then
 			return

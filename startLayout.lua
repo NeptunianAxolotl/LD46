@@ -52,7 +52,7 @@ local startConfig = {
 		},
         {
 			defName = "quarry",
-			pos = {11, 7},
+			pos = {13, 7},
 		},
 		{
 			defName = "quarry",
@@ -71,10 +71,6 @@ local startConfig = {
 			pos = {17, 23},
 		},
         {
-			defName = "quarry",
-			pos = {-35, 9},
-		},
-        {
 			defName = "tree",
 			pos = {-32, 8},
 		},
@@ -84,7 +80,7 @@ local startConfig = {
 		},
         {
 			defName = "tree",
-			pos = {-32-3, 8-1},
+			pos = {-32+6, 8-5},
 		},
 		{
 			defName = "tree",
@@ -337,6 +333,14 @@ local startConfig = {
         {
 			defName = "tree",
 			pos = {4, 40},
+		},
+        {
+			defName = "tree",
+			pos = {6, 40+8},
+		},
+        {
+			defName = "tree",
+			pos = {9, 40-4},
 		},
 	},
 	features = {

@@ -4,15 +4,15 @@ local BUILD_IMAGE = "quarry_partial.png"
 local WIDTH = 2
 local HEIGHT = 2
 
-local WOOD_COST = 2
+local WOOD_COST = 8
 local STONE_COST = 0
 
-local BUILD_TIME = 20
+local BUILD_TIME = 24
 
 -- End Config
 
 local function DoBuild(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("progress", dt/BUILD_TIME, 1)
+	local boundReached = room.AddResource("progress", monk.getTaskMod("build")*dt/BUILD_TIME, 1)
 	monk.ModifyFatigue(-0.04*dt)
 	monk.ModifyFood(-0.06*dt)
 	if boundReached then
