@@ -32,7 +32,7 @@ local function CheckBuildGoal(monk, currentGoal, stationsByUse)
 		taskTypes[#taskTypes + 1] = "add_stone"
 	end
 	if #taskTypes > 0 then
-		local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, taskTypes)
+		local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, room, false, stationsByUse, taskTypes)
 		return taskType, station, room
 	end
 end
@@ -86,10 +86,23 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 		if not currentGoal.station then
 			return "make_wood"
 		end
+	elseif currentGoal.taskType == "get_stone" and not currentGoal.station then
+		local potentialStations = stationsByUse[currentGoal.taskType]
+		local pos = monk.GetPosition()
+		currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, potentialStations)
+		currentGoal.wantRepath = true
+		if not currentGoal.station then
+			return "make_stone"
+		end
 	elseif currentGoal.taskType == "add_wood" then
 		local resource, count = monk.GetResource()
 		if resource ~= "wood" or count < 1 then
 			return "get_wood"
+		end
+	elseif currentGoal.taskType == "add_stone" then
+		local resource, count = monk.GetResource()
+		if resource ~= "stone" or count < 1 then
+			return "get_stone"
 		end
 	end
 	return false

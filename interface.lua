@@ -48,6 +48,7 @@ local function GetNewInterface(world)
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
 		if buttonHovered then
 			infoscreenUtilities.ButtonClicked(infoscreenData, world, externalFuncs, buttonHovered)
+			return
 		elseif infoscreenData.active then
 			infoscreenUtilities.HandleClick(infoscreenData, world, externalFuncs)
 			return

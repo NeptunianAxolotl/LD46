@@ -8,7 +8,6 @@ local FEATURE_PATH  = "defs/features/"
 
 local roomDefFiles = {
 	"dorm",
-	"dorm_build",
 	"field",
 	"dining",
 	"woodpile",
@@ -23,6 +22,23 @@ local roomDefFiles = {
 	"trade",
 	"bike",
 	"quarry",
+	
+	-- Buildings
+	"dorm_build",
+	--"field_build",
+	--"dining_build",
+	--"woodpile_build",
+	--"tree",
+	--"garden_build",
+	--"laptop",
+	--"library_build",
+	--"dorm_small_build",
+	"chapel_build",
+	--"bakery_build",
+	--"brewery_build",
+	--"trade",
+	--"bike_build",
+	--"quarry_build",
 }
 
 local featureDefFiles = {

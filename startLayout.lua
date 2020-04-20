@@ -76,7 +76,7 @@ local startConfig = {
 		},
 		{
 			defName = "quarry",
-			pos = {5, -12},
+			pos = {-5, 7},
 		},
 		{
 			defName = "tree",
