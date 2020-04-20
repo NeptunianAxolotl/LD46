@@ -40,23 +40,23 @@ local data = {
         sleep_NW = {file="monk/monk_sleep_nw.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
         
         -- bake animations
-        bake_NW = {file="monk/monk_bake_nw.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        bake_NW = {file="monk/monk_bake_nw.png",width=640,duration=0.7},
         
         -- bike animation
-        bike_NE = {file="monk/monk_bike_ne.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        bike_NE = {file="monk/monk_bike_ne.png",width=640,duration=0.7},
         
         -- brew animations
-        brew_NE = {file="monk/monk_brew_ne.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
-        brew_NW = {file="monk/monk_brew_nw.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        brew_NE = {file="monk/monk_brew_ne.png",width=640,duration=0.7},
+        brew_NW = {file="monk/monk_brew_nw.png",width=640,duration=0.7},
         
         -- comp animations
-        comp_NW = {file="monk/monk_comp_nw.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        comp_NW = {file="monk/monk_comp_nw.png",width=640,duration=0.7},
         
         -- eating animations
-        eat_SE = {file="monk/monk_eating_se.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        eat_SE = {file="monk/monk_eating_se.png",width=640,duration=0.7},
         
         -- stone animations
-        stone_E = {file="monk/monk_stone_e.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        stone_E = {file="monk/monk_stone_e.png",width=640,duration=0.7},
     },
 	drawOriginX = 0,
 	drawOriginY = 1.05,

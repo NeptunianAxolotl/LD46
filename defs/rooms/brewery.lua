@@ -65,25 +65,38 @@ local data = {
 	},
 	stations = {
 		{
-			pos = {1, 2},
+			pos = {0.5,0.5},
 			taskType = "get_beer",
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
 			doors = {
                 {
-                    entryPath = {{1,3}}
+                    entryPath = {{1,-1},{1,1}}
+                },
+                {
+                    entryPath = {{1,3},{1,1}}
+                },
+                {
+                    entryPath = {{-1,1},{1,1}}
                 },
 			},
 		},
 		{
-			pos = {2, 1},
+			pos = {1.5, 1.4},
 			taskType = "make_beer",
 			fetchResource = {NEED},
 			PerformAction = MakeAction,
 			AvailibleFunc = CheckStorageLimit,
+            overrideDir = 0,
 			doors = {
                 {
-                    entryPath = {{3,2},{2,2}}
+                    entryPath = {{1,-1},{1,1}}
+                },
+                {
+                    entryPath = {{1,3},{1,1}}
+                },
+                {
+                    entryPath = {{-1,1},{1,1}}
                 },
 			},
 		},
