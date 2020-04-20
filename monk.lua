@@ -13,6 +13,8 @@ local function New(init)
 	local wantThreashold = 0.3
 	local moveSpeed = 2
 	
+	local taskTypesToAvoid = IterableMap.New()
+	
 	local goals = {}
 	-- taskType
 	-- requiredRoom
@@ -72,6 +74,21 @@ local function New(init)
 	local animTimer = 0
 
 	init = nil
+	--------------------------------------------------
+	-- Timing
+	--------------------------------------------------
+	
+	local function ReduceTime(key, data, index, dt)
+		data.timer = data.timer - dt
+		if data.timer < 0 then
+			return true -- Remove
+		end
+	end
+	
+	local function UpdateTaskTypesToAvoidTimer(dt)
+		taskTypesToAvoid.Apply(ReduceTime, dt)
+	end
+	
 	--------------------------------------------------
 	-- Goal Handling
 	--------------------------------------------------
@@ -138,9 +155,8 @@ local function New(init)
 	local function FindGoal(dt, stationsByUse)
 		for i = 1, #priorities do
 			local priData = priorities[i]
-			if stationUtilities.CheckGoalSubgoals(externalFuncs, priData.requiredRoom, stationsByUse, priData.taskType) then
+			if not taskTypesToAvoid.Get(priData.taskType) then
 				local reservedStation = stationUtilities.ReserveClosestStation(externalFuncs, priData.requiredRoom, priData.preferredRoom, stationsByUse[priData.taskType])
-				print("FindGoal", i, reservedStation)
 				if reservedStation then
 					AddGoal(priData.taskType, stationsByUse, true, priData.requiredRoom, priData.preferredRoom, reservedStation)
 					return
@@ -155,13 +171,13 @@ local function New(init)
 
 	local function UpdateSubgoal(dt, stationsByUse)
 		local currentGoal = GetCurrentGoal()
-		local subGoal, foundStation, requiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
+		local subGoal, foundStation, requiredRoom, goalBlocked = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
 		while subGoal do
 			AddGoal(subGoal, stationsByUse, true, requiredRoom, nil, foundStation)
 			currentGoal = GetCurrentGoal()
-			subGoal, foundStation, requiredRoom = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
+			subGoal, foundStation, requiredRoom, goalBlocked = goalUtilities.CheckSubGoal(externalFuncs, currentGoal, stationsByUse)
 		end
-		return currentGoal
+		return currentGoal, goalBlocked
 	end
 
 	local function CheckWants(currentGoal)
@@ -447,6 +463,8 @@ local function New(init)
 		externalFuncs.ModifyFatigue(GLOBAL.CONSTANT_FATIGUE*dt)
 		externalFuncs.ModifyFood(GLOBAL.CONSTANT_HUNGER*dt)
 		
+		UpdateTaskTypesToAvoidTimer(dt)
+		
 		if setPriorityRecentTimer > 0 then
 			setPriorityRecentTimer = setPriorityRecentTimer - dt
 		end
@@ -490,7 +508,14 @@ local function New(init)
 		end
 		
 		-- Add any required subgoals.
-		currentGoal = UpdateSubgoal(dt, stationsByUse)
+		local goalBlocked = false
+		currentGoal, goalBlocked = UpdateSubgoal(dt, stationsByUse)
+		
+		if currentGoal and goalBlocked then
+			taskTypesToAvoid.Add(currentGoal.taskType, {timer = GLOBAL.GOAL_AVOID_TIME})
+			ClearGoals()
+			currentGoal = GetCurrentGoal()
+		end
 		
 		-- Find a station to be at.
 		if currentGoal and (currentGoal.wantRepath or (not currentGoal.station)) then

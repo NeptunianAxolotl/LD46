@@ -9,7 +9,7 @@ local function CheckCookGoal(monk, currentGoal, stationsByUse)
 	end
 	
 	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_grain", "get_veg"})
-	return taskType, station
+	return taskType, station, nil, not taskType
 end
 
 local function CheckMakeWoodGoal(monk)
@@ -34,7 +34,7 @@ local function CheckBuildGoal(monk, currentGoal, stationsByUse)
 	end
 	if #taskTypes > 0 then
 		local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, room, false, stationsByUse, taskTypes)
-		return taskType, station, room
+		return taskType, station, room, not taskType
 	end
 end
 

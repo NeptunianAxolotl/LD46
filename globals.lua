@@ -41,6 +41,7 @@ local globals = {
 	CAMERA_START_Y = -500,
 	
 	DEMOLISH_BUILDING = true,
+	GOAL_AVOID_TIME = 0.5,
 }
 
 return globals

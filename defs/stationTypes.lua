@@ -33,22 +33,6 @@ local data = {
 	"transcribe",
 }
 
-local taskSubGoals = {
-	cook = {
-		{
-			{"get_grain", "grain"}
-		},
-		{
-			{"get_veg", "veg"}
-		},
-	},
-	make_wood = {{{"chop", "wood"}}},
-	upkeep_laptop = {{{"get_battery", "battery"}}},
-	charge_battery = {{{"get_battery_spent", "battery_spent"}}},
-	make_bread = {{{"get_grain", "grain"}}},
-	make_beer = {{{"get_grain", "grain"}}},
-}
-
 local stationTypeNames = {
 	sleep = "Sleeping",
 	get_veg = "Pick Vegetables",
@@ -104,7 +88,7 @@ function taskSubgoal.trade(monk, currentGoal, stationsByUse)
 	
 	-- Find the closest station where we can find the resource, if it exists.
 	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, taskTypes)
-	return taskType, station
+	return taskType, station, nil, not taskType
 end
 
 local function AddTaskSubgoal(taskName, getTasks)
@@ -122,7 +106,7 @@ local function AddTaskSubgoal(taskName, getTasks)
 		
 		-- Find the closest station where we can find the resource, if it exists.
 		local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, getTasks)
-		return taskType, station
+		return taskType, station, nil, not taskType
 	end
 end
 
@@ -153,7 +137,7 @@ function taskSubgoal.transcribe(monk, currentGoal, stationsByUse)
 	
 	-- Find the closest station where we can find the resource, if it exists.
 	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_book"})
-	return taskType, station
+	return taskType, station, nil, not taskType
 end
 
 return {data, stationTypeNames, taskSubgoal, resourceNames}
