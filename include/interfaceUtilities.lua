@@ -150,6 +150,32 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	return uiClick
 end
 
+local function DrawButtonInterface(interface, mouseX, mouseY)
+    
+    love.graphics.setColor(1, 1, 1, 1)
+    
+    local windowHeight = love.graphics.getHeight()
+    
+	love.graphics.draw(DEFS.images.buttonInterface, 0, windowHeight - DEFS.images.buttonInterface:getHeight(), 0, 1, 1, 0, 0, 0, 0)
+    
+    if UTIL.PosInRectangle(10, windowHeight - 50, 180, 40, mouseX, mouseY) then
+        
+    end
+    
+    if UTIL.PosInRectangle(10 + 190, windowHeight - 50, 180, 40, mouseX, mouseY) then
+        
+    end
+    
+    if UTIL.PosInRectangle(10 + 190 * 2, windowHeight - 50, 180, 40, mouseX, mouseY) then
+        
+    end
+    
+    if UTIL.PosInRectangle(10 + 190 * 3, windowHeight - 50, 180, 40, mouseX, mouseY) then
+        
+    end
+    
+end
+
 return {
 	SnapStructure = SnapStructure,
 	CheckStructurePlacement = CheckStructurePlacement,
@@ -158,4 +184,5 @@ return {
 	RoomToScreen = RoomToScreen,
 	ScreenToRoom = ScreenToRoom,
 	DrawMonkInterface = DrawMonkInterface,
+    DrawButtonInterface = DrawButtonInterface,
 }

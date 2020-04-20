@@ -212,6 +212,8 @@ local function GetNewInterface(world)
 			
 			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY, clickTask)
 		end
+        
+        interfaceUtilities.DrawButtonInterface(interface, mouseX, mouseY)
 		
 		infoscreenUtilities.Draw(infoscreenData, world, interface, mouseX, mouseY)
 	end
