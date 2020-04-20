@@ -450,7 +450,7 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Books", 455, 90)
+	love.graphics.print("Library", 455, 90)
 	
 	local options = DEFS.skillDefs
     local booksWritten = world.GetOrModifyKnowStatus().booksWritten
@@ -458,16 +458,16 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	
 	love.graphics.setColor(0, 0, 0, 1)
 	
-	local drawX = 256
-	local drawY = 165
+	local drawX = 240
+	local drawY = 180
 	
 	font.SetSize(2)
 	local startX = drawX
 	love.graphics.print("Subject", drawX, drawY)
-	drawX = drawX + 220
+	drawX = drawX + 155
 	love.graphics.print("Title", drawX, drawY)
 	
-	drawX = drawX + 240
+	drawX = drawX + 325
 	love.graphics.print("Progress", drawX, drawY)
 
 	drawY = drawY + 43
@@ -478,9 +478,9 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 			drawX = startX
 			
 			love.graphics.print(options[i].humanName, drawX, drawY)
-			drawX = drawX + 220
+			drawX = drawX + 155
 			love.graphics.print(options[i].bookTitle or "", drawX, drawY)
-			drawX = drawX + 240
+			drawX = drawX + 325
 			love.graphics.print(math.floor((bookProgress[name] or 0)*100) .. "%", drawX, drawY)
 			drawY = drawY + 35
 		--end
@@ -605,7 +605,7 @@ local function Draw(infoscreenData, world, interface, mouseX, mouseY)
 	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Trade")
 	index = index + 1
 	
-	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Books")
+	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Library")
 	index = index + 1
 	
 	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Help")
