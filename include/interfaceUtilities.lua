@@ -167,8 +167,6 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 		drawY = drawY + 28
 	end
 	
-	
-	
 	return uiClick
 end
 

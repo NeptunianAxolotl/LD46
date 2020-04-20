@@ -63,6 +63,7 @@ local data = {
 	width = WIDTH,
 	height = HEIGHT,
 	spawnResources = resourceCost,
+	demolishable = true,
 	stations = {
 		{
 			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},

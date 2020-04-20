@@ -34,6 +34,10 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	local drawY = startHeight
 	
 	for i = 1, #buildOptions do
+		if drawY > 600 then
+			drawY = startHeight
+			drawX = drawX + 290
+		end
 		local roomDef = DEFS.roomDefNames[buildOptions[i]]
 		if UTIL.PosInRectangle(drawX - 80, drawY, 255, 72, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
@@ -51,11 +55,17 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 		local scale = 1.1/math.max(3, math.max(roomDef.width, roomDef.height))
 		love.graphics.draw(roomDef.image, drawX - 80, drawY - 3*roomDef.drawOriginY - 28, 0, scale, scale, 0, 0, 0, 0)
 		drawY = drawY + 50
-		if drawY > 600 then
-			drawY = startHeight
-			drawX = drawX + 290
-		end
 	end
+	
+	drawY = drawY + 10
+	if UTIL.PosInRectangle(drawX-30, drawY - 10, 190, 40, mouseX, mouseY) then
+		love.graphics.setColor(1, 0, 0, 1)
+		infoscreenData.hoveredOption = {demolish = true}
+	else
+		love.graphics.setColor(0, 0, 0, 1)
+	end
+	font.SetSize(1)
+	love.graphics.print("Demolish Building", drawX - 30, drawY)
 end
 
 --------------------------------------------------
@@ -324,7 +334,7 @@ end
 --------------------------------------------------
 
 local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
-	if not UTIL.PosInRectangle(172, 50, 690, 640, mouseX, mouseY) then
+	if not UTIL.PosInRectangle(172, 50, 6750, 640, mouseX, mouseY) then
 		CloseScreen(infoscreenData, world, interface)
 	end
 	
@@ -342,7 +352,11 @@ local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
 		CloseScreen(infoscreenData, world, interface)
 	end
 	if infoscreenData.displayedScreen == 1 then
-		interface.SetPlacingStructure(infoscreenData.hoveredOption.build)
+		if infoscreenData.hoveredOption.demolish then
+			interface.SetDemolish()
+		elseif infoscreenData.hoveredOption.build then
+			interface.SetPlacingStructure(infoscreenData.hoveredOption.build)
+		end
 		CloseScreen(infoscreenData, world, interface)
 	end
 	if infoscreenData.displayedScreen == 3 then

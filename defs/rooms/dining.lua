@@ -48,6 +48,7 @@ local data = {
     drawOriginX = 0,
 	drawOriginY = 1.5,
 	DrawFunc = DrawDining,
+	demolishable = true,
 	stations = {
 		{
 			pos = {0, 1},

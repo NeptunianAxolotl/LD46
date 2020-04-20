@@ -32,6 +32,7 @@ local data = {
 	drawOriginX = 0,
 	drawOriginY = 1,
 	UpdateFunc = UpdateFunc,
+	demolishable = true,
 	DrawFunc = DrawSupply,
 	stations = {
 		{

@@ -59,6 +59,7 @@ local data = {
 	drawOriginY = 1.5,
 	width = 3,
 	height = 3,
+	demolishable = true,
 	DrawFunc = DrawSupply,
 	stations = {
 		{

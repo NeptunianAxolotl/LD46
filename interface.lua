@@ -17,6 +17,7 @@ local function GetNewInterface(world)
 	local camSpeedX, camSpeedY = 0, 0
 	local placingStructure = false
 	local selectedMonk = false
+	local demolishMode = false
 	
 	local uiClick = false
 	local buttonHovered = false
@@ -34,6 +35,10 @@ local function GetNewInterface(world)
 	
 	function externalFuncs.SetPlacingStructure(newPlacingStructure)
 		placingStructure = newPlacingStructure
+	end
+	
+	function externalFuncs.SetDemolish()
+		demolishMode = true
 	end
 	
 	--------------------------------------------------
@@ -59,6 +64,23 @@ local function GetNewInterface(world)
 				uiClick.monk.RemovePriority(uiClick.removePriority)
 			end
 			uiClick = false
+			return
+		end
+		
+		if demolishMode then
+			if button == 2 then
+				demolishMode = false
+			else
+				demolishMode = false
+				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
+				if room then
+					local roomDef = room.GetDef()
+					if roomDef.demolishable then
+						room.Destroy()
+						demolishMode = true
+					end
+				end
+			end
 			return
 		end
 		
@@ -191,6 +213,21 @@ local function GetNewInterface(world)
 			end
 		end
 		
+		
+		if demolishMode then
+			local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
+			if room then
+				local roomDef = room.GetDef()
+				if roomDef.demolishable then
+					love.graphics.setColor(1, 0, 0, 0.1)
+					local vertices = interfaceUtilities.RoomToScreen(externalFuncs, room)
+					love.graphics.polygon("fill", vertices)
+					love.graphics.setColor(1, 0, 0)
+					love.graphics.polygon("line", vertices)
+				end
+			end
+		end
+		
 		if selectedMonk then
 			local x, y, w, h = interfaceUtilities.MonkToScreen(externalFuncs, selectedMonk)
 			love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
@@ -198,7 +235,7 @@ local function GetNewInterface(world)
 			
 			local clickTask = false
 			
-			if (not buttonHovered) and (not (hoveredMonk or placingStructure or infoscreenData.active)) then
+			if (not demolishMode) and (not buttonHovered) and (not (hoveredMonk or placingStructure or infoscreenData.active)) then
 				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 				if room then
 					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)

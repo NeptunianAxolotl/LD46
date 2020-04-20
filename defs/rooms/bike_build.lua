@@ -62,6 +62,7 @@ local data = {
 	drawOriginY = math.max(WIDTH, HEIGHT)/2,
 	width = WIDTH,
 	height = HEIGHT,
+	demolishable = true,
 	spawnResources = resourceCost,
 	stations = {
 		{
