@@ -1,5 +1,9 @@
 
 local function DoCook(station, room, monk, workData, dt)
+	local resource, count = monk.GetResource()
+	if resource ~= "grain" and resource ~= "veg" then
+		return true
+	end
 	workData.timer = (workData.timer or 0) + 0.6*dt
 	monk.ModifyFatigue(-0.05*dt)
 	monk.ModifyFood(-0.05*dt)

@@ -56,12 +56,30 @@ function taskSubgoal.make_beer(monk, currentGoal, stationsByUse)
 	
 	-- If we have the resource in our inventory then don't fetch it.
 	local resource, count = monk.GetResource()
-	if (resource == "grain") and count > 0 then
+	if currentGoal.station.IsFetchResource(resource) then
 		return false
 	end
 	
 	-- Find the closest station where we can find the resource, if it exists.
 	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, {"get_grain"})
+	return taskType, station
+end
+
+function taskSubgoal.trade(monk, currentGoal, stationsByUse)
+	-- If we don't have a place to make the resource, there is no point fetching it.
+	if not currentGoal.station then
+		return false
+	end
+	
+	-- If we have the resource in our inventory then don't fetch it.
+	local resource, count = monk.GetResource()
+	if currentGoal.station.IsFetchResource(resource) then
+		return false
+	end
+	local taskTypes = tradeUtilities.GetFetchTasks()
+	
+	-- Find the closest station where we can find the resource, if it exists.
+	local station, taskType = stationUtilities.ReserveClosestStationMultiType(monk, false, false, stationsByUse, taskTypes)
 	return taskType, station
 end
 

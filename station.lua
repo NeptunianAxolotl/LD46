@@ -47,11 +47,12 @@ local function New(def, parent, stationsByUse)
 	-- Goal Checking
 	--------------------------------------------------
 	function externalFuncs.IsFetchResource(resource)
-		if not def.fetchResource then
+		local fetchResource = def.fetchResource or (def.FetchResourceFunc and def.FetchResourceFunc())
+		if not fetchResource then
 			return false, false
 		end
-		for i = 1, #def.fetchResource do
-			if resource == def.fetchResource[i] then
+		for i = 1, #fetchResource do
+			if resource == fetchResource[i] then
 				return true, true
 			end
 		end

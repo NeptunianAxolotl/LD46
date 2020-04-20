@@ -132,7 +132,7 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.print("Buy Price", drawX, drawY)
 	
 	drawX = drawX + 140
-	love.graphics.print("Stored", drawX, drawY)
+	love.graphics.print("Inventory", drawX, drawY)
 	
 	drawY = drawY + 40
 	
@@ -144,23 +144,23 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 		
 		drawX = drawX + 50
 		love.graphics.print(math.floor(good.price), drawX, drawY)
-		drawX = drawX + 50
+		drawX = drawX + 40
 		
-		if UTIL.PosInRectangle(drawX, drawY, 120, 34, mouseX, mouseY) then
+		if UTIL.PosInRectangle(drawX, drawY, 38, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
-			infoscreenData.hoveredOption = {toggleSell = i}
+			infoscreenData.hoveredOption = {sell = i}
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
 		love.graphics.print("Sell", drawX, drawY)
 		love.graphics.setColor(0, 0, 0, 1)
-		drawX = drawX + 40
+		drawX = drawX + 50
 		
 		drawX = drawX + 40
 		love.graphics.print(math.floor(good.price*good.buyMarkup), drawX, drawY)
-		drawX = drawX + 50
+		drawX = drawX + 40
 		
-		if UTIL.PosInRectangle(drawX, drawY, 120, 34, mouseX, mouseY) then
+		if UTIL.PosInRectangle(drawX, drawY, 38, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {buy = i}
 		else
@@ -168,7 +168,7 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 		end
 		love.graphics.print("Buy", drawX, drawY)
 		love.graphics.setColor(0, 0, 0, 1)
-		drawX = drawX + 90
+		drawX = drawX + 100
 		
 		love.graphics.print(room.GetResourceCount(good.name), drawX, drawY)
 		drawX = drawX + 40
@@ -178,7 +178,7 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
-		love.graphics.print((good.requesting and "Stocking") or "Not Stocking", drawX, drawY)
+		love.graphics.print((good.requesting and "Move to Post") or "Take from Post", drawX, drawY)
 		love.graphics.setColor(0, 0, 0, 1)
 		
 		drawY = drawY + 40

@@ -67,7 +67,6 @@ local data = {
 			taskType = "get_beer",
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
-			AvailibleFunc = CheckStorageLimit,
 			doors = {
                 {
                     entryPath = {{1,3}}
@@ -79,6 +78,7 @@ local data = {
 			taskType = "make_beer",
 			fetchResource = NEED,
 			PerformAction = MakeAction,
+			AvailibleFunc = CheckStorageLimit,
 			doors = {
                 {
                     entryPath = {{3,2},{2,2}}

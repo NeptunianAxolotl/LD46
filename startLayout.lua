@@ -35,6 +35,10 @@ local startConfig = {
 			pos = {8, 6},
 		},
 		{
+			defName = "trade",
+			pos = {8, 10},
+		},
+		{
 			defName = "garden",
 			pos = {12, 6},
 		},
@@ -69,10 +73,6 @@ local startConfig = {
 		{
 			defName = "bike",
 			pos = {3, -8},
-		},
-		{
-			defName = "trade",
-			pos = {-1, -8},
 		},
 		{
 			defName = "quarry",
