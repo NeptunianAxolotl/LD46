@@ -28,7 +28,8 @@ local function CheckBuildGoal(monk, currentGoal, stationsByUse)
 	local taskTypes = {}
 	if room.GetResourceCount("reqWood") > 0 then
 		taskTypes[#taskTypes + 1] = "add_wood"
-	elseif room.GetResourceCount("reqStone") > 0 then
+	end
+	if room.GetResourceCount("reqStone") > 0 then
 		taskTypes[#taskTypes + 1] = "add_stone"
 	end
 	if #taskTypes > 0 then

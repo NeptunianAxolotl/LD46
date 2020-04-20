@@ -1,18 +1,30 @@
 
+local CONSTRUCTED_BUILDING = "dorm"
+local BUILD_IMAGE = "dorm_fancy_partial.png"
+local WIDTH = 3
+local HEIGHT = 2
+
+local WOOD_COST = 3
+local STONE_COST = 3
+
+local BUILD_TIME = 3
+
+-- End Config
+
 local function DoBuild(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("progress", dt*0.2, 1)
+	local boundReached = room.AddResource("progress", dt/BUILD_TIME, 1)
 	monk.ModifyFatigue(-0.04*dt)
 	monk.ModifyFood(-0.06*dt)
 	if boundReached then
 		local pos = room.GetPosAndSize()
-		GetWorld().CreateRoom("dorm", pos[1], pos[2])
+		GetWorld().CreateRoom(CONSTRUCTED_BUILDING, pos[1], pos[2])
 		room.Destroy(true)
 		return true
 	end
 end
 
 local function DoBuildWood(station, room, monk, workData, dt)
-	workData.timer = (workData.timer or 0) + 0.6*dt
+	workData.timer = (workData.timer or 0) + 1.8*dt
 	monk.ModifyFatigue(-0.05*dt)
 	monk.ModifyFood(-0.05*dt)
 	if workData.timer > 1 and room.GetResourceCount("reqWood") >= 1 then
@@ -22,36 +34,59 @@ local function DoBuildWood(station, room, monk, workData, dt)
 	end
 end
 
+local function DoBuildStone(station, room, monk, workData, dt)
+	workData.timer = (workData.timer or 0) + 1.8*dt
+	monk.ModifyFatigue(-0.05*dt)
+	monk.ModifyFood(-0.05*dt)
+	if workData.timer > 1 and room.GetResourceCount("reqStone") >= 1 then
+		room.AddResource("reqStone", -1)
+		monk.SetResource(false, 0)
+		return true
+	end
+end
+
+local resourceCost = {}
+if WOOD_COST > 0 then
+	resourceCost[#resourceCost + 1] = {"reqWood", WOOD_COST}
+end
+if STONE_COST > 0 then
+	resourceCost[#resourceCost + 1] = {"reqStone", STONE_COST}
+end
+
 local data = {
-	name = "dorm_build",
-	buildDef = "dorm_build",
-	image = "basic3x2.png",
+	name = CONSTRUCTED_BUILDING .. "_build",
+	image = BUILD_IMAGE,
 	clickTask = "build",
 	clickTaskPrefers = true,
 	drawOriginX = 0,
-	drawOriginY = 1.5,
-	width = 3,
-	height = 2,
-	spawnResources = {
-		{"reqWood", 2},
-	},
+	drawOriginY = math.max(WIDTH, HEIGHT)/2,
+	width = WIDTH,
+	height = HEIGHT,
+	spawnResources = resourceCost,
 	stations = {
 		{
-			pos = {1, 0.5},
+			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
 			taskType = "build",
 			PerformAction = DoBuild,
 			subgoalInheritRoom = true,
+			allowParallelUse = true,
 			doors = {
                 {
-                    entryPath = {{1,-1}}
+                    entryPath = {{math.floor(WIDTH/2), -1}}
                 },
                 {
-                    entryPath = {{1,2}}
+                    entryPath = {{math.floor(WIDTH/2), HEIGHT}}
+                },
+                {
+                    entryPath = {{-1, math.floor(HEIGHT/2)}}
+                },
+                {
+                    entryPath = {{WIDTH, math.floor(HEIGHT/2)}}
                 },
 			},
 		},
 		{
-			pos = {1, 0.5},
+			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
 			taskType = "add_wood",
 			PerformAction = DoBuildWood,
 			allowParallelUse = true,
@@ -64,10 +99,43 @@ local data = {
 			},
 			doors = {
                 {
-                    entryPath = {{1,-1}}
+                    entryPath = {{math.floor(WIDTH/2), -1}}
                 },
                 {
-                    entryPath = {{1,2}}
+                    entryPath = {{math.floor(WIDTH/2), HEIGHT}}
+                },
+                {
+                    entryPath = {{-1, math.floor(HEIGHT/2)}}
+                },
+                {
+                    entryPath = {{WIDTH, math.floor(HEIGHT/2)}}
+                },
+			},
+		},
+		{
+			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
+			taskType = "add_stone",
+			PerformAction = DoBuildStone,
+			allowParallelUse = true,
+			fetchResource = {"stone"},
+			requireResources = {
+				{
+					resType = "reqStone",
+					resCount = 1,
+				}
+			},
+			doors = {
+                {
+                    entryPath = {{math.floor(WIDTH/2), -1}}
+                },
+                {
+                    entryPath = {{math.floor(WIDTH/2), HEIGHT}}
+                },
+                {
+                    entryPath = {{-1, math.floor(HEIGHT/2)}}
+                },
+                {
+                    entryPath = {{WIDTH, math.floor(HEIGHT/2)}}
                 },
 			},
 		},
