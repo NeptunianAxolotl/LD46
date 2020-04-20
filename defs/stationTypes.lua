@@ -71,6 +71,13 @@ local resourceNames = {
 	wood = "Wood",
 	beer = "Beer",
 	book = "Blank Book",
+    bread = "Bread",
+    veg = "Vegetables",
+    grain = "Grain",
+    battery = "Battery",
+    battery_spent = "Low Battery",
+    stone = "Stone"
+    
 }
 
 local taskSubgoal = {}
