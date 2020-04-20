@@ -3,8 +3,8 @@ local STORE_LIMIT = 8
 
 local function FieldAction(station, room, monk, workData, dt)
 	local boundReached = room.AddResource("grain", dt*0.1*monk.GetTaskMod("make_grain"), STORE_LIMIT)
-	monk.ModifyFatigue(-0.1*dt)
-	monk.ModifyFood(-0.07*dt)
+	monk.ModifyFatigue(-0.08*dt)
+	monk.ModifyFood(-0.06*dt)
 	if boundReached then
 		return true
 	end
