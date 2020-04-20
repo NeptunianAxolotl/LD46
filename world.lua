@@ -49,6 +49,11 @@ local function GetNewWorld(startLayout)
     musicUtilities.InitialiseMusic()
 	
 	local paused = false
+	local totalGameTime = 0
+	local victoryTime = false
+	local defeat = false
+	
+	local externalFuncs = {}
 	
 	--------------------------------------------------
 	-- Locals
@@ -58,14 +63,43 @@ local function GetNewWorld(startLayout)
 		roomList.ApplySelf("UpdateRoom", dt, monkList)
 		featureList.ApplySelf("UpdateFeature", dt)
 		monkList.ApplySelf("UpdateMonk", dt, roomList, stationsByUse)
+		
+		knowUtilities.CheckVictory(knowStatus, world)
+		laptopUtilities.CheckDefeat(laptopStatus, world)
+		
         musicUtilities.CheckMusicChange("background")
         Audio.Update(dt)
 	end
 
 	--------------------------------------------------
+	-- Victory and Defeat
+	--------------------------------------------------
+
+	function externalFuncs.DeclareVictory()
+		if defeat or victoryTime then
+			return
+		end
+		victoryTime = totalGameTime
+	end
+	
+	function externalFuncs.DeclareDefeat()
+		if defeat or victoryTime then
+			return
+		end
+		defeat = true
+	end
+	
+	function externalFuncs.GetVictoryTime()
+		return victoryTime
+	end
+
+	function externalFuncs.GetDefeat()
+		return defeat
+	end
+
+	--------------------------------------------------
 	-- Messing with the world
 	--------------------------------------------------
-	local externalFuncs = {}
 	
 	function externalFuncs.SetPaused(newPaused)
 		paused = newPaused
@@ -144,6 +178,7 @@ local function GetNewWorld(startLayout)
 		if paused then
 			return
 		end
+		totalGameTime = totalGameTime + dt
 		UpdateWorld(dt)
 	end
 

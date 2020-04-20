@@ -3,6 +3,8 @@ local cameraUtilities = require("include/cameraUtilities")
 local interfaceUtilities = require("include/interfaceUtilities")
 local infoscreenUtilities = require("include/infoscreenUtilities")
 
+popupUtilities = require("include/popupUtilities")
+
 local function GetNewInterface(world)
 
 	--------------------------------------------------
@@ -140,7 +142,7 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
-		if key == "r" then
+		if key == "r" and love.keyboard.isDown("ctrl") and love.keyboard.isDown("shift") then
 			RestartGame()
 		end
 		if infoscreenData.active and infoscreenUtilities.KeyPressed(infoscreenData, world, interface, key) then
@@ -264,6 +266,8 @@ local function GetNewInterface(world)
 		end
 		
 		buttonHovered = infoscreenUtilities.Draw(infoscreenData, world, externalFuncs, mouseX, mouseY)
+		
+		popupUtilities.Draw(world, externalFuncs)
 	end
 	
 	return externalFuncs

@@ -573,6 +573,10 @@ local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
 end
 
 local function SetInfoscreen(infoscreenData, world, newDisplayedScreen, data)
+	if infoscreenData.active and infoscreenData.displayedScreen == newDisplayedScreen then
+		CloseScreen(infoscreenData, world)
+		return
+	end
 	infoscreenData.active = true
 	infoscreenData.displayedScreen = newDisplayedScreen
 	infoscreenData.hoveredOption = false

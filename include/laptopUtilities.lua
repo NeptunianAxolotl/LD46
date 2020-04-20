@@ -70,9 +70,15 @@ local function AddLaptop(laptopData, roomList)
 	end
 end
 
+local function CheckDefeat(laptopData, world)
+	if laptopData.charge <= 0 then
+		world.DeclareDefeat()
+	end
+end
 
 return {
 	InitLaptopStatus = InitLaptopStatus,
 	AddLaptop = AddLaptop,
 	UpdateLaptop = UpdateLaptop,
+	CheckDefeat = CheckDefeat,
 }
