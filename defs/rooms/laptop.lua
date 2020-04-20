@@ -47,7 +47,8 @@ local function DoUseLaptop(station, room, monk, workData, dt)
 	
 	laptopData.charge = laptopData.charge - dt*(laptopData.currentDrain - laptopData.passiveDrain)
 	
-	return monk.AddSkillProgress(0.05*dt, true), "make_grain"
+	local skillDef, progress = monk.GetSkill()
+	return monk.AddSkillProgress(0.05*dt, true), skillDef.preferedTask
 end
 
 local function CollectAction(station, room, monk, workData, dt)
