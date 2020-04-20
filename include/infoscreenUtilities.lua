@@ -37,7 +37,7 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	for i = 1, #buildOptions do
 		if UTIL.PosInRectangle(drawX, drawY, 130, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
-			infoscreenData.hoveredOption = buildOptions[i]
+			infoscreenData.hoveredOption = {build = buildOptions[i]}
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
@@ -69,7 +69,7 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	for i = 1, #options do
 		if UTIL.PosInRectangle(drawX, drawY, 130, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
-			infoscreenData.hoveredOption = {build = options[i]}
+			infoscreenData.hoveredOption = {skill = options[i].name}
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
@@ -129,7 +129,7 @@ local function HandleClick(infoscreenData, world, interface)
 	if infoscreenData.displayedScreen == 5 then
 		if infoscreenData.hoveredOption then
 			if not infoscreenData.hoveredOption.closeScreen then
-				infoscreenData.extraData.monk.SetDesiredSkill(infoscreenData.hoveredOption.name)
+				infoscreenData.extraData.monk.SetDesiredSkill(infoscreenData.hoveredOption.skill)
 			end
 			CloseScreen(infoscreenData, world, interface)
 		end

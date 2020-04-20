@@ -5,9 +5,9 @@ local globals = {
 	
 	PI = math.pi,
 	
-	BAR_RED = 0.4,
-	BAR_GREEN = 0.3,
-	BAR_BLUE = 0.3,
+	BAR_RED = 0.8,
+	BAR_GREEN = 0.8,
+	BAR_BLUE = 0.8,
 	
 	BAR_SLEEP_RED = 0,
 	BAR_SLEEP_GREEN = 0.5,
@@ -16,6 +16,10 @@ local globals = {
 	BAR_FOOD_RED = 0,
 	BAR_FOOD_GREEN = 0.8,
 	BAR_FOOD_BLUE = 0,
+	
+	BAR_SKILL_RED = 0.6,
+	BAR_SKILL_GREEN = 0.8,
+	BAR_SKILL_BLUE = 0,
 	
 	CAM_ACCEL = 7000,
 	CAM_SPEED = 1200,

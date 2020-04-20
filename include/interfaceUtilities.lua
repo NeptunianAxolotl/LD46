@@ -81,9 +81,25 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	
 	local sleep, food, resourceCarried, skill, skillRank, skillProgress, currentTaskType, name, priorities = monk.GetStatus()
 	
-	local barX = 68
-	local barWidth = 112
-	local barHeight = 20
+	local skillStr = "Unskilled"
+	skillProgress = skillProgress or 0
+	
+	if skill then
+		local def = DEFS.skillDefNames[skill]
+		skillRank = skillRank or 1
+		if skillRank == 3 then
+			skillStr = "Master "
+		elseif skillRank >= 2 then
+			skillStr = "Adept "
+		else
+			skillStr = "Novice "
+		end
+		skillStr = skillStr .. def.titleName
+	end
+	
+	local barX = 16
+	local barWidth = 162
+	local barHeight = 23
 	
 	local drawY = 334
 	
@@ -93,23 +109,34 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	love.graphics.print(name, 20, drawY)
 	drawY = drawY + 23
 	
-	love.graphics.print(skill or "Unskilled", 20, drawY)
-	drawY = drawY + 23
-	
-	drawY = drawY + 6
-	love.graphics.print("Rest", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
-	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, sleep*barWidth, barHeight, 2, 6, 4 )
+	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 0, 0 )
+	love.graphics.setColor(GLOBAL.BAR_SKILL_RED, GLOBAL.BAR_SKILL_GREEN, GLOBAL.BAR_SKILL_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, skillProgress*barWidth, barHeight, 2, 0, 0 )
+	drawY = drawY + 2
+	
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.print(skillStr, 20, drawY)
 	
 	drawY = drawY + 28
-	love.graphics.setColor(0, 0, 0, 1)
-	love.graphics.print("Food", 20, drawY - 2)
 	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 6, 4 )
+	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 0, 0 )
+	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, sleep*barWidth, barHeight, 2, 0, 0 )
+	drawY = drawY + 2
+	
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.print("Rest", 20, drawY)
+	
+	drawY = drawY + 28
+	love.graphics.setColor(GLOBAL.BAR_RED, GLOBAL.BAR_GREEN, GLOBAL.BAR_BLUE)
+	love.graphics.rectangle("fill", barX, drawY, barWidth, barHeight, 2, 0, 0 )
 	love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
-	love.graphics.rectangle("fill", barX, drawY, food*barWidth, barHeight, 2, 6, 4 )
+	love.graphics.rectangle("fill", barX, drawY, food*barWidth, barHeight, 2, 0, 0 )
+	drawY = drawY + 2
+	
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.print("Food", 20, drawY)
 	
 	love.graphics.setColor(0, 0, 0, 1)
 	drawY = drawY + 28

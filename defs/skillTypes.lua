@@ -3,6 +3,7 @@ local data = {
 	{
 		name = "masonry",
 		humanName = "Masonry",
+		titleName = "Mason",
 		desc = "Do stone",
 		learnMod = 1.7,
 		practiseMod = 1.3,
@@ -24,6 +25,7 @@ local data = {
 	{
 		name = "farming",
 		humanName = "Farming",
+		titleName = "Farmer",
 		desc = "Do stone",
 		learnMod = 1.7,
 		practiseMod = 1.3,

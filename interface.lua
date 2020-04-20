@@ -170,7 +170,7 @@ local function GetNewInterface(world)
 		uiClick = false
 		
 		local hoveredMonk
-		if not buttonHovered then
+		if not (buttonHovered or infoscreenData.active) then
 			if placingStructure then
 				local def = DEFS.roomDefNames[placingStructure]
 				local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
@@ -197,7 +197,7 @@ local function GetNewInterface(world)
 			
 			local clickTask = false
 			
-			if (not buttonHovered) and (not (hoveredMonk or placingStructure)) then
+			if (not buttonHovered) and (not (hoveredMonk or placingStructure or infoscreenData.active)) then
 				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 				if room then
 					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)

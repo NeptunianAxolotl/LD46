@@ -253,10 +253,15 @@ local function New(init)
 
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
-		local skill = currentSkill and currentSkill.def and currentSkill.def.humanName
+		
+		local skillName = currentSkill and currentSkill.desiredSkillChange
+		if not skillName then
+			skillName = currentSkill and currentSkill.def and currentSkill.def.name
+		end
 		local skillRank = currentSkill and currentSkill.rank
 		local skillProgress = currentSkill and currentSkill.progress
-		return sleep, food, resourceCarried, skill, skillRank, skillProgress,(currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
+		
+		return sleep, food, resourceCarried, skillName, skillRank, skillProgress,(currentGoal and currentGoal.taskType), "Roderick " .. externalFuncs.index, priorities
 	end
 	
 	function externalFuncs.GetSkill()
