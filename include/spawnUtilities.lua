@@ -9,7 +9,7 @@ local spawnLocations = {
 local function InitSpawnStatus(monk, potentialStations, requiredRoom)
 	local spawnData = {
 		progress = 0,
-		rate = 0.1,
+		rate = 0.04,
 	}
 	
 	return spawnData

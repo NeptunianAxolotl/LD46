@@ -19,7 +19,7 @@ local data = {
 		learnPowerDrainMod = basicPowerMod,
 		--preferedTask = "make_veg",
 		taskSpeed = {
-			make_grain = 2,
+			make_grain = 2.8,
 			make_veg = 2,
 		},
 		requiredPeripherals = {
@@ -36,7 +36,7 @@ local data = {
 		learnMod = basicLearnMod,
 		learnPowerDrainMod = basicPowerMod,
 		taskSpeed = {
-			make_wood = 2,
+			make_wood = 3,
 			build = 1.5,
 		},
 		requiredPeripherals = {
@@ -54,7 +54,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-			make_stone = 2,
+			make_stone = 3,
 			build = 1.5,
 		},
 		requiredPeripherals = {
@@ -71,7 +71,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-            make_bread = 2,
+            make_bread = 2.5,
 			cook = 1.5,
 		},
 		requiredPeripherals = {
@@ -88,7 +88,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-			make_beer = 2,
+			make_beer = 2.5,
 			cook = 1.5,
 		},
 		requiredPeripherals = {
@@ -116,12 +116,13 @@ local data = {
 		name = "programming",
 		humanName = "Programming",
 		titleName = "Coder",
-		desc = "Maintaining laptop. Requires a monitor.",
+		desc = "Managing batteries. Requires a monitor.",
 		learnMod = advLearnMod,
 		--preferedTask = "upkeep_laptop",
 		learnPowerDrainMod = advPowerMod,
 		taskSpeed = {
 			upkeep_laptop = 2,
+			charge_battery = 2,
 		},
 		requiredPeripherals = {
             "monitor"
@@ -137,7 +138,7 @@ local data = {
 		learnMod = advLearnMod,
 		learnPowerDrainMod = advPowerMod,
 		taskSpeed = {
-			play_organ = 2,
+			play_organ = 4,
 		},
 		requiredPeripherals = {
             "speakers"

@@ -178,7 +178,7 @@ local function GetNewWorld(startLayout)
 		if paused then
 			return
 		end
-		totalGameTime = totalGameTime + dt*GLOBAL.GAME_SPEED
+		totalGameTime = totalGameTime + dt -- Actual seconds
 		UpdateWorld(dt*GLOBAL.GAME_SPEED)
 	end
 

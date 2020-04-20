@@ -11,7 +11,7 @@ local function New(init)
 	local resourceCount = 0
 	
 	local wantThreashold = 0.3
-	local moveSpeed = 2
+	local moveSpeed = 2.4
 	
 	local taskTypesToAvoid = IterableMap.New()
 	

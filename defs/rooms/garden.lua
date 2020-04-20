@@ -6,7 +6,7 @@ local STORE_LIMIT = 3
 --end
 
 local function FieldAction(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("veg", dt*0.35*monk.GetTaskMod("make_veg"), STORE_LIMIT)
+	local boundReached = room.AddResource("veg", dt*0.18*monk.GetTaskMod("make_veg"), STORE_LIMIT)
 	monk.ModifyFatigue(-0.06*dt)
 	monk.ModifyFood(-0.05*dt)
 	if boundReached then
@@ -21,16 +21,6 @@ local function CheckLimit(station, room, monk)
 	return true
 end
 
-local function DrawSupply(self, drawX, drawY)
-	font.SetSize(1)
-	--local text = love.graphics.newText(font.GetFont(), text)
-	love.graphics.setColor(1, 1, 1)
-	love.graphics.print(math.floor(self.GetResourceCount("grain")*10)/10, drawX + 0.8*GLOBAL.TILE_SIZE, drawY + 1.6*GLOBAL.TILE_SIZE)
-	
-	love.graphics.setColor(1, 1, 1)
-end
-
-
 local function CollectAction(station, room, monk, workData, dt)
 	if room.GetResourceCount("veg") >= 1 then
 		room.AddResource("veg", -1)
@@ -43,7 +33,7 @@ local function DrawSupply(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
 	love.graphics.setColor(1, 1, 1)
-	love.graphics.print(math.floor(self.GetResourceCount("veg")*10)/10, drawX + 0.3*GLOBAL.TILE_SIZE, drawY + 0.85*GLOBAL.TILE_SIZE)
+	love.graphics.print(math.floor(self.GetResourceCount("veg")*10)/10, drawX + 0.3*GLOBAL.TILE_SIZE, drawY + 0.5*GLOBAL.TILE_SIZE)
 	
 	love.graphics.setColor(1, 1, 1)
 end

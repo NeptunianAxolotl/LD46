@@ -411,7 +411,7 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	love.graphics.print("Select a Skill", 374 + 128, 90)
 	
 	local options = DEFS.skillDefs
-	local isLibrary = infoscreenData.extraData and infoscreenData.extraData.alreadyHasSkill
+	local isLibrary = infoscreenData.extraData and infoscreenData.extraData.isLibrary
     local booksWritten = world.GetOrModifyKnowStatus().booksWritten
 	
 	local startHeight = 165

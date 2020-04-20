@@ -5,9 +5,11 @@ local function DoCook(station, room, monk, workData, dt)
 	if resource ~= "grain" and resource ~= "veg" then
 		return true
 	end
-	workData.timer = (workData.timer or 0) + 0.6*dt*monk.GetTaskMod("cook")
-	monk.ModifyFatigue(-0.05*dt)
-	monk.ModifyFood(-0.05*dt)
+	local speed = (((resource == "veg") and 0.19) or 1)
+	
+	workData.timer = (workData.timer or 0) + speed*dt*monk.GetTaskMod("cook")
+	monk.ModifyFatigue(-0.03*dt)
+	monk.ModifyFood(-0.03*dt)
 	if workData.timer > 1 then
 		monk.SetResource(false, 0)
 		room.AddResource("food", 1)
@@ -41,7 +43,7 @@ local function DrawDining(self, drawX, drawY)
 	font.SetSize(1)
 	--local text = love.graphics.newText(font.GetFont(), text)
 	love.graphics.setColor(1, 1, 1)
-	love.graphics.print(math.floor(self.GetResourceCount("food")*10)/10, drawX + 0.55*GLOBAL.TILE_SIZE, drawY + 1.2*GLOBAL.TILE_SIZE)
+	love.graphics.print(math.floor(self.GetResourceCount("food")), drawX + 1.4*GLOBAL.TILE_SIZE, drawY + 1.2*GLOBAL.TILE_SIZE)
 	love.graphics.setColor(1, 1, 1)
 end
 

@@ -11,6 +11,20 @@ local BUILD_TIME = 5
 
 -- End Config
 
+local function DrawCompletion(self, drawX, drawY)
+	font.SetSize(1)
+	--local text = love.graphics.newText(font.GetFont(), text)
+	love.graphics.setColor(1, 1, 1)
+	
+	local resources = (self.GetResourceCount("reqWood") + self.GetResourceCount("reqStone"))/(WOOD_COST + STONE_COST)
+	local progress = (1 - resources)*0.8 + self.GetResourceCount("build")*0.2
+	
+	love.graphics.print(math.floor(progress*100) .. "%", drawX + (0.5*WIDTH - 0.5)*GLOBAL.TILE_SIZE, drawY + (0.75*HEIGHT - 0.5)*GLOBAL.TILE_SIZE)
+	
+	love.graphics.setColor(1, 1, 1)
+end
+
+
 local function DoBuild(station, room, monk, workData, dt)
 	local boundReached = room.AddResource("progress", monk.GetTaskMod("build")*dt/BUILD_TIME, 1)
 	monk.ModifyFatigue(-0.04*dt)
@@ -64,6 +78,7 @@ local data = {
 	height = HEIGHT,
 	demolishable = true,
 	spawnResources = resourceCost,
+	DrawFunc = DrawCompletion,
 	stations = {
 		{
 			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
