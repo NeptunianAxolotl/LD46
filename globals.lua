@@ -29,6 +29,8 @@ local globals = {
 	DRAIN_MULT = 0.4,
 	
 	PRIORITY_COUNT = 3,
+	
+	DOUBLE_CLICK_TIME = 0.7,
 }
 
 return globals

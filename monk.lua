@@ -51,6 +51,9 @@ local function New(init)
 
 	local externalFuncs = {}
 	
+	local setPriorityRecentTaskType = false
+	local setPriorityRecentTimer = 0
+	
 	--------------------------------------------------
 	-- Initialization
 	--------------------------------------------------
@@ -187,9 +190,20 @@ local function New(init)
 		if priorities[1] and priorities[1].taskType == newTaskType then
 			priorities[1].requiredRoom = taskRequires and room
 			priorities[1].preferredRoom = taskPrefers and room
+			
+			if setPriorityRecentTimer > 0 and setPriorityRecentTaskType == newTaskType then
+				local otherPriCount = #priorities
+				for i = 2, otherPriCount do
+					priorities[i] = nil
+				end
+			end
+			
 			SetNewGoal(newTaskType, priorities[1].requiredRoom, priorities[1].preferredRoom)
 			return
 		end
+		
+		setPriorityRecentTaskType = newTaskType
+		setPriorityRecentTimer = GLOBAL.DOUBLE_CLICK_TIME
 		
 		-- Move priority around if the task is already a priority
 		local priMatch = false
@@ -360,6 +374,10 @@ local function New(init)
 		externalFuncs.ModifyFatigue(GLOBAL.CONSTANT_FATIGUE*dt)
 		externalFuncs.ModifyFood(GLOBAL.CONSTANT_HUNGER*dt)
 		
+		if setPriorityRecentTimer > 0 then
+			setPriorityRecentTimer = setPriorityRecentTimer - dt
+		end
+	
 		moveAnimation = false
 		-- Moving towards an adjacent square. Update position.
 		if movingToPos then
