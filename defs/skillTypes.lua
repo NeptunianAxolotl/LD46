@@ -71,7 +71,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-            make_bread = 3.5,
+            make_bread = 3.8,
 			cook = 1.4,
 		},
 		requiredPeripherals = {
@@ -88,7 +88,7 @@ local data = {
 		learnMod = interLearnMod,
 		learnPowerDrainMod = interPowerMod,
 		taskSpeed = {
-			make_beer = 3.5,
+			make_beer = 3.8,
 			cook = 1.4,
 		},
 		requiredPeripherals = {
