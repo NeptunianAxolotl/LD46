@@ -41,14 +41,12 @@ local function GetNewInterface(world)
 
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
 		if infoscreenData.active then
-			infoscreenUtilities.HandleClick(infoscreenData, world, mouseX, mouseY)
+			infoscreenUtilities.HandleClick(infoscreenData, world, interface, mouseX, mouseY)
 			return
 		end
 		
-		local openButton = infoscreenUtilities.ButtonClicked(infoscreenData, world, mouseX, mouseY)
-		if openButton then
-			infoscreenData.active = true
-			infoscreenData.currentScreen = openButton
+		local handled = infoscreenUtilities.ButtonClicked(infoscreenData, world, interface, mouseX, mouseY)
+		if handled then
 			return
 		end
 		
@@ -113,6 +111,9 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
+		if infoscreenUtilitiesKeyPressed(infoscreenData, world, interface, key) then
+			return
+		end
 		if key == "1" then
 			placingStructure = "dorm"
 		end
@@ -158,7 +159,7 @@ local function GetNewInterface(world)
 		love.graphics.setLineWidth(2)
 		uiClick = false
 		
-		local buttonHovered = infoscreenUtilities.DrawButtonHover(infoscreenData, mouseX, mouseY)
+		local buttonHovered = infoscreenUtilities.DrawButtonHover(infoscreenData, world, interface, mouseX, mouseY)
 		
 		local hoveredMonk
 		if not buttonHovered then
@@ -208,7 +209,7 @@ local function GetNewInterface(world)
 			uiClick = interfaceUtilities.DrawMonkInterface(interface, selectedMonk, mouseX, mouseY, clickTask)
 		end
 		
-		infoscreenUtilities.Draw(infoscreenData, world, mouseX, mouseY)
+		infoscreenUtilities.Draw(infoscreenData, world, interface, mouseX, mouseY)
 	end
 	
 	return externalFuncs
