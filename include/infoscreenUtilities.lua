@@ -85,12 +85,13 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     local powerBarWidth = 200
     local powerBarHeight = 50
     local tickboxSize = 30
+	
+	local laptopRoom = laptopData.room
     
     -- battery
     font.SetSize(2)
 	love.graphics.print("Battery Life: ", drawX, drawY)
     drawY = drawY + 25
-    
     love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle("fill", drawX, drawY, powerBarWidth, powerBarHeight, 2, 0, 0 )
     love.graphics.rectangle("fill", drawX+powerBarWidth-2, drawY+powerBarHeight/5, powerBarWidth/20, 3*powerBarHeight/5, 2, 0, 0 )
@@ -100,36 +101,45 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     love.graphics.setColor(0, 0, 0)
     if laptopData.charge < 0.1 then
         love.graphics.setColor(1, 0, 0)
-    elseif laptopData.charge < 0.3 then
+    elseif laptopData.charge < laptopData.chargeForBattery then
         love.graphics.setColor(1, 1, 0)
     else
         love.graphics.setColor(0, 1, 0)
     end
 	love.graphics.rectangle("fill", drawX+2, drawY+2, (powerBarWidth-4)*laptopData.charge, powerBarHeight-4, 2, 0, 0 )
-	
+   
 	love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print(math.ceil(laptopData.charge*100) .. "%", drawX+powerBarWidth/2-12, drawY+powerBarHeight/2-10)
     
     drawX = originalX
     drawY = drawY + powerBarHeight
-    drawY = drawY + 25
+    drawY = drawY + 28
     love.graphics.setColor(0, 0, 0)
     
     -- power
-    love.graphics.print("Current Power Consumption Rate: " .. math.ceil((laptopData.currentDrain or -1)*1000)/10*60 .. "% per minute", drawX, drawY)
+    love.graphics.print("Power Consumption When In Use: " .. math.ceil((laptopData.currentDrain or -1)*1000)/10*60 .. "% per minute", drawX, drawY)
     
     if laptopData.currentDrain and laptopData.passiveDrain and laptopData.currentDrain > laptopData.passiveDrain then
-        drawY = drawY + 25
-        love.graphics.print("(Passive Drain Rate: " .. math.ceil(laptopData.passiveDrain*1000)/10*60 .. "% per minute)", drawX, drawY)
+        drawY = drawY + 28
+        love.graphics.print("Passive Power Consumption: " .. math.ceil(laptopData.passiveDrain*1000)/10*60 .. "% per minute", drawX, drawY)
     end
-    
+	
     drawX = originalX
     drawY = drawY + 40
     love.graphics.setColor(0, 0, 0)
+	love.graphics.print("Charged Batteries in Laptop Room: " .. laptopRoom.GetResourceCount("battery"), drawX, drawY)
+	 drawY = drawY + 28
+	love.graphics.print("Spent Batteries in Laptop Room: " .. laptopRoom.GetResourceCount("battery_spent"), drawX, drawY)
+	 drawY = drawY + 28
     
+	if laptopData.charge < laptopData.chargeForUse then
+		love.graphics.print("Laptop power below " .. (laptopData.chargeForUse*100) .. "%, switching to passive mode.", drawX, drawY)
+	end
+	 drawY = drawY + 40
+	 
     -- peripherals
     love.graphics.print("Current Peripherals: ", drawX, drawY)
-    drawY = drawY + 25
+    drawY = drawY + 28
     
     love.graphics.rectangle("line", drawX, drawY, tickboxSize, tickboxSize, 2, 0, 0 )
     if laptopData.peripherals.speakers then

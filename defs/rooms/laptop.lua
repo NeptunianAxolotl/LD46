@@ -17,7 +17,8 @@ local function DoUpkeepLaptop(station, room, monk, workData, dt)
 end
 
 local function UpdateFunc(room, dt)
-	laptopUtilities.UpdateLaptop(dt)
+	local laptopData = GetWorld().GetOrModifyLaptopStatus()
+	laptopUtilities.UpdateLaptop(laptopData, dt)
 end
 
 local function CheckEligible(station, room, monk, workData, dt)
@@ -25,9 +26,28 @@ local function CheckEligible(station, room, monk, workData, dt)
 	if (not skillDef) or (progress == 1) then
 		return false
 	end
+	local laptopData = GetWorld().GetOrModifyLaptopStatus()
+	
+	if laptopData.charge < laptopData.chargeForUse then
+		return false
+	end
 	
 	-- Check peripherals
 	return true
+end
+
+local function DoUseLaptop(station, room, monk, workData, dt)
+	if not CheckEligible(station, room, monk, workData, dt) then
+		return true
+	end
+	local laptopData = GetWorld().GetOrModifyLaptopStatus()
+	if laptopData.charge < laptopData.chargeForUse then
+		return true
+	end
+	
+	laptopData.charge = laptopData.charge - dt*(laptopData.currentDrain - laptopData.passiveDrain)
+	
+	return monk.AddSkillProgress(0.05*dt, true), "make_grain"
 end
 
 local function CollectAction(station, room, monk, workData, dt)
@@ -62,14 +82,6 @@ local function DrawSupply(self, drawX, drawY)
 	love.graphics.rectangle("fill", drawX + 1.5*GLOBAL.TILE_SIZE, drawY + 1.04*GLOBAL.TILE_SIZE, 0.7*GLOBAL.TILE_SIZE*laptopCharge, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
 	
 	love.graphics.setColor(1, 1, 1)
-end
-
-local function DoUseLaptop(station, room, monk, workData, dt)
-	if not CheckEligible(station, room, monk, workData, dt) then
-		return true
-	end
-	
-	return monk.AddSkillProgress(0.05*dt, true), "make_grain"
 end
 
 local data = {
