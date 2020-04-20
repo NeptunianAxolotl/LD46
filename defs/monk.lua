@@ -16,7 +16,7 @@ local data = {
         stand_SW = {file="monk/monk_stand_sw.png",width=640,duration=100},
         
         -- walking animations
-        walk_N = {file="monk/monk_stand_n.png",width=640,duration=0.7},
+        walk_N = {file="monk/monk_walk_n.png",width=640,duration=0.7},
         walk_S = {file="monk/monk_walk_s.png",width=640,duration=0.7},
         walk_E = {file="monk/monk_walk_e.png",width=640,duration=0.7},
         walk_W = {file="monk/monk_walk_w.png",width=640,duration=0.7},
