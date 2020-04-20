@@ -62,7 +62,7 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 		return false
 	end
 	
-	if currentGoal.taskType == "food" or currentGoal.taskType == "sleep" then
+	if currentGoal.taskType == "eat" or currentGoal.taskType == "sleep" then
 		return false
 	end
 	
