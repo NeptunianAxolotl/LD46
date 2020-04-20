@@ -81,6 +81,8 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	
 	local sleep, food, resourceCarried, skill, skillRank, skillProgress, currentTaskType, name, priorities = monk.GetStatus()
 	
+	local currentTaskName = (currentTaskType and (DEFS.stationTypeNames[currentTaskType] or currentTaskType)) or "Idle"
+	
 	local skillStr = "Unskilled"
 	skillProgress = skillProgress or 0
 	
@@ -141,7 +143,7 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	love.graphics.setColor(0, 0, 0, 1)
 	drawY = drawY + 28
 	
-	love.graphics.print("Task: " .. (currentTaskType or "Idle"), 20, drawY)
+	love.graphics.print("Task: " .. currentTaskName, 20, drawY)
 	drawY = drawY + 23
 	if resourceCarried then
 		love.graphics.print("Carrying: " .. resourceCarried, 20, drawY)
@@ -152,7 +154,8 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	drawY = drawY + 23
 	
 	for i = 1, #priorities do
-		love.graphics.print(" " .. i .. ". " .. priorities[i].taskType, 20, drawY)
+		local name = DEFS.stationTypeNames[priorities[i].taskType] or priorities[i].taskType
+		love.graphics.print(" " .. i .. ". " .. name, 20, drawY)
 		if UTIL.PosInRectangle(10, drawY, 180, 20, mouseX, mouseY) then
 			uiClick = {
 				monk = monk,
@@ -167,6 +170,7 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	end
 	
 	if clickTask then
+		clickTask = DEFS.stationTypeNames[clickTask] or clickTask
 		love.graphics.setColor(0, 0.5, 0, 1)
 		love.graphics.print("Order: " .. clickTask, 20, drawY)
 		drawY = drawY + 23

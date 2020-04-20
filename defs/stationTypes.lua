@@ -19,4 +19,10 @@ local data = {
 	"use_laptop",
 }
 
-return data
+local stationTypeNames = {
+	sleep = "Sleep",
+	get_veg = "Seek Vegies",
+	chop = "Fell Tree",
+}
+
+return {data, stationTypeNames}

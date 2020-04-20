@@ -123,7 +123,8 @@ local function LoadMonk(filename)
 end
 
 local function LoadStationTypes(filename)
-	return require(filename)
+	local data = require(filename)
+	return data[1], data[2]
 end
 
 local function LoadSkillTypes(filename)
@@ -162,7 +163,7 @@ function defs.Load()
 	
 	
 	defs.monkDef = LoadMonk("defs/monk")
-	defs.stationTypes = LoadStationTypes("defs/stationTypes")
+	defs.stationTypes, defs.stationTypeNames = LoadStationTypes("defs/stationTypes")
 	defs.images = LoadGlobalImages("defs/globalImages")
 	
 	defs.skillDefs, defs.skillDefNames = LoadSkillTypes("defs/skillTypes")
