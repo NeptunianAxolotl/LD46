@@ -66,6 +66,10 @@ local function PosInRectangle(x1, y1, w1, h1, x2, y2)
 	return (x1 + w1 > x2 and x1 <= x2) and (y1 + h1 > y2 and y1 <= y2)
 end
 
+local function DirectionToCardinal(direction)
+	return math.floor((direction + math.pi/8) / (math.pi/4)) % 8 + 1
+end
+
 --------------------------------------------------
 --------------------------------------------------
 
@@ -78,4 +82,5 @@ return {
 	ToCart = ToCart,
 	IntersectingRectangles = IntersectingRectangles,
 	PosInRectangle = PosInRectangle,
+	DirectionToCardinal = DirectionToCardinal,
 }

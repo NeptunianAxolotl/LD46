@@ -472,7 +472,6 @@ local function New(init)
 		local x, y = GetDrawPos(interface)
         local imageToDraw = def.defaultImage
         if def.images then
-            local imageDirection = math.floor((direction + math.pi/8) / (math.pi/4)) % 8 + 1
             local desiredAnimation = nil
             
             -- find the animation we should be doing
@@ -482,11 +481,11 @@ local function New(init)
                 desiredAnimation = def.images.chop_E
 			elseif activeTask then
 				-- no known animation, go idle
-                desiredAnimation = def.GetStandAnim(imageDirection)
-            elseif movingToPos then
-                desiredAnimation = def.GetWalkAnim(imageDirection)
+                desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))
+            elseif movingToPos or (movingProgress > 0 and movingProgress < 1) then
+                desiredAnimation = def.GetWalkAnim(UTIL.DirectionToCardinal(direction))
             else -- idle
-                desiredAnimation = def.GetStandAnim(imageDirection)
+                desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))
             end
             
             if not animCurrent or animCurrent ~= desiredAnimation then
@@ -536,7 +535,7 @@ local function New(init)
 			--local text = love.graphics.newText(font.GetFont(), text)
 			love.graphics.print(currentGoal.taskType, x + 0.1*GLOBAL.TILE_SIZE, y + 0.3*GLOBAL.TILE_SIZE)
 		end
-		love.graphics.print(math.floor(direction*180/math.pi), x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
+		love.graphics.print(UTIL.DirectionToCardinal(direction), x + 0.1*GLOBAL.TILE_SIZE, y + 0.6*GLOBAL.TILE_SIZE)
 	end
 	
 	return externalFuncs
