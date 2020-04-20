@@ -9,8 +9,7 @@ end
 
 local volMult = {
     background = 0.1,
-    chapel = 0.3,
-    laptophymn = 0.3,
+    chapel = 0.2,
 }
 
 function addSource(name, id)
@@ -18,8 +17,6 @@ function addSource(name, id)
         return love.audio.newSource("sounds/music/background_voiced.wav", "static")
     elseif name == "chapel" then
         return love.audio.newSource("sounds/music/chapel.wav", "static")
-    elseif name == "laptophymn" then
-        return love.audio.newSource("sounds/music/laptoproom.wav", "static")
     end
 end
 
