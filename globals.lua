@@ -35,6 +35,10 @@ local globals = {
 	PRIORITY_COUNT = 3,
 	
 	DOUBLE_CLICK_TIME = 0.7,
+	
+	CAMERA_ROAM_BOUND = 1200,
+	CAMERA_START_X = 200,
+	CAMERA_START_Y = 200,
 }
 
 return globals

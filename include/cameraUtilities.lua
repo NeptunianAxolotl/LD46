@@ -1,18 +1,18 @@
 
 local function UpdateCamera(dt, cameraX, cameraY, camSpeedX, camSpeedY)
 	local xAccel, yAccel = false, false
-	if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+	if (love.keyboard.isDown("a") or love.keyboard.isDown("left")) and cameraX > -GLOBAL.CAMERA_ROAM_BOUND then
 		camSpeedX = camSpeedX - dt*GLOBAL.CAM_ACCEL
 		xAccel = true
-	elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+	elseif (love.keyboard.isDown("d") or love.keyboard.isDown("right")) and cameraX < GLOBAL.CAMERA_ROAM_BOUND then
 		camSpeedX = camSpeedX + dt*GLOBAL.CAM_ACCEL
 		xAccel = true
 	end
 	
-	if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+	if (love.keyboard.isDown("w") or love.keyboard.isDown("up")) and cameraY > -GLOBAL.CAMERA_ROAM_BOUND then
 		camSpeedY = camSpeedY - dt*GLOBAL.CAM_ACCEL
 		yAccel = true
-	elseif love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+	elseif (love.keyboard.isDown("s") or love.keyboard.isDown("down")) and cameraY < GLOBAL.CAMERA_ROAM_BOUND then
 		camSpeedY = camSpeedY + dt*GLOBAL.CAM_ACCEL
 		yAccel = true
 	end

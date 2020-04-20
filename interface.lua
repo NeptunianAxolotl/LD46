@@ -13,7 +13,7 @@ local function GetNewInterface(world)
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
-	local cameraX, cameraY = 0, -400
+	local cameraX, cameraY = GLOBAL.CAMERA_START_X, GLOBAL.CAMERA_START_Y
 	local camSpeedX, camSpeedY = 0, 0
 	local placingStructure = false
 	local selectedMonk = false

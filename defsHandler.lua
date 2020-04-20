@@ -36,7 +36,6 @@ local roomDefFiles = {
 	"brewery_build",
 	"bike_build",
 	"quarry_build",
-	--"trade",
 }
 
 local featureDefFiles = {
