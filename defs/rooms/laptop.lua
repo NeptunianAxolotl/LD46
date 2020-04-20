@@ -19,7 +19,7 @@ local function DoUseLaptop(station, room, monk, workData, dt)
 		return true
 	end
 	
-	return monk.AddSkillProgress(0.05*dt, true)
+	return monk.AddSkillProgress(0.05*dt, true), "make_grain"
 end
 
 local data = {

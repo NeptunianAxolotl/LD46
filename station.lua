@@ -108,8 +108,8 @@ local function New(def, parent, stationsByUse)
 		if not parent.IsRoomActive() then
 			return true -- Stop action
 		end
-		local toRemove = def.PerformAction(externalFuncs, parent, monk, workData, dt)
-		return toRemove
+		local toRemove, replacePriority = def.PerformAction(externalFuncs, parent, monk, workData, dt)
+		return toRemove, replacePriority
 	end
 	
 	function externalFuncs.IsAvailible(monk)

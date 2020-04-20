@@ -253,7 +253,22 @@ local function New(init)
 		end
 		priorities[#priorities] = nil
 	end
-
+	
+	function externalFuncs.ReplacePriority(oldTaskTyke, newTaskType)
+		for i = 1, #priorities do
+			if priorities[i].taskType == newTaskType then
+				return
+			end
+		end
+		
+		for i = 1, #priorities do
+			if priorities[i].taskType == oldTaskTyke then
+				priorities[i] = {taskType = newTaskType}
+				return
+			end
+		end
+	end
+	
 	function externalFuncs.GetStatus()
 		local currentGoal = GetCurrentGoal()
 		
@@ -509,8 +524,11 @@ local function New(init)
 				
 				if movingProgress >= 1 then
 					currentGoal.workData = currentGoal.workData or {}
-					local done = atStation.PerformAction(externalFuncs, currentGoal.workData, dt)
+					local done, setPriority = atStation.PerformAction(externalFuncs, currentGoal.workData, dt)
 					if done then
+						if setPriority then
+							externalFuncs.ReplacePriority(currentGoal.taskType, setPriority)
+						end
 						--print("RemoveCurrentGoal", #goals)
 						--for i = 1, #goals do
 						--	print(i, goals[i].taskType)
@@ -623,7 +641,7 @@ local function New(init)
             local quadHeight = love.graphics.getHeight(imageToDraw)
             local quadWidth = desiredAnimation.width
            -- w,h = love.graphics.getDimensions(imageToDraw)
-            love.graphics.draw(imageToDraw, quadToDraw,  x, y, 0, 1.2*GLOBAL.TILE_SIZE / quadWidth, 1.2*GLOBAL.TILE_SIZE / quadHeight, 0, 0, 0, 0)
+            love.graphics.draw(imageToDraw, quadToDraw,  x, y, 0, GLOBAL.TILE_SIZE / quadWidth, GLOBAL.TILE_SIZE / quadHeight, 0, 0, 0, 0)
             --imageToDraw = standlookup[imageDirection][1] or def.defaultImage
         end
        

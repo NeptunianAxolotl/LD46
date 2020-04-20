@@ -16,14 +16,14 @@ local data = {
         stand_SW = {file="monk/monk_stand_sw.png",width=640,duration=100},
         
         -- walking animations
-        walk_N = {file="monk/monk_walk_n.png",width=640,duration=0.7},
-        walk_S = {file="monk/monk_walk_s.png",width=640,duration=0.7},
-        walk_E = {file="monk/monk_walk_e.png",width=640,duration=0.7},
-        walk_W = {file="monk/monk_walk_w.png",width=640,duration=0.7},
-        walk_NE = {file="monk/monk_walk_ne.png",width=640,duration=0.7},
-        walk_NW = {file="monk/monk_walk_nw.png",width=640,duration=0.7},
-        walk_SE = {file="monk/monk_walk_se.png",width=640,duration=0.7},
-        walk_SW = {file="monk/monk_walk_sw.png",width=640,duration=0.7},
+        walk_N = {file="monk/monk_walk_n.png",width=640,duration=0.4},
+        walk_S = {file="monk/monk_walk_s.png",width=640,duration=0.4},
+        walk_E = {file="monk/monk_walk_e.png",width=640,duration=0.4},
+        walk_W = {file="monk/monk_walk_w.png",width=640,duration=0.4},
+        walk_NE = {file="monk/monk_walk_ne.png",width=640,duration=0.4},
+        walk_NW = {file="monk/monk_walk_nw.png",width=640,duration=0.4},
+        walk_SE = {file="monk/monk_walk_se.png",width=640,duration=0.4},
+        walk_SW = {file="monk/monk_walk_sw.png",width=640,duration=0.4},
         
         -- chopping animations
         chop_E = {file="monk/monk_chop_e.png",width=640,duration=0.7},
@@ -35,8 +35,8 @@ local data = {
         -- make grain animations
         grain_NE = {file="monk/monk_make_grain_ne.png",width=640,duration=0.7},
     },
-	drawOriginX = 0.13,
-	drawOriginY = 1.25,
+	drawOriginX = 0,
+	drawOriginY = 1.05,
 }
 
 local standlookup = {data.images.stand_NE,data.images.stand_E,data.images.stand_SE,data.images.stand_S,data.images.stand_SW,data.images.stand_W,data.images.stand_NW,data.images.stand_N}
