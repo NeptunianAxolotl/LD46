@@ -611,6 +611,8 @@ local function New(init)
                 desiredAnimation = def.GetCookAnim(UTIL.DirectionToCardinal(direction))
             elseif activeTask == "make_grain" then
                 desiredAnimation = def.GetMakeGrainAnim(UTIL.DirectionToCardinal(direction))
+            elseif activeTask == "sleep" then
+                desiredAnimation = def.GetSleepAnim(UTIL.DirectionToCardinal(direction))
 			elseif activeTask then
 				-- no known animation, go idle
                 desiredAnimation = def.GetStandAnim(UTIL.DirectionToCardinal(direction))
@@ -641,7 +643,7 @@ local function New(init)
             local quadHeight = love.graphics.getHeight(imageToDraw)
             local quadWidth = desiredAnimation.width
            -- w,h = love.graphics.getDimensions(imageToDraw)
-            love.graphics.draw(imageToDraw, quadToDraw,  x, y, 0, GLOBAL.TILE_SIZE / quadWidth, GLOBAL.TILE_SIZE / quadHeight, 0, 0, 0, 0)
+            love.graphics.draw(imageToDraw, quadToDraw,  x, y + (desiredAnimation.yoffset or 0), 0, GLOBAL.TILE_SIZE / quadWidth, GLOBAL.TILE_SIZE / quadHeight, 0, 0, 0, 0)
             --imageToDraw = standlookup[imageDirection][1] or def.defaultImage
         end
        

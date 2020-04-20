@@ -34,6 +34,10 @@ local data = {
         
         -- make grain animations
         grain_NE = {file="monk/monk_make_grain_ne.png",width=640,duration=0.7},
+        
+        -- sleep animations
+        sleep_NE = {file="monk/monk_sleep_ne.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
+        sleep_NW = {file="monk/monk_sleep_nw.png",width=640,yoffset = GLOBAL.TILE_SIZE * 0.5,duration=0.7},
     },
 	drawOriginX = 0,
 	drawOriginY = 1.05,
@@ -42,6 +46,7 @@ local data = {
 local standlookup = {data.images.stand_NE,data.images.stand_E,data.images.stand_SE,data.images.stand_S,data.images.stand_SW,data.images.stand_W,data.images.stand_NW,data.images.stand_N}
 local walklookup = {data.images.walk_NE,data.images.walk_E,data.images.walk_SE,data.images.walk_S,data.images.walk_SW,data.images.walk_W,data.images.walk_NW,data.images.walk_N}
 local cooklookup = {data.images.cook_NE,nil,nil,nil,nil,nil,data.images.cook_NW,nil}
+local sleeplookup = {data.images.sleep_NE,nil,nil,nil,nil,nil,data.images.sleep_NW,nil}
 
 function data.GetStandAnim(direction)
 	return standlookup[direction]
@@ -57,6 +62,10 @@ end
 
 function data.GetMakeGrainAnim(direction)
     return data.images.grain_NE
+end
+
+function data.GetSleepAnim(direction)
+    return sleeplookup[direction] or standlookup[direction]
 end
 
 function data.GetCookAnim(direction)

@@ -93,6 +93,7 @@ local data = {
 			taskType = "cook",
 			fetchResource = {"grain", "veg"},
 			PerformAction = DoCook,
+            overrideDir = 3*math.pi/2,
 			doors = {
                 {
                     entryPath = {{3,2}}
