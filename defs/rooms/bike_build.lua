@@ -12,7 +12,7 @@ local BUILD_TIME = 3
 -- End Config
 
 local function DoBuild(station, room, monk, workData, dt)
-	local boundReached = room.AddResource("progress", monk.getTaskMod("build")*dt/BUILD_TIME, 1)
+	local boundReached = room.AddResource("progress", monk.GetTaskMod("build")*dt/BUILD_TIME, 1)
 	monk.ModifyFatigue(-0.04*dt)
 	monk.ModifyFood(-0.06*dt)
 	if boundReached then

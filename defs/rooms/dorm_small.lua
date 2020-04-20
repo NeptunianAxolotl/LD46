@@ -13,7 +13,7 @@ local data = {
 	height = 2,
     drawOriginX = 0,
 	drawOriginY = 1,
-	demolishable = true,
+	demolishable = false,
 	stations = {
 		{
 			pos = {0, 0},

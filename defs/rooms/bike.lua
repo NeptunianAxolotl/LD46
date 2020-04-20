@@ -8,7 +8,7 @@ local function MakeAction(station, room, monk, workData, dt)
 	if resource ~= NEED then
 		return true
 	end
-	workData.timer = (workData.timer or 0) + 0.05*dt
+	workData.timer = (workData.timer or 0) + 0.05*dt*monk.GetTaskMod("charge_battery")
 	monk.ModifyFatigue(-0.05*dt)
 	monk.ModifyFood(-0.05*dt)
 	if workData.timer > 1 then
@@ -60,7 +60,7 @@ local data = {
 	drawOriginY = 1,
 	width = 2,
 	height = 2,
-	demolishable = true,
+	demolishable = false,
 	DrawFunc = DrawSupply,
 	stations = {
 		{

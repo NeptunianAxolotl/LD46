@@ -318,7 +318,6 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	end
 end
 
-
 --------------------------------------------------
 -- Help Screen
 --------------------------------------------------
@@ -444,6 +443,35 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 end
 
 --------------------------------------------------
+-- Book Screen
+--------------------------------------------------
+
+local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
+	love.graphics.setColor(0, 0, 0, 1)
+	
+	font.SetSize(0)
+	love.graphics.print("Books", 455, 90)
+	
+	local options = DEFS.skillDefs
+	local startHeight = 165
+	local drawX = 256
+	local drawY = startHeight
+    local booksWritten = world.GetOrModifyKnowStatus().booksWritten
+	
+	love.graphics.setColor(0, 0, 0, 1)
+	font.SetSize(1)
+	
+	for i = 1, #options do
+		if booksWritten[options[i].name] then
+			love.graphics.print(options[i].humanName, drawX, drawY)
+			love.graphics.print(options[i].humanName, drawX + 174, drawY + 4)
+			drawY = drawY + 36
+		end
+	end
+	
+end
+
+--------------------------------------------------
 -- Handler
 --------------------------------------------------
 
@@ -470,6 +498,7 @@ local function DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 3 then
 		DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 4 then
+		DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 5 then
         DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
 	end
@@ -559,7 +588,7 @@ local function Draw(infoscreenData, world, interface, mouseX, mouseY)
 	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Trade")
 	index = index + 1
 	
-	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Knowledge")
+	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Books")
 	index = index + 1
 	
 	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Help")

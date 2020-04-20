@@ -40,7 +40,7 @@ local globals = {
 	CAMERA_START_X = -300,
 	CAMERA_START_Y = -500,
 	
-	DEMOLISH_BUILDING = false,
+	DEMOLISH_BUILDING = true,
 }
 
 return globals

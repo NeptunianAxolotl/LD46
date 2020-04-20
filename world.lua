@@ -3,6 +3,7 @@ local drawUtilities = require("include/drawUtilities")
 
 tradeUtilities = require("include/tradeUtilities")
 laptopUtilities = require("include/laptopUtilities")
+knowUtilities = require("include/knowledgeUtilites")
 musicUtilities = require("include/musicUtilities")
 
 local Audio = require("audio")
@@ -24,6 +25,7 @@ local function GetNewWorld(startLayout)
 
 	local tradeStatus = tradeUtilities.InitTradeStatus()
 	local laptopStatus = laptopUtilities.InitLaptopStatus()
+	local knowStatus = knowUtilities.InitKnowStatus()
 
 	--------------------------------------------------
 	-- Initialization
@@ -80,6 +82,10 @@ local function GetNewWorld(startLayout)
     
 	function externalFuncs.GetOrModifyTradeStatus()
 		return tradeStatus
+	end
+	
+	function externalFuncs.GetOrModifyKnowStatus()
+		return knowStatus
 	end
 	
 	--------------------------------------------------
