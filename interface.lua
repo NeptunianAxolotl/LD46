@@ -274,6 +274,12 @@ local function GetNewInterface(world)
 		popupUtilities.Draw(world, externalFuncs)
 	end
 	
+	--------------------------------------------------
+	-- Finish Initialising
+	--------------------------------------------------
+
+	infoscreenUtilities.SetInfoscreen(infoscreenData, world, 5)
+
 	return externalFuncs
 end
 
