@@ -1,8 +1,11 @@
-local IterableMap = require("include/IterableMap")
+IterableMap = require("include/IterableMap")
 local drawUtilities = require("include/drawUtilities")
 
 tradeUtilities = require("include/tradeUtilities")
 laptopUtilities = require("include/laptopUtilities")
+musicUtilities = require("include/musicUtilities")
+
+local Audio = require("audio")
 
 local GetNewMonk = require("monk")
 local GetNewRoom = require("room")
@@ -36,6 +39,8 @@ local function GetNewWorld(startLayout)
 	end
 	
 	tradeUtilities.AddTradingPost(tradeStatus, roomList)
+    
+    musicUtilities.InitialiseMusic()
 	
 	local paused = false
 	
@@ -47,6 +52,8 @@ local function GetNewWorld(startLayout)
 		roomList.ApplySelf("UpdateRoom", dt, monkList)
 		featureList.ApplySelf("UpdateFeature", dt)
 		monkList.ApplySelf("UpdateMonk", dt, roomList, stationsByUse)
+        musicUtilities.CheckMusicChange("background")
+        Audio.Update(dt)
 	end
 
 	--------------------------------------------------
