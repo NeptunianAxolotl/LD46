@@ -65,7 +65,7 @@ local data = {
 	spawnResources = resourceCost,
 	stations = {
 		{
-			pos = {WIDTH/2, HEIGHT/2},
+			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
 			taskType = "build",
 			PerformAction = DoBuild,
 			subgoalInheritRoom = true,
@@ -86,7 +86,7 @@ local data = {
 			},
 		},
 		{
-			pos = {WIDTH/2, HEIGHT/2},
+			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
 			taskType = "add_wood",
 			PerformAction = DoBuildWood,
 			allowParallelUse = true,
@@ -113,7 +113,7 @@ local data = {
 			},
 		},
 		{
-			pos = {WIDTH/2, HEIGHT/2},
+			pos = {WIDTH/2 - 0.5, HEIGHT/2 - 0.5},
 			taskType = "add_stone",
 			PerformAction = DoBuildStone,
 			allowParallelUse = true,
