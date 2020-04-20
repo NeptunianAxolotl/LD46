@@ -1,6 +1,7 @@
 
 local data = {
 	name = "chapel",
+	buildDef = "chapel_build",
 	image = "chapel.png",
 	clickTask = "play_organ",
 	drawOriginX = 0,

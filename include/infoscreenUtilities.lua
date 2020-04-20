@@ -66,7 +66,9 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     local drawY = 165
     local powerBarWidth = 200
     local powerBarHeight = 50
+    local tickboxSize = 30
     
+    -- battery
     font.SetSize(2)
 	love.graphics.print("Battery Life: ", drawX, drawY)
     drawY = drawY + 25
@@ -95,10 +97,63 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     drawY = drawY + 25
     love.graphics.setColor(0, 0, 0)
     
-    love.graphics.print("Power Consumption Rate: ", drawX, drawY)
-    drawY = drawY + 100
+    -- power
+    love.graphics.print("Current Power Consumption Rate: " .. math.ceil((laptopData.currentDrain or -1)*1000)/10*60 .. "% per minute", drawX, drawY)
     
+    if laptopData.currentDrain and laptopData.passiveDrain and laptopData.currentDrain > laptopData.passiveDrain then
+        drawY = drawY + 25
+        love.graphics.print("(Passive Drain Rate: " .. math.ceil(laptopData.passiveDrain*1000)/10*60 .. "% per minute)", drawX, drawY)
+    end
+    
+    drawX = originalX
+    drawY = drawY + 40
+    love.graphics.setColor(0, 0, 0)
+    
+    -- peripherals
     love.graphics.print("Current Peripherals: ", drawX, drawY)
+    drawY = drawY + 25
+    
+    love.graphics.rectangle("line", drawX, drawY, tickboxSize, tickboxSize, 2, 0, 0 )
+    if laptopData.peripherals.speakers then
+        love.graphics.setColor(0, 0.4, 0)
+        font.SetSize(1)
+        love.graphics.print("X",drawX+tickboxSize/2-7,drawY+tickboxSize/2-10)
+        font.SetSize(2)
+    end
+    love.graphics.setColor(0, 0, 0)
+    drawX = drawX + tickboxSize + 10
+    love.graphics.print("Speakers", drawX, drawY+tickboxSize/2-10)
+    love.graphics.setColor(0, 0, 0)
+    
+    drawX = drawX + 100
+    love.graphics.rectangle("line", drawX, drawY, tickboxSize, tickboxSize, 2, 0, 0 )
+    if laptopData.peripherals.monitor then
+        love.graphics.setColor(0, 0.4, 0)
+        font.SetSize(1)
+        love.graphics.print("X",drawX+tickboxSize/2-7,drawY+tickboxSize/2-10)
+        font.SetSize(2)
+    end
+    love.graphics.setColor(0, 0, 0)
+    drawX = drawX + tickboxSize + 10
+    love.graphics.print("Widescreen Monitor", drawX, drawY+tickboxSize/2-10)
+    love.graphics.setColor(0, 0, 0)
+    
+    drawX = drawX + 185
+    love.graphics.rectangle("line", drawX, drawY, tickboxSize, tickboxSize, 2, 0, 0 )
+    if laptopData.peripherals.graphicscard then
+        love.graphics.setColor(0, 0.4, 0)
+        font.SetSize(1)
+        love.graphics.print("X",drawX+tickboxSize/2-7,drawY+tickboxSize/2-10)
+        font.SetSize(2)
+    end
+    love.graphics.setColor(0, 0, 0)
+    drawX = drawX + tickboxSize + 10
+    love.graphics.print("Graphics Card", drawX, drawY+tickboxSize/2-10)
+    love.graphics.setColor(0, 0, 0)
+    
+    drawX = originalX
+    drawY = drawY + 75
+    love.graphics.setColor(0, 0, 0)
     
 end
 
