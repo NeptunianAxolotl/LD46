@@ -37,6 +37,9 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
 end
 
 local function UpdateLaptop(laptopData, dt)
+	if laptopData.charge <= 0 then
+		return
+	end
 	laptopData.charge = laptopData.charge - dt*laptopData.passiveDrain
 	local laptopRoom = laptopData.room
 	
@@ -73,6 +76,7 @@ end
 local function CheckDefeat(laptopData, world)
 	if laptopData.charge <= 0 then
 		world.DeclareDefeat()
+		laptopData.charge = 0
 	end
 end
 

@@ -126,7 +126,7 @@ local function GetNewInterface(world)
 				
 				if clickTask then
 					if (clickTask == "use_laptop" or clickTask == "library_learn") and (not selectedMonk.MidwayThroughLaptop()) then
-						infoscreenUtilities.SetInfoscreen(infoscreenData, world, 0, {monk = selectedMonk, alreadyHasSkill = selectedMonk.HasSkill()})
+						infoscreenUtilities.SetInfoscreen(infoscreenData, world, 0, {monk = selectedMonk, alreadyHasSkill = selectedMonk.HasSkill(), isLibrary = (clickTask == "library_learn")})
 					end
 					selectedMonk.SetNewPriority(room, clickTask, false, true)
 				end
@@ -195,7 +195,7 @@ local function GetNewInterface(world)
 		local mouseX, mouseY = love.mouse.getPosition()
 		
 		--if true then
-		--	local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
+		--	local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY, true)
 		--	print(x, y)
 		--end
 		

@@ -411,13 +411,16 @@ local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, m
 	love.graphics.print("Select a Skill", 374 + 128, 90)
 	
 	local options = DEFS.skillDefs
+	local isLibrary = infoscreenData.extraData and infoscreenData.extraData.alreadyHasSkill
+    local booksWritten = world.GetOrModifyKnowStatus().booksWritten
+	
 	local startHeight = 165
 	local drawX = 256 + 128
 	local drawY = startHeight
     local laptopData = world.GetOrModifyLaptopStatus()
 	
 	for i = 1, #options do
-		if not CheckPeriph(options[i].requiredPeripherals, laptopData.peripherals) then
+		if (not CheckPeriph(options[i].requiredPeripherals, laptopData.peripherals)) or (isLibrary and not booksWritten[options[i].name]) then
 			love.graphics.setColor(0.4, 0.4, 0.4, 1)
 		elseif UTIL.PosInRectangle(drawX, drawY, 420, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
@@ -457,7 +460,7 @@ local function DrawBookScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Library", 455 + 128, 90)
+	love.graphics.print("Books", 455 + 128, 90)
 	
 	local options = DEFS.skillDefs
     local booksWritten = world.GetOrModifyKnowStatus().booksWritten
@@ -616,7 +619,7 @@ local function Draw(infoscreenData, world, interface, mouseX, mouseY)
 	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Trade")
 	index = index + 1
 	
-	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Library")
+	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Books")
 	index = index + 1
 	
 	buttonX, buttonY, hovered = DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mouseY, index, "Help")

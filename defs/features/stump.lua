@@ -10,7 +10,7 @@ local data = {
 
 function data.InitFunc()
 	return {
-		spawnTime = 25 + 15*math.random(),
+		spawnTime = 52 + 50*math.random(),
 		checkTime = 10 + 3*math.random(),
 	}
 end
