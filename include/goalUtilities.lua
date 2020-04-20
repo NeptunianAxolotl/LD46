@@ -70,23 +70,23 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 		return DEFS.taskSubgoal[currentGoal.taskType](monk, currentGoal, stationsByUse)
 	elseif currentGoal.taskType == "cook" then
 		return CheckCookGoal(monk, currentGoal, stationsByUse)
-	elseif currentGoal.taskType == "chop" then
-		local resource, count = monk.GetResource()
-		if resource == "log" and count > 0 then
-			return "make_wood"
-		end
-	elseif currentGoal.taskType == "make_wood" then
-		return CheckMakeWoodGoal(monk)
 	elseif currentGoal.taskType == "build" then
 		return CheckBuildGoal(monk, currentGoal, stationsByUse)
-	elseif currentGoal.taskType == "get_wood" and not currentGoal.station then
-		local potentialStations = stationsByUse[currentGoal.taskType]
-		local pos = monk.GetPosition()
-		currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, potentialStations)
-		currentGoal.wantRepath = true
-		if not currentGoal.station then
-			return "make_wood"
-		end
+	--elseif currentGoal.taskType == "chop" then
+	--	local resource, count = monk.GetResource()
+	--	if resource == "log" and count > 0 then
+	--		return "make_wood"
+	--	end
+	--elseif currentGoal.taskType == "make_wood" then
+	--	return CheckMakeWoodGoal(monk)
+	--elseif currentGoal.taskType == "get_wood" and not currentGoal.station then
+	--	local potentialStations = stationsByUse[currentGoal.taskType]
+	--	local pos = monk.GetPosition()
+	--	currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, potentialStations)
+	--	currentGoal.wantRepath = true
+	--	if not currentGoal.station then
+	--		return "make_wood"
+	--	end
 	elseif currentGoal.taskType == "get_stone" and not currentGoal.station then
 		local potentialStations = stationsByUse[currentGoal.taskType]
 		local pos = monk.GetPosition()

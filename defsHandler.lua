@@ -60,13 +60,13 @@ defs.buildOptions = {
 	"dining",
 	"bakery",
 	"brewery",
-	"chapel",
-	"woodpile",
-	"quarry",
+	--"woodpile",
+	--"quarry",
 	"garden",
 	"field",
 	"bike",
 	"library",
+	"chapel",
 }
 
 --------------------------------------------------

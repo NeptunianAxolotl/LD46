@@ -54,7 +54,8 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 		love.graphics.setColor(1, 1, 1, 1)
 		local scale = 1.1/math.max(3, math.max(roomDef.width, roomDef.height))
 		love.graphics.draw(roomDef.image, drawX - 80, drawY - 3*roomDef.drawOriginY - 28, 0, scale, scale, 0, 0, 0, 0)
-		drawY = drawY + 50
+		
+		drawY = drawY + 64
 	end
 	
 	if GLOBAL.DEMOLISH_BUILDING then

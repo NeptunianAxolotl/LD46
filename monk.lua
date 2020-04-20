@@ -631,7 +631,7 @@ local function New(init)
             -- find the animation we should be doing
 			local activeTask = GetActiveTask()
 			
-			if activeTask == "chop" then
+			if activeTask == "get_wood" then
                 desiredAnimation = def.GetChopAnim(UTIL.DirectionToCardinal(direction))
             elseif activeTask == "cook" then
                 desiredAnimation = def.GetCookAnim(UTIL.DirectionToCardinal(direction))

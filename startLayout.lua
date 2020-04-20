@@ -26,10 +26,10 @@ local startConfig = {
 			defName = "dining",
 			pos = {8, 0},
 		},
-		{
-			defName = "woodpile",
-			pos = {-2, -5},
-		},
+		--{
+		--	defName = "woodpile",
+		--	pos = {-2, -5},
+		--},
         {
 			defName = "trade",
 			pos = {8, 10},
