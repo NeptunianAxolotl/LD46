@@ -57,19 +57,21 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 		drawY = drawY + 50
 	end
 	
-	drawY = drawY + 10
-	if UTIL.PosInRectangle(drawX-30, drawY - 10, 190, 40, mouseX, mouseY) then
-		love.graphics.setColor(1, 0, 0, 1)
-		infoscreenData.hoveredOption = {demolish = true}
-	else
-		love.graphics.setColor(0, 0, 0, 1)
+	if GLOBAL.DEMOLISH_BUILDING then
+		drawY = drawY + 10
+		if UTIL.PosInRectangle(drawX-30, drawY - 10, 190, 40, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {demolish = true}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		font.SetSize(1)
+		love.graphics.print("Demolish Building", drawX - 30, drawY)
 	end
-	font.SetSize(1)
-	love.graphics.print("Demolish Building", drawX - 30, drawY)
 end
 
 --------------------------------------------------
--- Trade Screen
+-- Laptop Screen
 --------------------------------------------------
 
 local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY)
@@ -197,22 +199,23 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	
 	local tradeData = world.GetOrModifyTradeStatus()
 	local drawX = 240
-	local drawY = 165
+	local drawY = 135
 	
 	local room = tradeData.room
 	
-	font.SetSize(2)
-	love.graphics.print("Money: " .. tradeData.money, drawX, drawY)
-	drawY = drawY + 55
+	font.SetSize(1)
+	love.graphics.print("Coin: " .. tradeData.money, drawX + 30, drawY)
+	drawY = drawY + 45
 	
+	font.SetSize(2)
 	local startX = drawX
 	love.graphics.print("Good", drawX, drawY)
 	drawX = drawX + 135
-	love.graphics.print("Sell Price", drawX, drawY)
+	love.graphics.print("Buy Price", drawX, drawY)
 	drawX = drawX + 50
 	
 	drawX = drawX + 78
-	love.graphics.print("Buy Price", drawX, drawY)
+	love.graphics.print("Sell Price", drawX, drawY)
 	
 	drawX = drawX + 140
 	love.graphics.print("Inventory", drawX, drawY)
@@ -222,24 +225,10 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 	for i = 1, #tradeData.goods do
 		drawX = startX
 		local good = tradeData.goods[i]
-		love.graphics.print(good.name, drawX, drawY)
+		love.graphics.print(DEFS.resourceNames[good.name] or good.name, drawX, drawY)
 		drawX = drawX + 85
 		
 		drawX = drawX + 50
-		love.graphics.print(math.floor(good.price), drawX, drawY)
-		drawX = drawX + 40
-		
-		if UTIL.PosInRectangle(drawX, drawY, 38, 34, mouseX, mouseY) then
-			love.graphics.setColor(1, 0, 0, 1)
-			infoscreenData.hoveredOption = {sell = i}
-		else
-			love.graphics.setColor(0, 0, 0, 1)
-		end
-		love.graphics.print("Sell", drawX, drawY)
-		love.graphics.setColor(0, 0, 0, 1)
-		drawX = drawX + 50
-		
-		drawX = drawX + 40
 		love.graphics.print(math.floor(good.price*good.buyMarkup), drawX, drawY)
 		drawX = drawX + 40
 		
@@ -251,10 +240,24 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 		end
 		love.graphics.print("Buy", drawX, drawY)
 		love.graphics.setColor(0, 0, 0, 1)
-		drawX = drawX + 100
+		drawX = drawX + 50
+		
+		drawX = drawX + 40
+		love.graphics.print(math.floor(good.price), drawX, drawY)
+		drawX = drawX + 40
+		
+		if UTIL.PosInRectangle(drawX, drawY, 38, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {sell = i}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		love.graphics.print("Sell", drawX, drawY)
+		love.graphics.setColor(0, 0, 0, 1)
+		drawX = drawX + 105
 		
 		love.graphics.print(room.GetResourceCount(good.name), drawX, drawY)
-		drawX = drawX + 40
+		drawX = drawX + 35
 		if UTIL.PosInRectangle(drawX, drawY, 120, 34, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {stockpileToggle = i}
@@ -264,7 +267,54 @@ local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
 		love.graphics.print((good.requesting and "Move to Post") or "Take from Post", drawX, drawY)
 		love.graphics.setColor(0, 0, 0, 1)
 		
-		drawY = drawY + 40
+		drawY = drawY + 35
+	end
+	
+	
+    local laptopData = world.GetOrModifyLaptopStatus()
+	local periph = laptopData.peripheralList
+	local havePeriph = laptopData.peripherals
+	
+	drawX = startX
+	drawY = drawY + 45
+	
+	love.graphics.print("Hardware", drawX, drawY)
+	drawX = drawX + 135
+	love.graphics.print("Buy Price", drawX, drawY)
+	drawX = drawX + 50
+	
+	drawX = drawX + 78
+	love.graphics.print("Aquired", drawX, drawY)
+	
+	drawY = drawY + 40
+	
+	for i = 1, #periph do
+		drawX = startX
+		love.graphics.print(periph[i].humanName, drawX, drawY)
+		drawX = drawX + 85
+		
+		drawX = drawX + 50
+		love.graphics.print(periph[i].price, drawX, drawY)
+		drawX = drawX + 40
+		
+		if havePeriph[periph[i].name] then
+			love.graphics.setColor(0.4, 0.4, 0.4, 1)
+		elseif UTIL.PosInRectangle(drawX, drawY, 38, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {buyPeriph = i}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		love.graphics.print("Buy", drawX, drawY)
+		love.graphics.setColor(0, 0, 0, 1)
+		drawX = drawX + 50
+		
+		drawX = drawX + 40
+		love.graphics.print((havePeriph[periph[i].name] and "Yes") or "No", drawX, drawY)
+		
+		drawX = drawX + 78
+		
+		drawY = drawY + 35
 	end
 end
 
@@ -370,7 +420,7 @@ end
 --------------------------------------------------
 
 local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
-	if not UTIL.PosInRectangle(172, 50, 6750, 640, mouseX, mouseY) then
+	if not UTIL.PosInRectangle(172, 50, 675, 640, mouseX, mouseY) then
 		CloseScreen(infoscreenData, world, interface)
 	end
 	

@@ -1,7 +1,7 @@
 
 local function InitTradeStatus(monk, potentialStations, requiredRoom)
 	local tradeData = {
-		money = 60,
+		money = 600,
 		goods = {
 			{
 				name = "beer",
@@ -72,6 +72,22 @@ local function Buy(tradeData, index)
 	end
 end
 
+local function BuyPeripheral(tradeData, index)
+	local laptopData = GetWorld().GetOrModifyLaptopStatus()
+	local periphData = laptopData.peripheralList[index]
+	local havePeriph = laptopData.peripherals
+	
+	if havePeriph[periphData.name] then
+		return
+	end
+	
+	if periphData.price > tradeData.money then
+		return
+	end
+	tradeData.money = tradeData.money - periphData.price
+	havePeriph[periphData.name] = true
+end
+
 local function Sell(tradeData, index)
 	local good = tradeData.goods[index]
 	if tradeData.room.GetResourceCount(good.name) < 1 then
@@ -102,6 +118,8 @@ local function PerformAction(tradeData, actionData)
 	elseif actionData.stockpileToggle then
 		StockToggle(tradeData, actionData.stockpileToggle)
 		actionData = stockpileToggle
+	elseif actionData.buyPeriph then
+		BuyPeripheral(tradeData, actionData.buyPeriph)
 	end
 end
 

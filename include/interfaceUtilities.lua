@@ -136,7 +136,7 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	love.graphics.print("Task: " .. currentTaskName, drawX, drawY)
 	drawY = drawY + 27
 	if resourceCarried then
-		love.graphics.print("Carrying: " .. resourceCarried, drawX, drawY)
+		love.graphics.print("Carrying: " .. (DEFS.resourceNames[resourceCarried] or resourceCarried), drawX, drawY)
 	end
 	drawY = drawY + 27
 	

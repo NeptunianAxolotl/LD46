@@ -13,7 +13,24 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
             speakers = false,
             monitor = false,
             graphicscard = false,
-        }
+        },
+		peripheralList = {
+			{
+				name = "speakers",
+				humanName = "Speakers",
+				price = 200,
+			},
+			{
+				name = "graphicscard",
+				humanName = "Graphics Card",
+				price = 600,
+			},
+			{
+				name = "monitor",
+				humanName = "Monitor",
+				price = 800,
+			},
+		},
     }
     
     return laptopData

@@ -39,6 +39,8 @@ local globals = {
 	CAMERA_ROAM_BOUND = 864,
 	CAMERA_START_X = -300,
 	CAMERA_START_Y = -500,
+	
+	DEMOLISH_BUILDING = false,
 }
 
 return globals
