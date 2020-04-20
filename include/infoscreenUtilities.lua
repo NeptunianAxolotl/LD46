@@ -332,8 +332,8 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     local originalX = 240
     local drawX = originalX
     local drawY = 140
-    local linebreak = 22
-    local parabreak = 35
+    local linebreak = 21
+    local parabreak = 30
 	
     font.SetSize(2)
 	love.graphics.print("As civilization crumbled, your monastery kept safe a laptop", drawX, drawY)
@@ -378,7 +378,9 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     font.SetSize(2)
     drawY = drawY + parabreak
     
-    love.graphics.print("Have monks learn every skill from laptop, then write it in a library", drawX, drawY)
+    love.graphics.print("Have monks learn every skill from laptop", drawX, drawY)
+    drawY = drawY + linebreak
+    love.graphics.print("Buy books from the trader and write each skill in them", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print("Don't let the laptop reach 0% power and turn off", drawX, drawY)
     drawY = drawY + linebreak

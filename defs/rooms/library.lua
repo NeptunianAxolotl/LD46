@@ -94,7 +94,7 @@ local data = {
 			},
 		},
 		{
-			pos = {0.4, 0},
+			pos = {0.4, 0.3},
 			taskType = "library_learn",
 			PerformAction = DoUseLaptop,
 			AvailibleFunc = CheckEligible,

@@ -649,7 +649,7 @@ local function New(init)
                 desiredAnimation = def.GetBrewAnim(UTIL.DirectionToCardinal(direction))
             elseif activeTask == "charge_battery" then
                 desiredAnimation = def.GetBikeAnim(UTIL.DirectionToCardinal(direction))
-            elseif activeTask == "use_laptop" or activeTask == "transcribe" then
+            elseif activeTask == "use_laptop" then
                 desiredAnimation = def.GetCompAnim(UTIL.DirectionToCardinal(direction))
 			elseif activeTask then
 				-- no known animation, go idle
