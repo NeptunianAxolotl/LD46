@@ -1,6 +1,8 @@
 local IterableMap = require("include/IterableMap")
 local drawUtilities = require("include/drawUtilities")
 
+tradeUtilities = require("include/tradeUtilities")
+
 local GetNewMonk = require("monk")
 local GetNewRoom = require("room")
 local GetNewFeature = require("feature")
@@ -16,6 +18,8 @@ local function GetNewWorld(startLayout)
 		stationsByUse[DEFS.stationTypes[i]] = IterableMap.New()
 	end
 
+	local tradeStatus = tradeUtilities.InitTradeStatus()
+
 	--------------------------------------------------
 	-- Initialization
 	--------------------------------------------------
@@ -28,13 +32,14 @@ local function GetNewWorld(startLayout)
 	for i = 1, #startLayout.features do
 		featureList.Add(GetNewFeature(startLayout.features[i]))
 	end
-
+	
+	tradeUtilities.AddTradingPost(tradeStatus, roomList)
+	
 	local paused = false
 	
 	--------------------------------------------------
 	-- Locals
 	--------------------------------------------------
-
 
 	local function UpdateWorld(dt)
 		roomList.ApplySelf("UpdateRoom", dt, monkList)
@@ -56,7 +61,11 @@ local function GetNewWorld(startLayout)
 	end
 	
 	function externalFuncs.GetBuildOptions()
-		return {"dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm", "dorm"}
+		return DEFS.buildOptions
+	end
+	
+	function externalFuncs.GetOrModifyTradeStatus()
+		return tradeStatus
 	end
 	
 	--------------------------------------------------

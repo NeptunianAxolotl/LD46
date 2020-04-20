@@ -51,7 +51,91 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 end
 
 --------------------------------------------------
--- Knowldge Screen
+-- Trade Screen
+--------------------------------------------------
+
+local function DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
+	love.graphics.setColor(0, 0, 0, 1)
+	
+	font.SetSize(0)
+	love.graphics.print("Trading Post", 400, 90)
+	
+	local tradeData = world.GetOrModifyTradeStatus()
+	local drawX = 240
+	local drawY = 165
+	
+	local room = tradeData.room
+	
+	font.SetSize(2)
+	love.graphics.print("Money: " .. tradeData.money, drawX, drawY)
+	drawY = drawY + 55
+	
+	local startX = drawX
+	love.graphics.print("Good", drawX, drawY)
+	drawX = drawX + 135
+	love.graphics.print("Sell Price", drawX, drawY)
+	drawX = drawX + 50
+	
+	drawX = drawX + 78
+	love.graphics.print("Buy Price", drawX, drawY)
+	
+	drawX = drawX + 140
+	love.graphics.print("Stored", drawX, drawY)
+	
+	drawY = drawY + 40
+	
+	for i = 1, #tradeData.goods do
+		drawX = startX
+		local good = tradeData.goods[i]
+		love.graphics.print(good.name, drawX, drawY)
+		drawX = drawX + 85
+		
+		drawX = drawX + 50
+		love.graphics.print(math.floor(good.price), drawX, drawY)
+		drawX = drawX + 50
+		
+		if UTIL.PosInRectangle(drawX, drawY, 120, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {toggleSell = i}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		love.graphics.print("Sell", drawX, drawY)
+		love.graphics.setColor(0, 0, 0, 1)
+		drawX = drawX + 40
+		
+		drawX = drawX + 40
+		love.graphics.print(math.floor(good.price*good.buyMarkup), drawX, drawY)
+		drawX = drawX + 50
+		
+		if UTIL.PosInRectangle(drawX, drawY, 120, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {buy = i}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		love.graphics.print("Buy", drawX, drawY)
+		love.graphics.setColor(0, 0, 0, 1)
+		drawX = drawX + 90
+		
+		love.graphics.print(room.GetResourceCount(good.name), drawX, drawY)
+		drawX = drawX + 40
+		if UTIL.PosInRectangle(drawX, drawY, 120, 34, mouseX, mouseY) then
+			love.graphics.setColor(1, 0, 0, 1)
+			infoscreenData.hoveredOption = {stockpileToggle = i}
+		else
+			love.graphics.setColor(0, 0, 0, 1)
+		end
+		love.graphics.print((good.requesting and "Stocking") or "Not Stocking", drawX, drawY)
+		love.graphics.setColor(0, 0, 0, 1)
+		
+		drawY = drawY + 40
+	end
+end
+
+
+--------------------------------------------------
+-- Skill Selection Screen
 --------------------------------------------------
 
 local function DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, mouseY)
@@ -104,6 +188,11 @@ local function DrawInfoscreen(infoscreenData, world, interface, mouseX, mouseY)
 		DrawSkillSelectScreen(infoscreenData, world, interface, mouseX, mouseY)
 	elseif infoscreenData.displayedScreen == 1 then
 		DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
+	elseif infoscreenData.displayedScreen == 2 then
+	elseif infoscreenData.displayedScreen == 3 then
+		DrawTradeScreen(infoscreenData, world, interface, mouseX, mouseY)
+	elseif infoscreenData.displayedScreen == 4 then
+	elseif infoscreenData.displayedScreen == 5 then
 	end
 end
 
@@ -135,6 +224,9 @@ local function HandleClick(infoscreenData, world, interface)
 	if infoscreenData.displayedScreen == 1 then
 		interface.SetPlacingStructure(infoscreenData.hoveredOption.build)
 		CloseScreen(infoscreenData, world, interface)
+	end
+	if infoscreenData.displayedScreen == 3 then
+		tradeUtilities.PerformAction(world.GetOrModifyTradeStatus(), infoscreenData.hoveredOption)
 	end
 end
 

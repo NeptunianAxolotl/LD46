@@ -40,6 +40,12 @@ local stationTypeNames = {
 	chop = "Fell Tree",
 }
 
+local resourceNames = {
+	["log"] = "Tree",
+	wood = "Wood",
+	beer = "Beer",
+}
+
 local taskSubgoal = {}
 
 function taskSubgoal.make_beer(monk, currentGoal, stationsByUse)
@@ -59,4 +65,4 @@ function taskSubgoal.make_beer(monk, currentGoal, stationsByUse)
 	return taskType, station
 end
 
-return {data, stationTypeNames, taskSubgoal}
+return {data, stationTypeNames, taskSubgoal, resourceNames}

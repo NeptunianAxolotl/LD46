@@ -41,6 +41,21 @@ local defs = {
 	stationTypes = {},
 }
 
+defs.buildOptions = {
+	"dorm",
+	"field",
+	"dining",
+	"woodpile",
+	"garden",
+	"library",
+	"dorm_small",
+	"chapel",
+	"bakery",
+	"brewery",
+	"bike",
+	"quarry",
+}
+
 --------------------------------------------------
 -- Loading Functions
 --------------------------------------------------
@@ -148,7 +163,7 @@ end
 
 local function LoadStationTypes(filename)
 	local data = require(filename)
-	return data[1], data[2], data[3]
+	return data[1], data[2], data[3], data[4]
 end
 
 local function LoadSkillTypes(filename)
@@ -187,7 +202,7 @@ function defs.Load()
 	
 	
 	defs.monkDef = LoadMonk("defs/monk")
-	defs.stationTypes, defs.stationTypeNames, defs.taskSubgoal = LoadStationTypes("defs/stationTypes")
+	defs.stationTypes, defs.stationTypeNames, defs.taskSubgoal, defs.resourceNames = LoadStationTypes("defs/stationTypes")
 	defs.images = LoadGlobalImages("defs/globalImages")
 	
 	defs.skillDefs, defs.skillDefNames = LoadSkillTypes("defs/skillTypes")
