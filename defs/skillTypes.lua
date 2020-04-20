@@ -25,7 +25,7 @@ local data = {
 		requiredPeripherals = {
 		
 		},
-        bookTitle = "Seasonal Guide to Growing Your Own Food"
+        bookTitle = "Good Eats, Roots And Leaves"
 	},
     {
 		name = "carpentry",

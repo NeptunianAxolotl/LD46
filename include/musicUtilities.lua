@@ -18,7 +18,9 @@ local function CheckMusicChange(desiredMusic)
         audioSystem.stopSound("laptophymn")
     
         currentMusicPlaying = desiredMusic
-        audioSystem.playSound(desiredMusic, desiredMusic, false, 3)
+        if desiredMusic then
+            audioSystem.playSound(desiredMusic, desiredMusic, false, 3)
+        end
     end
 end 
 
