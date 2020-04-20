@@ -37,9 +37,15 @@ local function DrawSupply(self, drawX, drawY)
 	love.graphics.setColor(1, 0.3, 0.3)
 	love.graphics.print(math.floor(self.GetResourceCount("battery_spent")), drawX + 0.75*GLOBAL.TILE_SIZE, drawY + 1.25*GLOBAL.TILE_SIZE)
 	
+	local laptopCharge = GetWorld().GetOrModifyLaptopStatus().charge
+
+	love.graphics.setColor(0.2, 0.2, 0.2)
+	love.graphics.rectangle("fill", drawX + 1.5*GLOBAL.TILE_SIZE, drawY + 1.04*GLOBAL.TILE_SIZE, 0.7*GLOBAL.TILE_SIZE, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+	love.graphics.setColor(1 - laptopCharge, laptopCharge, 0)
+	love.graphics.rectangle("fill", drawX + 1.5*GLOBAL.TILE_SIZE, drawY + 1.04*GLOBAL.TILE_SIZE, 0.7*GLOBAL.TILE_SIZE*laptopCharge, 0.1*GLOBAL.TILE_SIZE, 2, 6, 4 )
+	
 	love.graphics.setColor(1, 1, 1)
 end
-
 
 local function DoUseLaptop(station, room, monk, workData, dt)
 	if not CheckEligible(station, room, monk, workData, dt) then
