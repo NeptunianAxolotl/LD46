@@ -5,6 +5,8 @@ end
 
 local data = {
 	name = "dorm_small",
+	humanName = "Hut",
+	desc = "Meagre lodgings\nCost: 3 wood",
 	buildDef = "dorm_small_build",
 	image = "slum_dorm.png",
 	width = 2,

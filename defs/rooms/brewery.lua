@@ -51,6 +51,7 @@ local collectRequirement = {
 
 local data = {
 	name = "brewery",
+	humanName = "Brewery",
 	image = "brewery.png",
 	buildDef = "brewery_build",
 	clickTask = "make_beer",

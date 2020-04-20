@@ -39,6 +39,7 @@ end
 
 local data = {
 	name = "dining",
+	humanName = "Dining Hall",
 	image = "dining.png",
 	buildDef = "dining_build",
 	clickTask = "cook",

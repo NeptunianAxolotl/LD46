@@ -55,18 +55,18 @@ local defs = {
 }
 
 defs.buildOptions = {
-	"dorm",
-	"field",
-	"dining",
-	"woodpile",
-	"garden",
-	"library",
 	"dorm_small",
-	"chapel",
+	"dorm",
+	"dining",
 	"bakery",
 	"brewery",
-	"bike",
+	"chapel",
+	"woodpile",
 	"quarry",
+	"garden",
+	"field",
+	"bike",
+	"library",
 }
 
 --------------------------------------------------

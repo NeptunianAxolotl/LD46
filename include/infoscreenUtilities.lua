@@ -26,26 +26,34 @@ local function DrawBuildScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Pick a Structure", 374, 90)
+	love.graphics.print("Construct a Building", 328, 90)
 	
 	local buildOptions = world.GetBuildOptions()
-	local startHeight = 165
-	local drawX = 256
+	local startHeight = 150
+	local drawX = 330
 	local drawY = startHeight
 	
-	font.SetSize(1)
 	for i = 1, #buildOptions do
-		if UTIL.PosInRectangle(drawX, drawY, 130, 34, mouseX, mouseY) then
+		local roomDef = DEFS.roomDefNames[buildOptions[i]]
+		if UTIL.PosInRectangle(drawX - 80, drawY, 255, 72, mouseX, mouseY) then
 			love.graphics.setColor(1, 0, 0, 1)
 			infoscreenData.hoveredOption = {build = buildOptions[i]}
 		else
 			love.graphics.setColor(0, 0, 0, 1)
 		end
-		love.graphics.print(buildOptions[i], drawX, drawY)
-		drawY = drawY + 36
-		if drawY > 630 then
+		font.SetSize(1)
+		love.graphics.print(roomDef.humanName or roomDef.name, drawX, drawY)
+		drawY = drawY + 28
+		font.SetSize(2)
+		love.graphics.print(roomDef.desc or "", drawX + 8, drawY)
+		
+		love.graphics.setColor(1, 1, 1, 1)
+		local scale = 1.1/math.max(3, math.max(roomDef.width, roomDef.height))
+		love.graphics.draw(roomDef.image, drawX - 80, drawY - 3*roomDef.drawOriginY - 28, 0, scale, scale, 0, 0, 0, 0)
+		drawY = drawY + 50
+		if drawY > 600 then
 			drawY = startHeight
-			drawX = drawX + 160
+			drawX = drawX + 290
 		end
 	end
 end

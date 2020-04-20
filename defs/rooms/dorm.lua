@@ -5,6 +5,7 @@ end
 
 local data = {
 	name = "dorm",
+	humanName = "Dormitory",
 	buildDef = "dorm_build",
 	image = "fancy_dorm.png",
 	width = 3,

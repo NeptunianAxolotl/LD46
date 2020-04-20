@@ -37,6 +37,7 @@ end
 
 local data = {
 	name = "woodpile",
+	humanName = "Wood Heap",
 	buildDef = "woodpile_build",
 	image = "woodpile.png",
 	clickTask = "make_wood",

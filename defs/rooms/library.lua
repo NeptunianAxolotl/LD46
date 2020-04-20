@@ -1,6 +1,7 @@
 
 local data = {
 	name = "library",
+	humanName = "Library",
 	buildDef = "library_build",
 	image = "library_empty.png",
 	clickTaskFunc = function (x, y)

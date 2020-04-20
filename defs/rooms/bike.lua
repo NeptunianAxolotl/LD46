@@ -1,6 +1,7 @@
 
 local data = {
 	name = "bike",
+	humanName = "Generator",
 	image = "bike.png",
 	buildDef = "bike_build",
 	clickTask = "charge_battery",

@@ -36,6 +36,7 @@ end
 
 local data = {
 	name = "quarry",
+	humanName = "Stone Quarry",
 	image = "quarry.png",
 	buildDef = "quarry_build",
 	clickTask = "make_stone",
