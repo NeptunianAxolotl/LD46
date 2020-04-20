@@ -59,6 +59,10 @@ local startConfig = {
 			pos = {10, -8},
 		},
 		{
+			defName = "field",
+			pos = {11, -5},
+		},
+		{
 			defName = "brewery",
 			pos = {6, -8},
 		},

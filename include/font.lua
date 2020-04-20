@@ -35,11 +35,13 @@ function externalFunc.GetFont()
 	end
 end
 
+local FONT = "alagard" -- "FreeSansBold"
+
 function externalFunc.Load()
-	hugeFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 36)
-	bigFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 24)
-	medFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 16)
-	smallFont = love.graphics.newFont('include/fonts/FreeSansBold.ttf', 16)
+	hugeFont = love.graphics.newFont('include/fonts/' .. FONT .. '.ttf', 36)
+	bigFont = love.graphics.newFont('include/fonts/' .. FONT .. '.ttf', 24)
+	medFont = love.graphics.newFont('include/fonts/' .. FONT .. '.ttf', 18)
+	smallFont = love.graphics.newFont('include/fonts/' .. FONT .. '.ttf', 18)
 end
 
 return externalFunc
