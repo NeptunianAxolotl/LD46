@@ -50,7 +50,7 @@ local function GetNewInterface(world)
 			infoscreenUtilities.ButtonClicked(infoscreenData, world, externalFuncs, buttonHovered)
 			return
 		elseif infoscreenData.active then
-			infoscreenUtilities.HandleClick(infoscreenData, world, externalFuncs)
+			infoscreenUtilities.HandleClick(infoscreenData, world, externalFuncs, mouseX, mouseY)
 			return
 		end
 		

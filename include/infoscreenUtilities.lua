@@ -12,7 +12,7 @@ local function DrawButton(buttonX, buttonY, hovered, infoscreenData, mouseX, mou
 	
 	love.graphics.setColor(0, 0, 0, 1)
 	font.SetSize(2)
-	love.graphics.print(text, buttonX + 42, buttonY + 18)
+	love.graphics.print(text, buttonX + 38, buttonY + 22)
 	
 	buttonX = buttonX + 164
 	return buttonX, buttonY, hovered
@@ -323,7 +323,11 @@ end
 -- External Interface
 --------------------------------------------------
 
-local function HandleClick(infoscreenData, world, interface)
+local function HandleClick(infoscreenData, world, interface, mouseX, mouseY)
+	if not UTIL.PosInRectangle(808, 66, 32, 32, mouseX, mouseY) then
+		CloseScreen(infoscreenData, world, interface)
+	end
+	
 	if not (infoscreenData and infoscreenData.hoveredOption) then
 		return
 	end
