@@ -1,5 +1,5 @@
 function love.conf(t)
-    t.version = "0.11.0"
+    t.version = "11.0"
     t.window.title = "LD46"
     t.window.width = 1280
     t.window.height = 768
