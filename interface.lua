@@ -129,10 +129,13 @@ local function GetNewInterface(world)
 						infoscreenUtilities.SetInfoscreen(infoscreenData, world, 0, {
 							monk = selectedMonk,
 							alreadyHasSkill = selectedMonk.HasSkill(),
-							isLibrary = (clickTask == "library_learn")}
-						)
+							isLibrary = (clickTask == "library_learn"),
+							clickRoom = room,
+							clickTask = clickTask,
+						})
+					else
+						selectedMonk.SetNewPriority(room, clickTask, false, true)
 					end
-					selectedMonk.SetNewPriority(room, clickTask, false, true)
 				end
 				return
 			end

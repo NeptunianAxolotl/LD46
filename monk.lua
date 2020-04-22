@@ -20,6 +20,7 @@ local function New(init, humanName)
 	-- requiredRoom
 	-- preferredRoom
 	-- station
+	-- stationAttempted
 	-- stationDoor
 	-- currentPath
 	-- wantRepath
@@ -206,6 +207,39 @@ local function New(init, humanName)
 	--------------------------------------------------
 	-- Interface
 	--------------------------------------------------
+	
+	function externalFuncs.NeedFoodAndNoTask()
+		local currentGoal = GetCurrentGoal()
+		if not ((not currentGoal) or (currentGoal.taskType == "sleep") or (currentGoal.taskType == "eat")) then
+			return false -- We have a non-want goal, wait until we stop moving to detect starvation.
+		end
+		return (food < wantThreashold)
+	end
+	
+	function externalFuncs.NeedSleepAndNoTask()
+		local currentGoal = GetCurrentGoal()
+		if not ((not currentGoal) or (currentGoal.taskType == "sleep") or (currentGoal.taskType == "eat")) then
+			return false -- We have a non-want goal, wait until we stop moving to detect starvation.
+		end
+		return (sleep < wantThreashold)
+	end
+	
+	function externalFuncs.GetWants()
+		return (sleep < wantThreashold), (food < wantThreashold)
+	end
+	
+	function externalFuncs.IsBusy()
+		local currentGoal = GetCurrentGoal()
+		if not currentGoal then
+			return false
+		end
+		
+		if currentGoal.taskType == "eat" or currentGoal.taskType == "sleep" then
+			return true
+		end
+		
+		return not goalUtilities.CheckGoalInterrupt(externalFuncs, currentGoal)
+	end
 	
 	function externalFuncs.SetNewPriority(room, newTaskType, taskRequires, taskPrefers)
 		-- Toggle priority if the task is already at the top of the list.
@@ -524,6 +558,7 @@ local function New(init, humanName)
 				atStation, (movingProgress < 1) and atStationDoor
 			)
 			currentGoal.wantRepath = false
+			currentGoal.stationAttempted = true
 			if doorToLeaveBy then
 				--print("doorToLeaveBy", doorToLeaveBy, (currentGoal.station or {index = 0}).index)
 				atStationDoor = doorToLeaveBy

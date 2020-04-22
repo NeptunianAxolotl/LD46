@@ -14,6 +14,7 @@ local data = {
     drawOriginX = 0,
 	drawOriginY = 1.5,
 	demolishable = false,
+	isSleep = true,
 	stations = {
 		{
 			pos = {0.3, 0.35},

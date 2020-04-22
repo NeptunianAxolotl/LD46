@@ -91,10 +91,11 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 	--	if not currentGoal.station then
 	--		return "make_wood"
 	--	end
-	elseif currentGoal.taskType == "get_stone" and not currentGoal.station then
+	elseif currentGoal.taskType == "get_stone" and currentGoal.stationAttempted and (not currentGoal.station) then
 		local potentialStations = stationsByUse[currentGoal.taskType]
 		local pos = monk.GetPosition()
 		currentGoal.station = stationUtilities.ReserveClosestStation(monk, currentGoal.requiredRoom, currentGoal.preferredRoom, potentialStations)
+		currentGoal.stationAttempted = true
 		currentGoal.wantRepath = true
 		if not currentGoal.station then
 			return "make_stone"
@@ -111,7 +112,7 @@ local function CheckSubGoal(monk, currentGoal, stationsByUse)
 		end
 	end
 	
-	return false, nil, nil, not currentGoal.station
+	return false, nil, nil, currentGoal.stationAttempted and not currentGoal.station
 end
 
 local function RemoveMonkRoomLinks(room, monkList)

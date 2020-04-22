@@ -102,6 +102,10 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	local barWidth = 232
 	local barHeight = 25
 	
+	local wantRest, wantFood = monk.GetWants()
+	wantRest = (wantRest and 0.85) or 1
+	wantFood = (wantFood and 0.85) or 1
+	
 	local drawY = 349
 	
 	font.SetSize(2)
@@ -119,14 +123,14 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	drawY = drawY + 26
 	
 	drawY = drawY + 32
-	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED, GLOBAL.BAR_SLEEP_GREEN, GLOBAL.BAR_SLEEP_BLUE)
+	love.graphics.setColor(GLOBAL.BAR_SLEEP_RED*wantRest, GLOBAL.BAR_SLEEP_GREEN*wantRest, GLOBAL.BAR_SLEEP_BLUE*wantRest)
 	love.graphics.rectangle("fill", barX, drawY + barY, sleep*barWidth, barHeight, 2, 0, 0 )
 	
 	love.graphics.setColor(0, 0, 0, 1)
 	love.graphics.print("Rest", drawX, drawY)
 	drawY = drawY + 28
 	
-	love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
+	love.graphics.setColor(GLOBAL.BAR_FOOD_RED*wantFood, GLOBAL.BAR_FOOD_GREEN*wantFood, GLOBAL.BAR_FOOD_BLUE*wantFood)
 	love.graphics.rectangle("fill", barX, drawY + barY, food*barWidth, barHeight, 2, 0, 0 )
 	
 	love.graphics.setColor(0, 0, 0, 1)
@@ -135,15 +139,26 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	
 	love.graphics.print("Task: " .. currentTaskName, drawX, drawY)
 	drawY = drawY + 27
-	if resourceCarried then
-		love.graphics.print("Carrying: " .. (DEFS.resourceNames[resourceCarried] or resourceCarried), drawX, drawY)
+	
+	if currentTaskName == "Eat" or currentTaskName == "Sleep" then
+		love.graphics.print("Busy With: " .. currentTaskName, drawX, drawY)
+	elseif resourceCarried then
+		if monk.IsBusy() then
+			love.graphics.print("Busy With: " .. (DEFS.resourceNames[resourceCarried] or resourceCarried), drawX, drawY)
+		else
+			love.graphics.print("Carrying: " .. (DEFS.resourceNames[resourceCarried] or resourceCarried), drawX, drawY)
+		end
 	end
 	drawY = drawY + 27
 	
 	if clickTask then
 		clickTask = DEFS.stationTypeNames[clickTask] or clickTask
-		love.graphics.setColor(0, 0.5, 0, 1)
-		love.graphics.print("Order: " .. clickTask, drawX, drawY)
+		if monk.IsBusy() then
+			love.graphics.setColor(0.5, 0, 0, 1)
+		else
+			love.graphics.setColor(0, 0.5, 0, 1)
+		end
+		love.graphics.print("Assign: " .. clickTask, drawX, drawY)
 		love.graphics.setColor(0, 0, 0, 1)
 	end
 	
