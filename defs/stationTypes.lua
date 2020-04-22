@@ -85,7 +85,7 @@ local taskSubgoal = {}
 function taskSubgoal.trade(monk, currentGoal, stationsByUse)
 	-- If we don't have a place to make the resource, there is no point fetching it.
 	if not currentGoal.station then
-		return false, nil, nil, not currentGoal.station
+		return false, nil, nil, currentGoal.stationAttempted
 	end
 	
 	-- If we have the resource in our inventory then don't fetch it.
@@ -104,7 +104,7 @@ local function AddTaskSubgoal(taskName, getTasks)
 	taskSubgoal[taskName] = function(monk, currentGoal, stationsByUse)
 		-- If we don't have a place to make the resource, there is no point fetching it.
 		if not currentGoal.station then
-			return false, nil, nil, not currentGoal.station
+			return false, nil, nil, currentGoal.stationAttempted
 		end
 		
 		-- If we have the resource in our inventory then don't fetch it.
@@ -127,7 +127,7 @@ AddTaskSubgoal("upkeep_laptop", {"get_battery"})
 function taskSubgoal.transcribe(monk, currentGoal, stationsByUse)
 	-- If we don't have a place to make the resource, there is no point fetching it.
 	if not currentGoal.station then
-		return false, nil, nil, not currentGoal.station
+		return false, nil, nil, currentGoal.stationAttempted
 	end
 	local skillDef, progress = monk.GetSkill()
 	if skillDef then

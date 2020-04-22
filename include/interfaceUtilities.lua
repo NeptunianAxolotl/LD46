@@ -182,6 +182,10 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 		drawY = drawY + 28
 	end
 	
+	if (not uiClick) and UTIL.PosInRectangle(0, 245, 240, 438, mouseX, mouseY) then
+		uiClick = {onUI = true}
+	end
+	
 	return uiClick
 end
 

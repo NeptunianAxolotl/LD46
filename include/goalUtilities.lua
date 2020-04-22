@@ -1,7 +1,7 @@
 
 local function CheckCookGoal(monk, currentGoal, stationsByUse)
 	if not currentGoal.station then
-		return false, nil, nil, currentGoal.stationAttempted and not currentGoal.station
+		return false, nil, nil, currentGoal.stationAttempted
 	end
 	local resource, count = monk.GetResource()
 	if (resource == "bread" or resource == "veg") and count > 0 then
@@ -14,7 +14,7 @@ end
 
 local function CheckBuildGoal(monk, currentGoal, stationsByUse)
 	if not currentGoal.station then
-		return false, nil, nil, currentGoal.stationAttempted and not currentGoal.station
+		return false, nil, nil, currentGoal.stationAttempted
 	end
 	local room = currentGoal.station.GetParent()
 	

@@ -4,8 +4,8 @@ local startConfig = {
 		{
 			pos = {4, 1},
 			priorities = {
-				{taskType = "charge_battery"},
 				{taskType = "upkeep_laptop"},
+				{taskType = "charge_battery"},
 				{taskType = "cook"},
 			},
 		},

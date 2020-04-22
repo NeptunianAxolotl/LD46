@@ -32,6 +32,7 @@ local data = {
 			taskType = "trade",
 			FetchResourceFunc = FetchResourceFunc,
 			PerformAction = DoTrade,
+			allowParallelUse = true,
 			doors = {
                 {
                     entryPath = {{3,2},{2,1.2}}

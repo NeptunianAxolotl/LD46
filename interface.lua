@@ -20,6 +20,7 @@ local function GetNewInterface(world)
 	local placingStructure = false
 	local selectedMonk = false
 	local demolishMode = false
+	local hoveredMonk = false
 	
 	local uiClick = false
 	local buttonHovered = false
@@ -37,9 +38,11 @@ local function GetNewInterface(world)
 	
 	function externalFuncs.SetPlacingStructure(newPlacingStructure)
 		placingStructure = newPlacingStructure
+		demolishMode = false
 	end
 	
 	function externalFuncs.SetDemolish()
+		placingStructure = false
 		demolishMode = true
 	end
 	
@@ -54,6 +57,7 @@ local function GetNewInterface(world)
 
 	function externalFuncs.MousePressed(mouseX, mouseY, button, istouch, presses)
 		if buttonHovered then
+			demolishMode = false
 			infoscreenUtilities.ButtonClicked(infoscreenData, world, externalFuncs, buttonHovered)
 			return
 		elseif infoscreenData.active then
@@ -65,25 +69,22 @@ local function GetNewInterface(world)
 			if uiClick.removePriority then
 				uiClick.monk.RemovePriority(uiClick.removePriority)
 			end
-			uiClick = false
 			return
 		end
 		
 		if demolishMode then
-			if button == 2 then
-				demolishMode = false
-			else
-				demolishMode = false
+			demolishMode = false
+			if button ~= 2 and not hoveredMonk then
 				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 				if room then
 					local roomDef = room.GetDef()
 					if roomDef.demolishable then
 						room.Destroy()
-						demolishMode = true
+						return
 					end
 				end
 			end
-			return
+			placingStructure = false
 		end
 		
 		if placingStructure then
@@ -97,11 +98,11 @@ local function GetNewInterface(world)
 				
 				if canPlace then
 					local newRoom = world.CreateRoom(def.buildDef, px, py)
-					placingStructure = false
 					if selectedMonk then
 						local roomDef = newRoom.GetDef()
 						selectedMonk.SetNewPriority(newRoom, "build", true)
 					end
+					placingStructure = false
 				end
 			end
 			return
@@ -159,9 +160,6 @@ local function GetNewInterface(world)
 			world.SetPaused(not world.GetPaused())
 			return
 		end
-		if key == "1" then
-			placingStructure = "dorm"
-		end
 	end
 
 	--------------------------------------------------
@@ -207,10 +205,9 @@ local function GetNewInterface(world)
 		--end
 		
 		love.graphics.setLineWidth(2)
-		uiClick = false
 		
-		local hoveredMonk
-		if not (buttonHovered or infoscreenData.active) then
+		hoveredMonk = false
+		if not (buttonHovered or uiClick or infoscreenData.active) then
 			if placingStructure then
 				local def = DEFS.roomDefNames[placingStructure]
 				local x, y = externalFuncs.ScreenToWorld(mouseX, mouseY)
@@ -231,7 +228,7 @@ local function GetNewInterface(world)
 		end
 		
 		
-		if demolishMode then
+		if demolishMode and not (hoveredMonk or uiClick or buttonHovered or infoscreenData.active) then
 			local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 			if room then
 				local roomDef = room.GetDef()
@@ -252,7 +249,7 @@ local function GetNewInterface(world)
 			
 			local clickTask = false
 			
-			if (not demolishMode) and (not buttonHovered) and (not (hoveredMonk or placingStructure or infoscreenData.active)) then
+			if (not uiClick) and (not demolishMode) and (not buttonHovered) and (not (hoveredMonk or placingStructure or infoscreenData.active)) then
 				local room = interfaceUtilities.ScreenToRoom(externalFuncs, world.GetRoomList(), mouseX, mouseY)
 				if room then
 					love.graphics.setColor(GLOBAL.BAR_FOOD_RED, GLOBAL.BAR_FOOD_GREEN, GLOBAL.BAR_FOOD_BLUE)
@@ -270,6 +267,8 @@ local function GetNewInterface(world)
 			end
 			
 			uiClick = interfaceUtilities.DrawMonkInterface(externalFuncs, selectedMonk, mouseX, mouseY, clickTask)
+		else
+			uiClick = false
 		end
 		
 		buttonHovered = infoscreenUtilities.Draw(infoscreenData, world, externalFuncs, mouseX, mouseY)
