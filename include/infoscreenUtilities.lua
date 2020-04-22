@@ -363,11 +363,11 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
     
     love.graphics.print(" - Use WASD or arrow keys to move the camera", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print(" - Click on a monk to select him, click a building assign job", drawX, drawY)
+    love.graphics.print(" - Click on a monk then click a building to assign him a job", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print("    (Click either end of Laptop or Library select one of two jobs)", drawX, drawY)
     drawY = drawY + linebreak
-    love.graphics.print(" - Click a Job to remove it. Monks perform their highest Job if able", drawX, drawY)
+    love.graphics.print(" - Click a job to remove it. Monks perform their highest job if able", drawX, drawY)
     drawY = drawY + linebreak
     love.graphics.print(" - Click buttons to open menus, press Space or the red X to close", drawX, drawY)
     drawY = drawY + linebreak
