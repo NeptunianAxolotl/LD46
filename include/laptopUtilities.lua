@@ -56,7 +56,7 @@ local function UpdateLaptop(laptopData, dt)
 			laptopData.charge = laptopData.charge + dt*laptopData.chargeRate
 			laptopRoom.AddResource("battery", -1)
 			
-			local mult = math.max(1.04, 1.11 - 2*laptopData.passiveDrain)
+			local mult = (1.11 - 2*laptopData.passiveDrain)
 			laptopData.passiveDrain = laptopData.passiveDrain*mult
 			laptopData.currentDrain = laptopData.currentDrain*mult
 		end

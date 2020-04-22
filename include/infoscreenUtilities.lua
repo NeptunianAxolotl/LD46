@@ -122,7 +122,7 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     -- power
     love.graphics.print("Power Consumption (Half When Idle): " .. math.ceil(60*(laptopData.currentDrain or -1)*100) .. "% per minute", drawX, drawY)
     
-	local mult = math.max(1.04, 1.11 - 2*laptopData.passiveDrain)
+	local mult = (1.11 - 2*laptopData.passiveDrain)
 	local nextDrain = laptopData.currentDrain*mult
 	drawY = drawY + 28
 	love.graphics.print("Power Consumption For Next Battery: " .. math.ceil(60*nextDrain*100) .. "% per minute", drawX, drawY)
