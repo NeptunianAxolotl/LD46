@@ -327,7 +327,7 @@ local function DrawHelpScreen(infoscreenData, world, interface, mouseX, mouseY)
 	love.graphics.setColor(0, 0, 0, 1)
 	
 	font.SetSize(0)
-	love.graphics.print("Vivere Computatrum", 360 + 128, 90)
+	love.graphics.print("Vivere Computatrum", 360 + 100, 90)
     
     local laptopData = world.GetOrModifyLaptopStatus()
     local originalX = 240 + 128
