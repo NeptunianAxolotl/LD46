@@ -6,6 +6,7 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
 		chargeForBattery = 0.2,
 		charging = false,
 		chargeRate = 0.55,
+		batteriesSpent = 0,
         -- drain per second
         passiveDrain = 0.0032,
         currentDrain = 0.0064,
@@ -40,7 +41,7 @@ local function UpdateLaptop(laptopData, dt)
 	if laptopData.charge <= 0 then
 		return
 	end
-	laptopData.charge = laptopData.charge - dt*laptopData.passiveDrain
+	laptopData.charge = laptopData.charge - dt*laptopData.passiveDrain*GetDifficultyDrainMult()
 	local laptopRoom = laptopData.room
 	
 	if laptopData.charging then
@@ -55,8 +56,12 @@ local function UpdateLaptop(laptopData, dt)
 			laptopData.charging = true
 			laptopData.charge = laptopData.charge + dt*laptopData.chargeRate
 			laptopRoom.AddResource("battery", -1)
+			laptopData.batteriesSpent = laptopData.batteriesSpent + 1
 			
 			local mult = (1.11 - 2*laptopData.passiveDrain)
+			if IsChallengeMode() then
+				mult = math.max(GLOBAL.CHALLENGE_DRAIN_GROW_BOUND, 1.11 - 2*laptopData.passiveDrain)
+			end
 			laptopData.passiveDrain = laptopData.passiveDrain*mult
 			laptopData.currentDrain = laptopData.currentDrain*mult
 		end

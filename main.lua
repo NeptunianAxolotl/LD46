@@ -80,3 +80,38 @@ function love.load()
 	world = GetNewWorld(require("startLayout"))
 	interface = GetNewInterface(world)
 end
+
+--------------------------------------------------
+-- Challenge Mode
+--------------------------------------------------
+
+-- Needs to survive restart
+local challengeMode = false 
+local difficultyDrainMult = 1
+local difficultyModeName = ""
+
+function GetDifficultyModeName()
+	return difficultyModeName
+end
+
+function IsChallengeMode()
+	return challengeMode
+end
+
+function GetDifficultyDrainMult()
+	return difficultyDrainMult
+end
+
+function EnableChallengeMode()
+	challengeMode = true
+	difficultyModeName = "Challenge"
+	difficultyDrainMult = GLOBAL.CHALLENGE_DRAIN_MULT
+	RestartGame()
+end
+
+function EnableImpossibleMode()
+	challengeMode = true
+	difficultyModeName = "Impossible"
+	difficultyDrainMult = GLOBAL.IMPOSSIBLE_DRAIN_MULT
+	RestartGame()
+end

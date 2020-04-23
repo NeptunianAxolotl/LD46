@@ -189,6 +189,19 @@ local function DrawMonkInterface(interface, monk, mouseX, mouseY, clickTask)
 	return uiClick
 end
 
+local function CheckCheatCode(cheatCodeData, key)
+	if key ~= cheatCodeData.code[cheatCodeData.index] then
+		cheatCodeData.index = 1
+		return
+	end
+	cheatCodeData.index = cheatCodeData.index + 1
+	if not cheatCodeData.code[cheatCodeData.index] then
+		cheatCodeData.index = 1
+		cheatCodeData.CallFunc()
+		return true
+	end
+end
+
 return {
 	SnapStructure = SnapStructure,
 	CheckStructurePlacement = CheckStructurePlacement,
@@ -197,4 +210,5 @@ return {
 	RoomToScreen = RoomToScreen,
 	ScreenToRoom = ScreenToRoom,
 	DrawMonkInterface = DrawMonkInterface,
+	CheckCheatCode = CheckCheatCode,
 }

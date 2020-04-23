@@ -43,6 +43,10 @@ local globals = {
 	
 	DEMOLISH_BUILDING = true,
 	GOAL_AVOID_TIME = 0.3,
+	
+	CHALLENGE_DRAIN_MULT = 1.5,
+	CHALLENGE_DRAIN_GROW_BOUND = 1.05,
+	IMPOSSIBLE_DRAIN_MULT = 2,
 }
 
 return globals

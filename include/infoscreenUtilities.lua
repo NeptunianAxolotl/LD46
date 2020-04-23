@@ -120,12 +120,15 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     love.graphics.setColor(0, 0, 0)
     
     -- power
-    love.graphics.print("Power Consumption (Half When Idle): " .. math.ceil(60*(laptopData.currentDrain or -1)*100) .. "% per minute", drawX, drawY)
+    love.graphics.print("Power Consumption (Half When Idle): " .. math.ceil(60*(laptopData.currentDrain or -1)*100*GetDifficultyDrainMult()) .. "% per minute", drawX, drawY)
     
 	local mult = (1.11 - 2*laptopData.passiveDrain)
+	if IsChallengeMode() then
+		mult = math.max(GLOBAL.CHALLENGE_DRAIN_GROW_BOUND, 1.11 - 2*laptopData.passiveDrain)
+	end
 	local nextDrain = laptopData.currentDrain*mult
 	drawY = drawY + 28
-	love.graphics.print("Power Consumption For Next Battery: " .. math.ceil(60*nextDrain*100) .. "% per minute", drawX, drawY)
+	love.graphics.print("Power Consumption For Next Battery: " .. math.ceil(60*nextDrain*100*GetDifficultyDrainMult()) .. "% per minute", drawX, drawY)
 	
     drawX = originalX
     drawY = drawY + 40
@@ -183,9 +186,26 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     love.graphics.setColor(0, 0, 0)
     
     drawX = originalX
-    drawY = drawY + 75
+    drawY = drawY + 55
     love.graphics.setColor(0, 0, 0)
     
+	if IsChallengeMode() then
+		font.SetSize(1)
+		love.graphics.print(GetDifficultyModeName() .. " Mode: ", drawX, drawY)
+		drawY = drawY + 30
+		font.SetSize(2)
+		love.graphics.print("The laptop draws " .. math.floor(100*(GetDifficultyDrainMult() - 1)) .. "% more power and the drain rate grows\nwithout limit. Find success under these harsher conditions, or\nperhaps just see how long you can keep the laptop alive.", drawX, drawY)
+		drawY = drawY + 62
+		
+		local gameTime = world.GetVictoryTime() or world.GetDefeat() or world.GetGameTime()
+		local years = math.floor(gameTime/60)
+		local days = math.floor(365*(gameTime - years*60)/60)
+		
+		love.graphics.print(" - Laptop Runtime: " .. years .. " years and " .. days .. " days.", drawX, drawY)
+		drawY = drawY + 21
+		love.graphics.print(" - Batteries Spent: " .. laptopData.batteriesSpent, drawX, drawY)
+		drawY = drawY + 21
+	end
 end
 
 --------------------------------------------------

@@ -30,6 +30,17 @@ local function GetNewInterface(world)
 		currentScreen = 0
 	}
 	
+	local challengeModeEnabler = {
+		index = 1,
+		code = {"c", "h", "a", "l", "l", "e", "n", "g", "e"},
+		CallFunc = EnableChallengeMode,
+	}
+	local impossibleModeEnabler = {
+		index = 1,
+		code = {"i", "m", "p", "o", "s", "s", "i", "b", "l", "e"},
+		CallFunc = EnableImpossibleMode,
+	}
+	
 	local externalFuncs = {}
 
 	--------------------------------------------------
@@ -150,6 +161,10 @@ local function GetNewInterface(world)
 	end
 
 	function externalFuncs.KeyPressed(key, scancode, isRepeat)
+		if interfaceUtilities.CheckCheatCode(challengeModeEnabler, key) or interfaceUtilities.CheckCheatCode(impossibleModeEnabler, key) then
+			return
+		end
+		
 		if key == "r" and (love.keyboard.isDown("rctrl") or love.keyboard.isDown("lctrl")) and (love.keyboard.isDown("rshift") or love.keyboard.isDown("lshift")) then
 			RestartGame()
 		end

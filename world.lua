@@ -56,7 +56,7 @@ local function GetNewWorld(startLayout)
 	local paused = false
 	local totalGameTime = 0
 	local victoryTime = false
-	local defeat = false
+	local defeatTime = false
 	local starvation = false
 	local nowhereToSleep
 	
@@ -84,17 +84,17 @@ local function GetNewWorld(startLayout)
 	--------------------------------------------------
 
 	function externalFuncs.DeclareVictory()
-		if defeat or victoryTime then
+		if defeatTime or victoryTime then
 			return
 		end
 		victoryTime = totalGameTime
 	end
 	
 	function externalFuncs.DeclareDefeat(isStarvation, isNowhereToSleep)
-		if defeat or victoryTime then
+		if defeatTime or victoryTime then
 			return
 		end
-		defeat = true
+		defeatTime = totalGameTime
 		starvation = isStarvation
 		nowhereToSleep = isNowhereToSleep
 	end
@@ -104,7 +104,11 @@ local function GetNewWorld(startLayout)
 	end
 
 	function externalFuncs.GetDefeat()
-		return defeat, starvation, nowhereToSleep
+		return defeatTime, starvation, nowhereToSleep
+	end
+
+	function externalFuncs.GetGameTime()
+		return totalGameTime
 	end
 
 	--------------------------------------------------
