@@ -194,7 +194,7 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
 		love.graphics.print(GetDifficultyModeName() .. " Mode: ", drawX, drawY)
 		drawY = drawY + 30
 		font.SetSize(2)
-		love.graphics.print("The laptop draws " .. math.floor(100*(GetDifficultyDrainMult() - 1)) .. "% more power and the drain rate grows\nwithout limit. Find success under these harsher conditions, or\nperhaps just see how long you can keep the laptop alive.", drawX, drawY)
+		love.graphics.print("The laptop draws " .. math.floor(100*(GetDifficultyDrainMult() - 1)) .. "% more power and the drain rate grows\nwithout limit. Find success under these harsh conditions, or\nperhaps just see how long you can keep the laptop alive.", drawX, drawY)
 		drawY = drawY + 62
 		
 		local gameTime = world.GetVictoryTime() or world.GetDefeat() or world.GetGameTime()
