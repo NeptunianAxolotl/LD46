@@ -119,6 +119,7 @@ local data = {
 			taskType = "upkeep_laptop",
 			fetchResource = {"battery"},
 			PerformAction = DoUpkeepLaptop,
+			allowParallelUse = true,
 			doors = {
                 {
                     entryPath = {{1,-1}, {1, 0.3}}
@@ -130,6 +131,7 @@ local data = {
 			taskType = "get_battery_spent",
 			PerformAction = CollectAction,
 			requireResources = collectRequirement,
+			allowParallelUse = true,
 			doors = {
                 {
                     entryPath = {{-1,2}, {0.5,1.8}}
