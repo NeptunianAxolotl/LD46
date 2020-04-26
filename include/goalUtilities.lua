@@ -35,6 +35,9 @@ end
 -- destined for the station that their goal is about.
 -- This prevents resources being destroyed.
 local function CheckGoalInterrupt(monk, currentGoal)
+	if currentGoal and (currentGoal.taskType == "eat" or currentGoal.taskType == "sleep") then
+		return false
+	end
 	if not (currentGoal and currentGoal.station) then
 		return true
 	end

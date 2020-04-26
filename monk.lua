@@ -233,11 +233,6 @@ local function New(init, humanName)
 		if not currentGoal then
 			return false
 		end
-		
-		if currentGoal.taskType == "eat" or currentGoal.taskType == "sleep" then
-			return true
-		end
-		
 		return not goalUtilities.CheckGoalInterrupt(externalFuncs, currentGoal)
 	end
 	

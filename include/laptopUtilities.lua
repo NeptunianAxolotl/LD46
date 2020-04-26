@@ -37,11 +37,23 @@ local function InitLaptopStatus(monk, potentialStations, requiredRoom)
     return laptopData
 end
 
+local function GetNewDrains(passiveDrain)
+	local mult = (1.11 - 2*passiveDrain)
+	if IsChallengeMode() then
+		mult = math.max(GLOBAL.CHALLENGE_DRAIN_GROW_BOUND, 1.11 - 2*passiveDrain)
+		if passiveDrain*mult > passiveDrain + GLOBAL.DRAIN_INCREASE_LIMIT then
+			mult = (passiveDrain + GLOBAL.DRAIN_INCREASE_LIMIT)/passiveDrain
+		end
+		
+	end
+	passiveDrain = passiveDrain*mult
+	return passiveDrain, 2*passiveDrain
+end
+
 local function UpdateLaptop(laptopData, dt)
 	if laptopData.charge <= 0 then
 		return
 	end
-	laptopData.charge = laptopData.charge - dt*laptopData.passiveDrain*GetDifficultyDrainMult()
 	local laptopRoom = laptopData.room
 	
 	if laptopData.charging then
@@ -51,19 +63,22 @@ local function UpdateLaptop(laptopData, dt)
 			laptopData.charging = false
 			laptopRoom.AddResource("battery_spent", 1)
 		end
-	elseif laptopData.charge < laptopData.chargeForBattery then
-		if laptopRoom.GetResourceCount("battery") > 0 then
-			laptopData.charging = true
-			laptopData.charge = laptopData.charge + dt*laptopData.chargeRate
-			laptopRoom.AddResource("battery", -1)
-			laptopData.batteriesSpent = laptopData.batteriesSpent + 1
-			
-			local mult = (1.11 - 2*laptopData.passiveDrain)
-			if IsChallengeMode() then
-				mult = math.max(GLOBAL.CHALLENGE_DRAIN_GROW_BOUND, 1.11 - 2*laptopData.passiveDrain)
+	else
+		laptopData.charge = laptopData.charge - dt*laptopData.passiveDrain*GetDifficultyDrainMult()
+	
+		if laptopData.charge < laptopData.chargeForBattery then
+			if laptopRoom.GetResourceCount("battery") > 0 then
+				laptopData.charging = true
+				laptopData.charge = laptopData.charge + dt*laptopData.chargeRate
+				laptopRoom.AddResource("battery", -1)
+				laptopData.batteriesSpent = laptopData.batteriesSpent + 1
+				
+				laptopData.passiveDrain, laptopData.currentDrain = GetNewDrains(laptopData.passiveDrain)
+				
+				if laptopData.chargeRate < 5*laptopData.currentDrain then
+					laptopData.chargeRate = 5*laptopData.currentDrain
+				end
 			end
-			laptopData.passiveDrain = laptopData.passiveDrain*mult
-			laptopData.currentDrain = laptopData.currentDrain*mult
 		end
 	end
 end
@@ -88,6 +103,7 @@ end
 return {
 	InitLaptopStatus = InitLaptopStatus,
 	AddLaptop = AddLaptop,
+	GetNewDrains = GetNewDrains,
 	UpdateLaptop = UpdateLaptop,
 	CheckDefeat = CheckDefeat,
 }

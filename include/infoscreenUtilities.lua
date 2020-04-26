@@ -122,11 +122,7 @@ local function DrawLaptopScreen(infoscreenData, world, interface, mouseX, mouseY
     -- power
     love.graphics.print("Power Consumption (Half When Idle): " .. math.ceil(60*(laptopData.currentDrain or -1)*100*GetDifficultyDrainMult()) .. "% per minute", drawX, drawY)
     
-	local mult = (1.11 - 2*laptopData.passiveDrain)
-	if IsChallengeMode() then
-		mult = math.max(GLOBAL.CHALLENGE_DRAIN_GROW_BOUND, 1.11 - 2*laptopData.passiveDrain)
-	end
-	local nextDrain = laptopData.currentDrain*mult
+	local _, nextDrain = laptopUtilities.GetNewDrains(laptopData.passiveDrain)
 	drawY = drawY + 28
 	love.graphics.print("Power Consumption For Next Battery: " .. math.ceil(60*nextDrain*100*GetDifficultyDrainMult()) .. "% per minute", drawX, drawY)
 	
