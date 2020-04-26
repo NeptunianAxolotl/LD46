@@ -661,7 +661,7 @@ local function New(init, humanName)
                 desiredAnimation = def.GetChopAnim(UTIL.DirectionToCardinal(direction))
             elseif activeTask == "cook" then
                 desiredAnimation = def.GetCookAnim(UTIL.DirectionToCardinal(direction))
-            elseif activeTask == "make_grain" then
+            elseif activeTask == "make_grain" or activeTask == "make_veg" then
                 desiredAnimation = def.GetMakeGrainAnim(UTIL.DirectionToCardinal(direction))
             elseif activeTask == "sleep" then
                 desiredAnimation = def.GetSleepAnim(UTIL.DirectionToCardinal(direction))

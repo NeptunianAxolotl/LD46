@@ -40,7 +40,7 @@ local data = {
 	DrawFunc = DrawSupply,
 	stations = {
 		{
-			pos = {0.8, 0.4},
+			pos = {0.9, 0.26},
 			taskType = "play_organ",
             overrideDir = 3*math.pi/2,
 			PerformAction = SpawnAction,

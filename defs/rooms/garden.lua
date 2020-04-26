@@ -54,13 +54,16 @@ local data = {
 	DrawFunc = DrawSupply,
 	stations = {
 		{
-			pos = {1, 0},
+			pos = {0.8, 0.2},
 			taskType = "make_veg",
 			PerformAction = FieldAction,
 			AvailibleFunc = CheckLimit,
 			doors = {
                 {
                     entryPath = {{2,0}}
+                },
+                {
+                    entryPath = {{1,2}}
                 },
 			},
 		},
