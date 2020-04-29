@@ -40,11 +40,7 @@ end
 local function GetNewDrains(passiveDrain)
 	local mult = (1.11 - 2*passiveDrain)
 	if IsChallengeMode() then
-		mult = math.max(GLOBAL.CHALLENGE_DRAIN_GROW_BOUND, 1.11 - 2*passiveDrain)
-		if passiveDrain*mult > passiveDrain + GLOBAL.DRAIN_INCREASE_LIMIT then
-			mult = (passiveDrain + GLOBAL.DRAIN_INCREASE_LIMIT)/passiveDrain
-		end
-		
+		mult = math.max(1.001 + 0.09*(1/(1 + 50*passiveDrain)), 1.11 - 2*passiveDrain)
 	end
 	passiveDrain = passiveDrain*mult
 	return passiveDrain, 2*passiveDrain
